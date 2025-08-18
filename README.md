@@ -20,7 +20,7 @@ Clone this repository to your local machine:
 
 ``` bash
 git clone https://github.com/csc477/website_fall24.git
-cd 2024F-website
+cd website_fall24
 ```
 
 ### 3. Compile the Website and Run Locally
