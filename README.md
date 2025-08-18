@@ -1,6 +1,6 @@
-# Website for CSC 413 at the University of Toronto Mississauga (Fall 2024)
+# Website for CSC 477 at the University of Toronto (Fall 2024)
 
-🔗 https://utm-csc413.github.io/2024F-website/
+🔗 
 
 ## Quarto Website Setup Guide
 
@@ -51,7 +51,7 @@ To publish the compiled site directly to GitHub Pages, run the following command
 quarto publish gh-pages
 ```
 
-This command will push the contents of the `_site/` directory to the `gh-pages` branch of the repository, making it available at `https://utm-csc413.github.io/2024F-website/`.
+This command will push the contents of the `_site/` directory to the `gh-pages` branch of the repository, making it available at .
 
 ## Colors
 
