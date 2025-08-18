@@ -1,0 +1,22 @@
+---
+title: "Week 1"
+subtitle: "Linear Model"
+editor: visual
+---
+
+Read the [syllabus](/https://q.utoronto.ca/courses/366713/files/32969250?wrap=1)
+
+[Week 1 Overview](https://q.utoronto.ca/courses/366713/pages/week-1-overview?module_item_id=5872092)
+
+[Software Installations](https://q.utoronto.ca/courses/366713/pages/software-installations)
+
+[Lecture 1](/lecs/w01/lec01.html) & [Recordings](https://q.utoronto.ca/courses/366713)
+
+No tutorials/labs this week but please complete the [Pre-Requisite Math Problems](https://q.utoronto.ca/courses/366713/files/32607079?wrap=1 "prereq.pdf")
+
+Suggested Review :
+
+-   [Linear Algebra review](http://www.deeplearningbook.org/contents/linear_algebra.html) 
+-   [Probability review](https://www.deeplearningbook.org/contents/prob.html)
+
+<br><br>
