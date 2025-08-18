@@ -1,977 +1,1225 @@
+------------------------------------------------------------------------
+
 ---
-title: "CSC413 Neural Networks and Deep Learning"
-subtitle: "Lecture 2"
-format:
+title: "CSC477 Introduction to Mobile Robotics"
+subtitle: "Week #2: Kinematics and Dynamics"
+author: "Florian Shkurti"
+format: 
   revealjs:
     slide-number: true
-    embed-resources: false
-    show-notes: false
-    footer: '<a href="https://utm-csc413.github.io/2024F-website/" target="_blank">↩ Back to Course Website</a>'
+    smaller: true
+    footer: '<a href="https://csc477.github.io/website_fall24" target="_blank" style="font-size:0.8em; bottom: -5px;">↩ Back to Course Website</a>'
+    css: ../style.css
     chalkboard:
-      src: chalkboard.json
       buttons: true
       boardmarker-width: 2
       chalk-width: 2
       chalk-effect: 1.0
-    css: style.css
-    include-after-body: ../custom.html
 html-math-method:
   method: mathjax
   url: "https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"
 ---
 
-## Last Week
+## 
 
-::: incremental
--   Review of linear models
-    -   linear regression
-    -   linear classification (logistic regression)
--   Gradient descent to train these models
+Today’s slides borrow parts of Paul Furgale’s “Representing robot pose” presentation:
+
+<http://paulfurgale.info/news/2014/6/9/representing-robot-pose-the-good-the-bad-and-the-ugly>
+
+You should absolutely read it.
+
+## Today’s Agenda
+
+• Frames of reference
+
+• Ways to represent rotations
+
+• Simplified models of vehicles
+
+• Forward and inverse kinematics
+
+## 3D frames of reference are everywhere in robotics
+
+:::::: columns
+::: {.column width="30%"}
+![](img/Lecture2_1.png)
 :::
 
-## This Week
-
-::: incremental
--   Biological and Artifical Neurons
--   Limitations of Linear Models for Classification
--   Multilayer Perceptrons
--   Backpropagation
+::: {.column width="30%"}
+![](img/Lecture2_3.png)
 :::
 
-<!-- 01neuron -->
+::: {.column width="30%"}
+![](img/Lecture2_2.jpg)
+:::
+::::::
 
-# Biological and Artificial Neurons
+## Right-handed vs left-handed frames
 
-## Neuron
+![](img/left-right-hand.png){width="70%" height="60%"}
 
-![](imgs/neuron.png){.absolute top="160" height="65%"}
-
-::: notes
--   A Neuron is a cell also known as *nerve cell*
+::: {.absolute .green right="0" bottom="50%"}
+Unless otherwise specified,\
+we use right-handed\
+frames in robotics
 :::
 
-## Neuron Anatomy
+## Why do we need to use so many frames?
 
-::: incremental
--   The **dendrites**, which are connected to other cells that provide information.
--   The **cell body**, which consolidates information from the dendrites.
--   The **axon**, which is an extension from the cell body that passes information to other cells.
--   The **synapse**, which is the area where the axon of one neuron and the dendrite of another connect.
+::::: columns
+::: {.column .small-font width="30%"}
+-   Because we want to reason and express quantities relative to their local configuration.
+
+-   For example: “grab the bottle behind the cereal bowl”
+
+-   This lecture is about defining and representing frames of reference and reasoning about how to express quantities in one frame to quantities in the other.
 :::
 
-## What does a neuron do?
+::: {.column width="70%"}
+![](img/Lecture2_5.jpg)
+:::
+:::::
 
-<center>
+## Rigid-body motion
 
-<!-- ![](imgs/synapse.png){ height=30%} -->
+-   Motion that can be described by a rotation and translation.
 
-![](imgs/synapse.png){height="250"}
+-   All the parts making up the body move in unison, and there are no deformations.
 
-</center>
+-   Representing rotations, translations, and vectors in a given frame of reference is often a source of frustration and bugs in robot software because there are so many options.
 
-::: incremental
--   Consolidates "information" (voltage difference) from its dendrites
--   If the total activity in a neuron's dendrite lowers the voltage difference enough, the entire cell *depolarizes* and the neuron *fires*
+## 
+
+![](img/Lecture2_6.png)
+
+## The answer is meaningless unless I provide a definition of the coordinate frames {.center}
+
+## 
+
+![](img/Lecture2_8.png){width="80%" height="85%" fig-align="center"}
+
+::: {.absolute .small-font left="40" top="80"}
+Color convention\
+for frames
 :::
 
-## What does a neuron do?
-
-<center>
-
-<!-- ![](imgs/synapse.png){ height=30%} -->
-
-![](imgs/synapse.png){height="250"}
-
-</center>
-
-::: incremental
--   The voltage signal spreads along the axon and to the synapse, then to the next neurons
--   Neuron sends information to the next cell
+::: {.absolute .small-font right="200" top="15%"}
+Moving body (robot) frame
 :::
 
-## What makes a neuron fire?
-
-Neurons can fire in response to...
-
--   retinal cells
--   certain edges, lines, angles, movements
--   hands and faces (in primates)
--   specific people (in humans)
-    -   although the existence of these "grandmother cells" is contested
-
-::: notes
--   *Grandmother cells* are also known as *Jennifer Aniston neurons*
--   [Observed](https://en.wikipedia.org/wiki/Grandmother_cell) single neuron firing when shown pictures of Jennifer Aniston by operating on patients with epileptic seizures.
+::: {.absolute .small-font right="120" bottom="40"}
+Fixed world frame
 :::
 
-## Modeling Individual Neurons
+## Always provide a frame diagram {.center}
 
-<center>![](imgs/neuron_model.jpeg){height="300"}</center>
+## 
 
-::: incremental
--   $x_{i}$ are **inputs** to the neuron
--   $w_{i}$ are the neuron's **weights**
--   $b$ is the neuron's **bias**
+![](img/Lecture2_10.png){fig-align="center"}
+
+## Inertial frames of reference
+
+-   G, the global frame of reference is fixed, i.e. with zero velocity in our previous example.
+
+-   But, in general it can move as long as it has zero acceleration. Such a frame is called an “inertial” frame of reference.
+
+-   Newton’s laws hold for inertial reference frames only. For reference frames with non-constant velocity we need the theory of General Relativity.
+
+-   So, make sure that your global frame of reference is inertial, preferably fixed.
+
+## Today’s Agenda
+
+::: grey
+-   Frames of reference
 :::
 
-::: notes
--   In Learning with Artifical Neural Networks, we want to create a simplified model of neurons in the brain.
-:::
+-   Ways to represent rotations
 
-## Modeling Individual Neurons II
+-   Simplified models of vehicles
 
-<center>![](imgs/neuron_model.jpeg){height="300"}</center>
+-   Forward and inverse kinematics
 
-::: incremental
--   $f$ is an **activation function**
--   $f(\sum_i x_i w_i + b)$ is the neuron's **activation** (output)
-:::
+## Representing Rotations in 3D: Euler Angles
 
-## Linear Models as a Single Neuron
+![](img/Lecture2_11.png){fig-align="center"}
 
-<center>![](imgs/neuron_model.jpeg){height="300"}</center>
+## Specification ambiguities in Euler Angles
 
--   $x_{i}$ are the inputs
--   $w_{i}$ are components of the **weight vector** ${\bf w}$
--   $b$ is the **bias**
+-   Need to specify the axes which each angle refers to.
 
-::: notes
--   A (univariate) linear model can be interpreted as one single neuron.
--   Univariate means that we model one single attribute.
-:::
+-   There are **12 different valid combinations** of fundamental rotations. Here are the possible axes:
 
-## Linear Models as a Single Neuron II
+-   z-x-z, x-y-x, y-z-y, z-y-z, x-z-x, y-x-y
 
-<center>![](imgs/neuron_model.jpeg){height="300"}</center>
-
--   $f$ is the identity function
--   $y = \sum_i x_i w_i + b = {\bf w}^\top {\bf x} + b$ is the output
-
-## Logistic Regression Models (for Binary Classification) as a Single Neuron
-
-<center>![](imgs/neuron_model.jpeg){height="300"}</center>
-
--   $x_{i}$ are the inputs
--   $w_{i}$ are components of the **weight vector** ${\bf w}$
--   $b$ is the **bias**
-
-## Logistic Regression Models (for Binary Classification) as a Single Neuron II
-
-<center>![](imgs/neuron_model.jpeg){height="300"}</center>
-
--   $f = \sigma$
--   $y = \sigma(\sum_i x_i w_i + b) = \sigma({\bf w}^\top {\bf x} + b)$
-
-## Logistic Regression Models (for Multi-Class Classification) as a Neural Network
-
-We use $K$ neurons (one for each class):
-
-::: incremental
--   $x_{i}$ are the inputs
--   $w_{j,i}$ are components of the **weight matrix** $W\in \mathbb{R}^{K\times N}$
--   $b_i$ are components of the **bias vector** ${\bf b}$
--   $f = \text{softmax}$ : applied to the entire vector of values
--   ${\bf y} = \text{softmax}(W{\bf x} + {\bf b})$ : outputs of $K$ neurons
-:::
-
-::: notes
--   Now we have an entire weight matrix $W$ with $K$ rows and a $K$-dimensional bias vector. One for each class.
-:::
-
-<!-- 02limits -->
-
-# Limits of Linear Models for Binary Classification
-
-## XOR example
-
--   Single neurons (linear classifiers) are very limited in expressive power
--   XOR is a classic example of a function that's not linearly separable, with an elegant proof using convexity
-
-<center>![](imgs/xor.png){height="250"}</center>
-
-## Convex Sets
-
-A set $S\subseteq\mathbb{R}^n$ is **convex** if any line segment connecting points in $S$ lies in $S$.
-
-::: fragment
-More formally, $S$ is convex iff
-
-$${\bf x_1}, {\bf x_2} \in S \implies \forall \lambda \in [0,\, 1],\, \lambda {\bf x_1} + (1 - \lambda){\bf x_2} \in S.$$
-:::
-
-::: fragment
-A simple inductive argument shows that for ${\bf x_1}, \dots, {\bf x_N} \in S$, the **weighted average** or **convex combination** lies in the set:
-
-$$\lambda_1 {\bf x_1} + \dots + \lambda_N {\bf x_N} \in S \text{ for }\lambda_1 + \dots + \lambda_N = 1\ .$$
-:::
-
-::: notes
--   *iff* stands for *"if and only if"*
-:::
-
-## XOR not linearly separable
-
-**Initial Observations**
-
-::: incremental
--   A binary linear classifier divides the euclidean space into two half-spaces
--   Half-spaces are convex
-:::
-
-## XOR not linearly separable II
-
-:::: {.column width="75%"}
-::: incremental
--   Suppose there were some feasible hypothesis. If the positive examples are in the positive half-space, then the green line segment must be as well.
--   Similarly, red line segment must lie within the negative half-space.
--   But the intersection can't lie in both half-spaces. Contradiction!
-:::
-::::
-
-::: {.column width="25%"}
-<center>![](imgs/xor2.png)</center>
-:::
-
-## History of the XOR Example
-
-:::: {.column width="75%"}
-::: incremental
--   Minsky and Papert shown in their work *Perceptrons* that XOR cannot be learned by a Neuron.
--   Its pessimistic outlook on perceptrons is assumed as one of the causes for the AI winter of the 70s / early 80s.
-:::
-::::
-
-::: {.column width="25%"}
-<center>![](imgs/perceptrons_book.jpg)</center>
-:::
-
-## A more troubling example
-
-![](imgs/notseparable.png){height="50%"}
-
-::: fragment
-These images represent 16-dimensional vectors. Want to distinguish patterns A and B in all possible translations (with wrap-around).
-:::
-
-::: fragment
-Suppose there’s a feasible solution. The average of all translations of A is the vector (0.25, 0.25, . . . , 0.25). Therefore, this point must be classified as A. All translations of B have the same average. Contradiction!
-:::
-
-::: notes
--   The argument here is basically a convexity argument again
--   The average of all possible patterns A must be classified as A because of convexity. Same for B
--   However, both patterns have the same average leading to a contradiction
-:::
-
-## (Nonlinear) Feature Maps
-
-Sometimes, we can overcome this limitation with **nonlinear feature maps**.
-
-::: fragment
-Nonlinear feature maps transform the original input features into a different (often higher dimensional) representation.
-:::
-
-::: fragment
-Consider the XOR problem again and use the following feature map: $$\Psi({\bf x}) = \begin{pmatrix}x_1 \\ x_2 \\ x_1x_2 \end{pmatrix}$$
-:::
-
-## (Nonlinear) Feature Maps II
-
-| $x_1$ | $x_2$ | $\phi_1({\bf x})$ | $\phi_2({\bf x})$ | $\phi_3({\bf x})$ | t   |
-|-------|-------|-------------------|-------------------|-------------------|-----|
-| 0     | 0     | 0                 | 0                 | 0                 | 0   |
-| 0     | 1     | 0                 | 1                 | 0                 | 1   |
-| 1     | 0     | 1                 | 0                 | 0                 | 1   |
-| 1     | 1     | 1                 | 1                 | 1                 | 0   |
-
-This is linearly separable (Try it!)
-
-::: fragment
-... but generally, it can be hard to pick good basis functions.
-:::
-
-::: fragment
-**We'll use neural nets to learn nonlinear hypotheses directly**
-:::
-
-<!-- 03mlp -->
-
-# Multilayer Perceptrons
-
-## An Artificial Neural Network (Multilayer Perceptron)
-
-<center>![](imgs/neural_net.jpeg){height="270"}</center>
-
-**Idea**
-
-::: incremental
--   Use a simplified (mathematical) model of a neuron as building blocks
--   Connect the neurons together accross multiple layers.
-:::
-
-## An Artificial Neural Network (Multilayer Perceptron) II
-
-<center>![](imgs/neural_net.jpeg){height="270"}</center>
-
-::: incremental
--   An **input layer**: feed in input features (e.g. like retinal cells in your eyes)
--   A number of **hidden layers**: don't have specific meaning
--   An **output layer**: interpret output like a "grandmother cell"
-:::
-
-## But what do these neurons mean?
-
-::: fragment
--   Use $x_i$ to encode the input
-    -   e.g. pixels in an image
-:::
-
-::: fragment
--   Use $y$ to encode the output (of a binary classification problem)
-    -   e.g. cancer vs. not cancer
-:::
-
-::: fragment
--   Use $h_i^{(k)}$ to denote a unit in the hidden layer
-    -   difficult to interpret
-:::
-
-::: notes
--   $x_i$ can be thought of as the neurons that are connected to the receptors in the eye
--   $y$ can be thought of as a grandmother cell.
-:::
-
-## Example: MNIST Digit Recognition
-
-<center>![](imgs/mnist.png){height="600"}</center>
-
-## MNIST Digit Recognition II
-
-With a logistic regression model, we would have:
-
-::: fragment
--   Input: An 28x28 pixel grayscale image
-    -   ${\bf x}$ is a vector of length 784
-:::
-
-::: fragment
--   Target: The digit represented in the image
-    -   ${\bf t}$ is a one-hot vector of length 10
-:::
-
-::: fragment
--   Model: ${\bf y} = \text{softmax}(W{\bf x} + {\bf b})$
-:::
-
-::: notes
--   Each $x_i$ is a intensity value of the corresponding pixel, i.e. a value between 0 and 255.
--   As a reminder: the one-hot vector has 1 at the entry corresponding to the classified number and 0 everywhere elese.
-:::
-
-## Adding a Hidden Layer
-
-Two layer neural network
-
-<center>![](imgs/neural_net2.jpeg){height="250"}</center>
-
-::: incremental
--   Input size: 784 (number of features)
--   Hidden size: 50 (we choose this number)
--   Output size: 10 (number of classes)
-:::
-
-::: notes
--   All the numbers that we can choose such as the number of hidden units are known as *Hyperparameters*.
-:::
-
-## Side note about machine learning models
-
-When discussing machine learning and deep learning models, we usually
-
--   first talk about **how to make predictions** assume the weights are trained
--   *then* talk about how to train the weights
-
-Often the second step requires gradient descent or some other optimization method
-
-## Making Predictions: computing the hidden layer
-
-<center>![](imgs/neural_net.jpeg){height="200"}</center>
-
-\begin{align*}
-h_1 &= f\left(\sum_{i=1}^{784} w^{(1)}_{1,i} x_i + b^{(1)}_1\right) \\
-h_2 &= f\left(\sum_{i=1}^{784} w^{(1)}_{2,i} x_i + b^{(1)}_2\right) \\
-...
-\end{align*}
-
-## Making Predictions: computing the output (pre-activation)
-
-<center>![](imgs/neural_net.jpeg){height="200"}</center>
-
-\begin{align*}
-z_1 &=  \sum_{j=1}^{50} w^{(2)}_{1,j} h_j + b^{(2)}_1  \\
-z_2 &=  \sum_{j=1}^{50} w^{(2)}_{2,j} h_j + b^{(2)}_2  \\
-...
-\end{align*}
-
-## Making Predictions: applying the output activation
-
-<center>![](imgs/neural_net.jpeg){height="200"}</center>
-
-\begin{align*}
-{\bf z} &= \begin{bmatrix}z_1 \\ z_2 \\ \vdots \\ z_{10}\end{bmatrix},\quad {\bf y} = \text{softmax}({\bf z})
-\end{align*}
-
-## Making Predictions: Vectorized
-
-<center>![](imgs/neural_net.jpeg){height="300"}</center>
-
-\begin{align*}
-{\bf h} &= f(W^{(1)}{\bf x} + {\bf b}^{(1)}) \\
-{\bf z} &= W^{(2)}{\bf h} + {\bf b}^{(2)} \\
-{\bf y} &= \text{softmax}({\bf z})
-\end{align*}
-
-## Activation Functions: common choices
-
-Common Choices:
-
--   Sigmoid activation
--   Tanh activation
--   ReLU activation
-
-Rule of thumb: Start with ReLU activation. If necessary, try tanh.
-
-## Activation Function: Sigmoid
-
-<center>![](imgs/sigmoid.jpeg){height="300"}</center>
-
--   Gradient vanishes at the extremes as the function converges to $0$ and $1$ respectively.
--   All activations are positive (see [this](https://artemoppermann.com/activation-functions-in-deep-learning-sigmoid-tanh-relu/) blog post to learn why we don't want this)
-
-::: notes
--   Having only positive activations can lead to undesired behavior during training because all weights entering a neuron can either be only increased or only decreased.
-:::
-
-## Activation Function: Tanh
-
-<center>![](imgs/tanh.jpeg){height="300"}</center>
-
--   scaled version of the sigmoid activation
--   also somewhat problematic due to gradient signal
--   activations can be positive or negative
-
-## Activation Function: ReLU
-
-<center>![](imgs/relu.jpeg){height="300"}</center>
-
-::: incremental
--   most often used nowadays
--   all activations are positive
--   easy to compute gradients
--   can be problematic if the bias is too large and negative, so the activations are always 0
-:::
-
-::: notes
--   The last point is known as the dying ReLU phenomenon if a neuron becomes inactive and never recovers.
-:::
-
-## Feature Learning
-
-Neural nets can be viewed as a way of learning features:
-
-<center>![](imgs/network_as_features.png){height="400"}</center>
-
-## Feature Learning (cont'd)
-
-The goal is for these features to become linearly separable:
-
-<center>![](imgs/features_cartoon.png){height="400"}</center>
-
-## Computing XOR
-
-Exercise: design a network to compute XOR
-
-Use a hard threshold activation function:
-
-\begin{align*}
-    f(x) = \begin{cases}
-                1, & x \geq 0 \\
-                0, & x < 0
-            \end{cases}
-\end{align*}
-
-## Computing XOR Demo
-
-Demo: <https://playground.tensorflow.org/>
-
-## Expressive Power: Linear Layers (No Activation Function)
-
-::: incremental
--   We've seen that there are some functions that linear classifiers can't represent. Are deep networks any better?
--   Any sequence of \emph{linear} layers (with no activation function) can be equivalently represented with a single linear layer.
-:::
-
-::: fragment
-\begin{align*}
-{\bf y} &= \left(W^{(3)} W^{(2)} W^{(1)}\right) {\bf x} \\
-        &= W^\prime {\bf x}
-\end{align*}
-:::
-
-::: notes
-Deep linear networks are no more expressive than linear regression!
-:::
-
-## Expressive Power: MLP (nonlinear activation)
-
-::: incremental
--   Multilayer feed-forward neural nets with *nonlinear* activation functions are **universal approximators**: they can approximate any function arbitrarily well.
--   This has been shown for various activation functions (thresholds, logistic, ReLU, etc.)
-    -   Even though ReLU is "almost" linear, it's nonlinear enough!
-:::
-
-## Universality for binary inputs and targets
-
-::: incremental
--   Hard threshold hidden units, linear output
--   Strategy: $2^D$ hidden units, each of which responds to one particular input configuration
-    -   Only requires one hidden layer, though it needs to be extremely wide!
-:::
-
-::: fragment
-Limits of universality
-
--   You may need to represent an exponentially large network.
--   If you can learn any function, you might just overfit.
-:::
-
-::: notes
--   As an exercise: try to think how such units would look like.
-:::
-
-<!-- 04backprop -->
-
-# Backpropagation
-
-## Training Neural Networks
-
-::: incremental
--   How do we find good weights for the neural network?
--   We can continue to use the loss functions:
-    -   cross-entropy loss for classification
-    -   square loss for regression
--   The neural network operations we used (weights, etc) are (almost everywhere) differentiable
-:::
-
-::: fragment
-**We can use gradient descent!**
-:::
-
-## Gradient Descent Recap
-
-**Goal**: Compute the minimum of a function $\mathcal{E}({\bf a})$
-
-::: incremental
--   Start with a set of parameters $\mathbf{a}_0$ (initialize to some value)
--   Compute the gradient $\frac{\partial \mathcal{E}}{\partial \mathbf{a}}$.
--   Update the parameters towards the negative direction of the gradient
-:::
-
-## Gradient Descent for Neural Networks
-
-**Idea:** Use gradient descent for "learning" neural networks.
-
-::: incremental
--   We have a lot of parameters
-    -   High dimensional (all weights and biases are parameters)
-    -   Hard to visualize
-    -   Many iterations ("steps") needed
--   In Deep Learning $\frac{\partial \mathcal{E}}{\partial w}$ is the average of $\frac{\partial \mathcal{L}}{\partial w}$ over multiple training examples
-:::
-
-::: fragment
-**Challenge:** How to compute $\frac{\partial \mathcal{L}}{\partial w}$ effectively.
-:::
-
-::: fragment
-**Solution:** Backpropagation!
-:::
-
-## Univariate Chain Rule
-
-Recall: if $f(x)$ and $x(t)$ are univariate functions, then
-
-$$\frac{d}{dt}f(x(t)) = \frac{df}{dx}\frac{dx}{dt}$$
-
-## Univariate Chain Rule for Least Squares with a Logistic Model
-
-Recall: Univariate logistic least squares model
-
-\begin{align*}
-z &= wx + b \\
-y &= \sigma(z) \\
-\mathcal{L} &= \frac{1}{2}(y - t)^2
-\end{align*}
-
-Let's compute the loss derivative
-
-## Univariate Chain Rule Computation I
-
-How you would have done it in calculus class
-
-\begin{align*}
-\mathcal{L} &= \frac{1}{2} ( \sigma(w x + b) - t)^2 \\
-\frac{\partial \mathcal{L}}{\partial w} &= \frac{\partial}{\partial w} \left[ \frac{1}{2} ( \sigma(w x + b) - t)^2 \right] \\
-&= \frac{1}{2} \frac{\partial}{\partial w} ( \sigma(w x + b) - t)^2 \\
-&= (\sigma(w x + b) - t) \frac{\partial}{\partial w} (\sigma(w x + b) - t) \\
-&\ldots
-\end{align*}
-
-## Univariate Chain Rule Computation II
-
-How you would have done it in calculus class
-
-\begin{align*}
-\ldots &= (\sigma(w x + b) - t) \frac{\partial}{\partial w} (\sigma(w x + b) - t) \\
-&= (\sigma(w x + b) - t) \sigma^\prime (w x + b) \frac{\partial}{\partial w} (w x + b) \\
-&= (\sigma(w x + b) - t) \sigma^\prime (w x + b) x
-\end{align*}
-
-## Univariate Chain Rule Computation III
-
-Similarly for $\frac{\partial \mathcal{L}}{\partial b}$
-
-\begin{align*}
-\mathcal{L} &= \frac{1}{2} ( \sigma(w x + b) - t)^2 \\
-\frac{\partial \mathcal{L}}{\partial b} &= \frac{\partial}{\partial b} \left[ \frac{1}{2} ( \sigma(w x + b) - t)^2 \right] \\
-        &= \frac{1}{2} \frac{\partial}{\partial b} ( \sigma(w x + b) - t)^2 \\
-        &= (\sigma(w x + b) - t) \frac{\partial}{\partial b} (\sigma(w x + b) - t) \\
-        &\ldots
-\end{align*}
-
-## Univariate Chain Rule Computation IV
-
-Similarly for $\frac{\partial \mathcal{L}}{\partial b}$
-
-\begin{align*}
-\ldots &= (\sigma(w x + b) - t) \frac{\partial}{\partial b} (\sigma(w x + b) - t) \\
-&= (\sigma(w x + b) - t) \sigma^\prime (w x + b) \frac{\partial}{\partial b} (w x + b) \\
-&= (\sigma(w x + b) - t) \sigma^\prime (w x + b)
-\end{align*}
+-   x-y-z, y-z-x, z-y-x, x-z-y, z-y-x, y-x-z
 
 . . .
 
-Q: What are the disadvantages of this approach?
+-   E.g.: x-y-z rotation with Euler angles $(\theta, \phi, \psi)$ means the rotation can be expressed as a sequence of simple rotations $R_x(\theta) R_y(\phi) R_z(\psi)$
 
-## A More Structured Way to Compute the Derivatives
+## Specification ambiguities in Euler Angles
 
-<!-- \begin{minipage}{0.45 \linewidth} -->
+Simple rotations can be counter-clockwise or clockwise. This gives **another 2 possibilities.**
 
-\begin{align*}
-z &= wx + b \\
-y &= \sigma(z) \\
-\mathcal{L} &= \frac{1}{2}(y - t)^2
-\end{align*} <!-- \end{minipage} -->
+$$
+\mathbf{R}_z(\alpha) := 
+\begin{bmatrix}
+\cos\alpha & -\sin\alpha & 0 \\
+\sin\alpha & \cos\alpha  & 0 \\
+0          & 0           & 1
+\end{bmatrix}
+\qquad
+\mathbf{C}_z(\alpha) := 
+\begin{bmatrix}
+\cos\alpha & \sin\alpha  & 0 \\
+-\sin\alpha & \cos\alpha & 0 \\
+0           & 0          & 1
+\end{bmatrix}
+$$
 
-Less repeated work; easier to write a program to efficiently compute derivatives
+## Specification ambiguities in Euler Angles
 
-## A More Structured Way to Compute the Derivatives II
+::::: columns
+::: {.column .medium-font width="30%"}
+You need to specify whether the rotation rotates from the world frame to the body frame, or the other way around.
 
-<!-- \begin{minipage}{0.45 \linewidth} -->
+**Another 2 possibilities. More possibilities if you have more frames.**
 
-\begin{align*}
-  \frac{d \mathcal{L}}{d y} &= y - t \\
-  \frac{d \mathcal{L}}{d z} &= \frac{d \mathcal{L}}{d y}\sigma'(z) \\
-  \frac{\partial \mathcal{L}}{\partial w} &= \frac{d \mathcal{L}}{d z} \, x \\
-  \frac{\partial \mathcal{L}}{\partial b} &= \frac{d \mathcal{L}}{d z}
-\end{align*} <!-- \end{minipage} -->
+**Degrees or radians? Another 2 possibilities**
+:::
 
-Less repeated work; easier to write a program to efficiently compute derivatives
+::: {.column width="70%"}
+![](img/car-euler-angles.png)
+:::
+:::::
 
-## Computation Graph
+## Specification ambiguities in Euler Angles
 
-We can diagram out the computations using a *computation graph*.
+-   Need to specify the ordering of the three parameters.
 
-:::: {.column width="50%"}
-::: incremental
--   The *nodes* represent all the inputs and computed quantities.
--   The *edges* represent which nodes are computed directly as a function of which other nodes.
+-   1-2-3, 1-3-2, 2-1-3, 2-3-1, 3-1-2, 3-2-1
+
+-   **Another 6 different valid combinations**
+
+## 
+
+![](img/Lecture2_16.png){fig-align="center"}
+
+## 
+
+![](img/Lecture2_17.png){fig-align="center"}
+
+## Another problem with Euler angles: Gimbal Lock
+
+video
+
+## Another problem with Euler angles: Gimbal Lock
+
+-   Why should roboticists care about this?
+
+-   Because when it happens Euler angle representations lose one degree of freedom.
+
+-   They cannot represent the entire range of rotations any more.
+
+-   They get “locked” into a subset of the space of possible rotations.
+
+## So, we need other representations aside from Euler angles. Even though they are a minimal representation. {.center}
+
+## Representing Rotations in 3D: Axis-Angle
+
+::::: columns
+::: {.column width="30%"}
+![](img/Lecture2_19.png)
+:::
+
+::: {.column width="70%"}
+-   4-number representation (angle, 3D axis)
+
+-   2 ambiguities: (-angle, -axis) is the same as (angle, axis)
+:::
+:::::
+
+## Representing Rotations in 3D: Rotation Matrix
+
+-   The royalty of rotation representations
+
+-   3x3-number representation, very redundant
+
+-   No ambiguities, as long as source frame and target frame are specified correctly. For example, define your notation this way:
+
+-   Rotation from Body frame to World frame: $\mathbf{R}_{BW}$
+
+-   Or you can define it this way: $_W^B \mathbf{R}$
+
+## Inverse Rotation Matrix
+
+$$
+_B^W\mathbf{R}^{-1} = _B^W\mathbf{R}^t = _W^B\mathbf{R}
+$$
+
+Rotation matrices are orthogonal matrices: their
+
+transpose is their inverse and they do not change the
+
+length of a vector, they just rotate it in space.
+
+$${}^W_B\mathbf{R}^{t} {}^W_B\mathbf{R} = \mathbf{I}$$
+
+## Converting axis-angle to rotation matrix
+
+-   Given angle theta and axis v the equivalent rotation matrix is
+
+$$
+\mathbf{R} = \mathbf{I}\cos\theta + (1 - \cos\theta)\mathbf{v}\mathbf{v}^t + [\mathbf{v}]_\times
+$$
+
+-   Where I is the 3x3 identity and $$[\mathbf{a}]_\times \stackrel{\text{def}}{=} \begin{bmatrix} 0 & -a_3 & a_2 \\ a_3 & 0 & -a_1 \\ -a_2 & a_1 & 0 \end{bmatrix}$$
+
+-   This is called the “Rodrigues formula”
+
+## Example: finding a rotation matrix that rotates one vector to another
+
+::::: columns
+::: {.column width="50%"}
+![](img/rotation_matrix1.png)
+:::
+
+::: {.column width="50%"}
+$$
+_C^D\mathbf{R} = \begin{bmatrix} 0 & 1 & 0 \\ 0 & 0 & 1 \\ 1 & 0 & 0 \end{bmatrix}
+$$
+:::
+:::::
+
+This matrix transforms the x-axis of frame C to the z-axis of frame D. Same for y and z axes.
+
+## Rotation multiplication vs addition: 3D vs 2D
+
+-   In 2D adding angles with wraparound at 360 degrees is a valid operation.
+
+-   Rotation matrices can be added, but the result is not necessarily a valid rotation. Rotations are not closed under the operation of addition.
+
+-   Rotations are closed under the operation of multiplication. To compose a sequence of simple rotations we need to multiply them.
+
+## Compound rotations
+
+![](img/compound-rotations.png)
+
+$$
+_C^E \mathbf{R} = _D^E \mathbf{R} _C^D \mathbf{R}
+$$
+
+## Representing Rotations in 3D: Quaternions
+
+-   Based on axis-angle representation, but more computationally efficient.
+
+-   The main workhorse of rotation representations.
+
+-   Used almost everywhere in robotics, aerospace, aviation.
+
+-   Very important to master in this course. You will need it for the first assignment and for working with ROS in general.
+
+## Converting axis-angle to quaternion
+
+-   Given angle theta and axis v the equivalent quaternion representation is
+
+$$
+\mathbf{q} = [\sin(\theta/2)v_1, \sin(\theta/2)v_2, \sin(\theta/2)v_3, \cos(\theta/2)] 
+$$
+
+$$\mathbf{q} = x\mathbf{i} + y\mathbf{j} + z\mathbf{k} + w$$
+
+-   Just like in the case of rotation matrices we denote the source and target frames of the rotation quaternion: $_B^W \mathbf{q}$
+
+. . .
+
+-   We always work with unit length (normalized) quaternions.
+
+## Examples of quaternions
+
+-   90 degree rotation about the z-axis
+
+$$
+\mathbf{q} = [0, 0, \sin(\pi / 4)v_3, cos(\pi / 4)]
+$$
+
+## Quaternion multiplication
+
+<!-- ![](img/Lecture2_43.png) -->
+
+Defined algebraically by
+
+$$ \begin{align}
+Q = q_0 + q_1i + q_2j q_sk \\
+i^2 = j^2 = k^2 = ijk = -1 \\
+ij = k, jk = i, ki = j 
+\end{align}
+$$
+
+and usually denoted by the circular cross symbol. For example:
+
+$$
+_F^W\mathbf{q} = _C^W\mathbf{q} \otimes {} _F^C\mathbf{q}
+$$
+
+## Quaternion multiplication
+
+$${}^W_F\mathbf{q} = {}^W_C\mathbf{q} \otimes {}^C_F\mathbf{q}$$
+
+Direct correspondence with matrix multiplication:
+
+$$
+_F^W\mathbf{R(q)} = _C^W\mathbf{R(q)} _F^C\mathbf{R(q)}
+$$
+
+NOTE: the quaternion to matrix conversion will not be given here.
+
+It is usually present in all numerical algebra libraries. At the moment
+
+we’ll take it for granted.
+
+## Quaternion inversion
+
+$$
+\mathbf{q}^{-1} -x\mathbf{i} - y\mathbf{j} -z\mathbf{k} + w
+$$
+
+<!-- ![](img/Lecture2_48.png) -->
+
+$$
+[0,0,0,1] = \mathbf{q}^{-1} \otimes \mathbf{q}
+$$
+
+Direct correspondence with matrix inversion: <!-- 
+![](img/Lecture2_49.png) --> $$
+\mathbf{I} = \mathbf{R(q^{-1})R(q)}
+$$
+
+$$
+\mathbf{I} = \mathbf{R(q)^{-1} R(q)}
+$$
+
+## Example: updating orientation based on angular velocity
+
+-   If the angular velocity of the Body frame is $^Bw$ and the body-to-world rotation at time t is $_B^W\mathbf{q}(t)$
+
+-   Then, at time t+dt the new body-to-world rotation will be $${}^W_{B(t+dt)}\mathbf{q} = {}^W_{B(t)}\mathbf{q} \otimes {}^{B(t)}_{B(t+dt)}\mathbf{q}$$
+
+where ${}^{B(t)}_{B(t+dt)}\mathbf{q}$ has unit axis $\frac{{}^B\omega}{||{}^B\omega||}$ and angle $||{}^B\omega|| dt$
+
+## Main ambiguities of quaternion representation
+
+-   The ones inherited from the axis-angle representation, but also:
+
+![](img/quaternion-rep.png){height="55%" width="80%"}
+
+## Be clear about your orientation representation. {.center}
+
+## Suggested minimum documentation
+
+-   Frame diagram
+
+-   Full description of how to build a transformation matrix from the provided scalars and down to the scalar level.
+
+-   A clear statement of which transformation matrix it is.
+
+![](img/Lecture2_60.png)
+
+## Lets talk about code.
+
+-   Code has the same requirements as notation
+-   Rotation matrices have two frame decorations:
+    -   to
+    -   from
+-   Coordinates of vectors have three decorations:
+    -   to
+    -   from
+    -   expressed in
+
+## Lets talk about code.
+
+![](img/Lecture2_64.png){width="80%" height="70%"}
+
+## Lets talk about code.
+
+![](img/Lecture2_66.png){width="80%" height="70%"}
+
+## Lets talk about code.
+
+![](img/Lecture2_68.png){width="80%" height="70%"}
+
+## Lets talk about code.
+
+![](img/Lecture2_70.png){width="80%" height="70%"}
+
+## Lets talk about code.
+
+![](img/Lecture2_72.png){width="80%" height="70%"}
+
+## Lets talk about code. {.center}
+
+**Choose an expressive coding style.**
+
+**Explain it clearly.**
+
+**Stick with it.**
+
+## Example: finding quaternion that rotates one vector into another
+
+-   Suppose you have a vector in frame A, and a vector in frame B
+
+-   You want to find a quaternion that transforms $^A\mathbf{v}$ to $^B\mathbf{v}$
+
+-   Idea: use axis-angle and convert it to quaternion
+
+-   Can rotate from $^A\mathbf{v}$ to $^B\mathbf{v}$ along an axis that is perpendicular to both of them. How do we find that?
+
+## Cross Product
+
+::::: columns
+::: {.column width="50%"}
+![](img/Lecture2_79.png){height="500"}
+:::
+
+::: {.column .center width="50%"}
+$$
+\mathbf{a} \times \mathbf{b} = ||\mathbf{a}|| ||\mathbf{b}|| \sin(\theta) \mathbf{n}
+$$
+:::
+:::::
+
+## Example: finding quaternion that rotates one vector into another
+
+$\mathbf{v}_\text{rot axis} = ^A\mathbf{v} \times ^B\mathbf{v}$ is perpendicular to both of them
+
+$\theta_{\text{rot angle}} = \text{acos}(^A\mathbf{v} \cdot ^B\mathbf{v})$
+
+Assuming the two vectors are unit length
+
+## Rotating a vector via a quaternion
+
+-   Let $^A\mathbf{v}$ be given and a quaternion $_A^B\mathbf{q}$
+
+-   To obtain $^B\mathbf{v}$ you have two choices:
+
+-   Either use the rotation matrix $^B\mathbf{v} = _A^B\mathbf{R(q)} ^A\mathbf{v}$
+
+-   Or use quaternion multiplication directly
+
+$$
+[^B\mathbf{v}, 0] = _A^B\mathbf{q} \otimes [^A\mathbf{v}, 0] \otimes _B^A\mathbf{q}
+$$
+
+## Transforming points from one frame to another
+
+::: red
+-   **VERY IMPORTANT AND USEFUL**
+:::
+
+-   Suppose you have a point in the Body frame,$^B\mathbf{p}$ which you want to transform/express in the World frame. Then you can do any of the two following options:
+
+$${}^W\mathbf{p} = {}^W_B\mathbf{R} {}^B\mathbf{p} + {}^W\mathbf{t}_{WB} \qquad {}^W\mathbf{p} = {}^W_B\mathbf{R}({}^B\mathbf{p} - {}^B\mathbf{t}_{BW})$$
+
+-   Think of it as first rotating the point to be in the World frame and then adding to it the translation from Body to World.
+
+## Transforming vectors from one frame to another
+
+::: red
+-   **VERY IMPORTANT AND USEFUL**
+:::
+
+-   Suppose you have a vector in the Body frame, $^B\mathbf{p}$ which you want to transform/express in the World frame. Then
+
+$$
+^W\mathbf{v} = _B^W\mathbf{R} ^B_\mathbf{v}
+$$
+
+## Combining rotations and translation into one transformation
+
+::: red
+-   **VERY IMPORTANT AND USEFUL**
+:::
+
+-   Many times we combine the rotation and translation of a rigid motion into a 4x4 homogeneous matrix
+
+$$
+_B^W\mathbf{T} = \begin{bmatrix}
+_B^W\mathbf{R} & ^W\mathbf{t}_{WB}  \\
+0 & 1   \\
+\end{bmatrix}
+$$
+
+## Main advantage of homogeneous transformations: easy composition
+
+$$
+_B^W\mathbf{T} = _A^W\mathbf{T} _B^A\mathbf{T}
+$$
+
+Composing rigid motions now becomes a series of matrix multiplications
+
+## Inverting a homogeneous transformation
+
+-   Be careful:
+
+$$
+_B^W\mathbf{T}^{-1} \neq _A^W\mathbf{T}^t
+$$
+
+as was the case with rotation matrices.
+
+## Physical models of how systems move
+
+![](img/physical-models.png)
+
+## Today’s Agenda
+
+::: grey
+-   Frames of reference
+
+-   Ways to represent rotations
+:::
+
+-   Simplified models of vehicles
+
+-   Forward and inverse kinematics
+
+## Why simplified?
+
+-   “All models are wrong, but some are useful” – George Box (statistician)
+
+-   Model: a function that describes a physical phenomenon or a system, i.e. how a set of input variables cause a set of output variables.
+
+-   Models are useful if they can predict reality [up to some degree]{.underline} .
+
+-   Mismatch between model prediction and reality = **error / noise**
+
+## Noise
+
+-   Anything that we do not bother modelling with our model
+
+-   Example 1: “assume frictionless surface”
+
+-   Example 2: Taylor series expansion (only first few terms are dominant)
+
+-   With models, can be thought of as approximation error.
+
+## Simplified physical models of robotic vehicles
+
+-   Omnidirectional motion
+
+-   Dubins car
+
+-   Differential drive steering
+
+-   Ackerman steering
+
+-   Unicycle
+
+-   Cartpole
+
+-   Quadcopter
+
+## Omnidirectional Robots
+
+{{< video https://www.youtube.com/watch?v=9GQ0lPGDC1w&list=PL2DF8159717CEACC2&index=3 width="90%" height="80%" >}}
+
+## Omnidirectional Robots
+
+{{< video https://www.youtube.com/watch?v=TXTo16KKm8Q width="90%" height="80%" >}}
+
+## The state of an omnidirectional robot
+
+State := Configuration := $\mathbf{X}$ := vector of physical quantities of interest about the system
+
+::::: columns
+::: {.column width="40%"}
+![](img/omnidirectional-robot.png)
+:::
+
+::: {.column width="60%"}
+$$
+\mathbf{X} = [^Gp_x, ^Gp_y, ^G\theta]
+$$
+
+State = \[Position, Orientation\]
+
+Position of the robot’s frame of reference C with
+
+respect to a fixed frame of reference G, expressed in
+
+coordinates of frame G. Angle is the orientation of frame C with respect to frame G.
+:::
+:::::
+
+## Control of an omnidirectional robot
+
+Control := $\mathbf{u}$ := a vector of input commands that can modify the state of the system
+
+::::: columns
+::: {.column width="40%"}
+![](img/omnidirectional-robot.png)
+:::
+
+::: {.column width="60%"}
+$$
+\mathbf{u} = [^Cv_x, ^Cv_y, ^Cw_z]
+$$
+
+Control = \[Linear velocity, Angular velocity\]
+
+Linear and angular velocity of the robot’s frame of reference C with respect to a fixed frame of reference G, expressed in coordinates of frame C.
+:::
+:::::
+
+## Dynamics of an omnidirectional robot
+
+Dynamical System : = Dynamics := a function that describes the time evolution of the state in response to a control signal
+
+::::: columns
+::: {.column width="40%"}
+![](img/omnidirectional-robot.png)
+:::
+
+::: {.column width="60%"}
+Continuous case:
+
+$$
+\begin{align}
+\frac{dx}{dt} &= \dot{x} = f(x, u) \\
+\dot{p}_x &= v_x \\
+\dot{p}_y &= v_y \\
+\dot{\theta} &= \omega_z
+\end{align}
+$$
+
+Note: reference frames have been removed for readability.
+:::
+:::::
+
+## The state of a simple car
+
+![](img/state-simplecar.png)
+
+State = \[Position and orientation\]
+
+Position of the car’s frame of reference C with respect to a fixed frame of reference G, expressed in frame G.
+
+The angle is the orientation of frame C with respect to G.
+
+$$
+\mathbf{x} = [^Gp_x, ^Gp_y, ^G\theta]
+$$
+
+## The controls of a simple car
+
+![](img/state-simplecar.png)
+
+Controls = \[Forward speed and angular velocity\]
+
+Linear velocity and angular velocity of the car’s frame of reference C with respect to a fixed frame of reference G, expressed in coordinates of C.
+
+$$
+\mathbf{u} = [^Cv_x, ^Cw_z]
+$$
+
+## The dynamical system of a simple car
+
+::::: columns
+::: {.column width="50%"}
+![](img/simple-car.png)
+:::
+
+::: {.column width="50%"}
+$$
+\begin{align}
+\dot{p}_x &= v_x \cos(\theta) \\
+\dot{p}_y &= v_x \sin(\theta) \\
+\dot{\theta} &= \omega_z
+\end{align}
+$$
+
+[Note: reference frames have been removed for readability.]{.small-font}
+:::
+:::::
+
+## Kinematics vs Dynamics
+
+-   Kinematics considers models of locomotion independently of external forces and control.
+
+-   For example, it describes how the speed of a car affects the state without considering what the required control commands required to generate those speeds are.
+
+-   Dynamics considers models of locomotion as functions of their control inputs and state.
+
+## Special case of simple car: Dubins car
+
+::::: columns
+::: {.column width="40%"}
+-   Can only go forward
+
+-   Constant speed
+
+$$
+^Cv_x = \text{const} > 0
+$$
+
+-   You only control the angular velocity
+:::
+
+::: {.column width="60%"}
+{{< video https://youtu.be/fEImNJQ3hUM?si=tIAkbA0r10XJVdV6 width="100%" height=400 >}}
+:::
+:::::
+
+## Special case of simple car: Dubins car
+
+::::: columns
+::: {.column width="40%"}
+-   Can only go forward
+
+-   Constant speed
+
+$$
+^Cv_x = \text{const} > 0
+$$
+
+-   You only control the angular velocity
+:::
+
+::: {.column width="60%"}
+{{< video https://youtu.be/fEImNJQ3hUM?si=tIAkbA0r10XJVdV6 width="100%" height=400 >}}
+:::
+:::::
+
+## Dubins car: motion primitives
+
+The path of the car can be decomposed to L(eft), R(ight), S(traight) segments.
+
+![](img/Lecture2_128.gif){width="60%"}
+
+## Instantaneous Center of Rotation
+
+::::: columns
+::: {.column width="40%"}
+![](img/Lecture2_129.png)
+:::
+
+::: {.column width="60%"}
+![](img/Lecture2_130.gif)
+:::
+:::::
+
+IC = Instantaneous Center of Rotation
+
+The center of the circle circumscribed by the turning path.
+
+Undefined for straight path segments.
+
+## Dubins car $\color{blue}{\Rightarrow}$ Dubins boat
+
+-   Why do we care about a car that can only go forward?
+
+-   Because we can also model idealized airplanes and boats
+
+-   Dubins boat = Dubins car
+
+{video should go here}
+
+## Dubins car $\color{blue}{\Rightarrow}$ Dubins airplane in 3D
+
+-   Pitch angle $\phi$ and forward velocity determine descent rate
+
+-   Yaw angle $\theta$ and forward velocity determine turning rate
+
+::::: columns
+::: {.column width="60%"}
+![](img/Lecture2_133.jpg)
+:::
+
+::: {.column width="40%"}
+$$
+\begin{align}
+\dot{p}_x &= v_x \cos(\theta) \sin(\phi) \\
+\dot{p}_y &= v_x \sin(\theta) \sin(\phi) \\
+\dot{p}_z &= v_x \cos(\phi) \\
+\dot{\theta} &= \omega_z \\
+\dot{\phi} &= \omega_y
+\end{align}
+$$
+
+$\theta$ is yaw
+
+$\phi$ is pitch
+:::
+:::::
+
+## The state of a unicycle
+
+:::::: columns
+::: {.column width="35%"}
+![](img/unicycle.png)
+
+Top view of a unicycle
+:::
+
+:::: {.column width="65%"}
+$$
+\mathbf{x} = [^Gp_x, ^Gp_y, ^G\theta]
+$$
+
+State = \[Position, Orientation\]
+
+Position of the unicycle’s frame of reference U with respect to a fixed frame of reference G, expressed in coordinates of frame G. Angle is the orientation of frame U with respect to frame G.
+
+[Q: Would you put the radius of the unicycle to be part of the state?]{.red}
+
+::: {.fragment .red}
+A: Most likely not, because it is a constant quantity that we can measure beforehand. But, if we couldn’t measure it, we need to make it part of the state in order to estimate it.
 :::
 ::::
+::::::
 
-::: {.column width="50%"}
-<center>![](imgs/unreg_computation_graph.png){height="400"}</center>
+## Controls of a unicycle
+
+::::: columns
+::: {.column width="35%"}
+![](img/unicycle.png)
 :::
 
-## Chain Rule (Error Signal) Notation
+::: {.column width="65%"}
+$$
+\mathbf{u} = [^Uw_z, ^Uw_y]
+$$
 
-::: incremental
--   Use $\overline{y}$ to denote the derivative $\frac{d \mathcal{L}}{d y}$
-    -   sometimes called the **error signal**
--   This notation emphasizes that the error signals are just values our program is computing (rather than a mathematical operation).
--   This is notation introduced by Prof. Roger Grosse, and not standard notation
+Controls = \[Yaw rate, and pedaling rate\]
+
+Yaw and pedaling rates describe the angular velocities of the respective axes of the unicycle’s frame of reference U with respect to a fixed frame of reference G, expressed in coordinates of U.
+:::
+:::::
+
+## Dynamics of a unicycle
+
+::::: columns
+::: {.column width="35%"}
+![](img/unicycle.png)
 :::
 
-## Chain Rule (Error Signal) Notation II
+::: {.column width="65%"}
+$$
+\begin{align}
+\dot{p}_x &= rw_y\cos(\theta) \\
+\dot{p}_y &= rw_y\sin(\theta) \\
+\dot{\theta} &= w_z \\
+\end{align}
+$$
 
-::: {.column width="50%"}
-Computing the loss:
+r = the radius of the wheel
 
-\begin{align*}
-z &= wx + b \\
-y &= \sigma(z) \\
-\mathcal{L} &= \frac{1}{2}(y - t)^2
-\end{align*}
+$rw_y$ is the forward velocity of the unicycle
+:::
+:::::
+
+## The state of a differential drive vehicle
+
+::::: columns
+::: {.column width="35%"}
+![](img/differential-drive-vehicle.png)
 :::
 
-:::: {.column width="50%"}
-::: fragment
-Computing the derivatives:
+::: {.column width="65%"}
+$$
+\mathbf{x} = [^Gp_x, ^Gp_y, ^G\theta]
+$$
 
-\begin{align*}
-\overline{y} &= y - t \\
-\overline{z} &= \overline{y} \sigma'(z) \\
-\overline{w} &= \overline{z} \, x \\
-\overline{b} &= \overline{z}
-\end{align*}
+State = \[Position, Orientation\]
+
+Position of the vehicle’s frame of reference D with respect to a fixed frame of reference G, expressed in coordinates of frame G. Angle is the orientation of frame D with respect to frame G.
 :::
+:::::
+
+## Controls of a differential drive vehicle
+
+::::: columns
+::: {.column width="35%"}
+![](img/diff-drivevehicle2.png)
+
+[ICR = Instantaneous Center of Rotation]{.small-font}
+:::
+
+::: {.column width="65%"}
+$$
+\mathbf{u} = [u_l, u_r]
+$$
+
+Controls = \[Left wheel and right wheel turning rates\]
+
+Wheel turning rates determine the linear velocities of the respective wheels of the vehicle’s frame of reference D with respect to a fixed frame of reference G, expressed in coordinates of D.
+
+$$
+\begin{align}
+v_1 &= (W - H/2)w \\ 
+v_r &= (W + H/2)w \\ 
+v_x &= (v_1 + v_r)/2
+\end{align}
+$$
+
+$v_1 = Ru_l$ R is the wheel radius
+
+$v_r = Ru_r$
+:::
+:::::
+
+## Dynamics of a differential drive vehicle
+
+:::::: columns
+::: {.column width="35%"}
+![](img/diff-drive-vehicle3.png)
+
+[ICR = Instantaneous Center of Rotation]{.small-font}
+:::
+
+:::: {.column width="65%"}
+::: medium-font
+$$
+\begin{bmatrix}
+p_x(t+1) \\
+p_y(t+1) \\
+\theta(t+1)
+\end{bmatrix} = 
+\begin{bmatrix}
+\cos(\omega \delta t) & -\sin(\omega \delta t) & 0 \\
+\sin(\omega \delta t) & \cos(\omega \delta t) & 0 \\
+0 & 0 & 1
+\end{bmatrix}
+\begin{bmatrix}
+p_x(t) - \text{ICR}_x \\
+p_y(t) - \text{ICR}_y \\
+\theta(t)
+\end{bmatrix} +
+\begin{bmatrix}
+\text{ICR}_x \\
+\text{ICR}_y \\
+\omega \delta t
+\end{bmatrix}
+$$
+:::
+
+$$
+\text{ICR} = [p_x - W\sin\theta, p_y + W\cos\theta]
+$$
+
+![](img/Lecture2_185.gif){width="350" fig-align="center"}
 ::::
+::::::
 
-## Multiclass Logistic Regression Computation Graph
+## Dynamics of a differential drive vehicle
 
-In general, the computation graph *fans out*:
+:::::: columns
+::: {.column width="35%"}
+![](img/diff-drive-vehicle3.png)
 
-<center>![](imgs/multiway_graph.png){height="400"}</center>
-
-## Multiclass Logistic Regression Computation Graph II
-
-<!-- \begin{minipage}{0.45 \linewidth} -->
-
-<!-- \includegraphics[width=\linewidth]{imgs/multiway_graph.png} -->
-
-```{=html}
-<!-- \end{minipage}
-\begin{minipage}{0.45 \linewidth} -->
-```
-
-\begin{align*}
-z_l &= \sum_j w_{lj} x_j + b_l \\
-y_k &= \frac{e^{z_k}}{\sum_l e^{z_l}} \\
-\mathcal{L} &= -\sum_k t_k \log{y_k}
-\end{align*} <!-- \end{minipage} -->
-
-There are multiple paths for which a weight like $w_{11}$ affects the loss $\mathcal{L}$.
-
-## Multivariate Chain Rule
-
-Suppose we have a function $f(x, y)$ and functions $x(t)$ and $y(t)$ (all the variables here are scalar-valued). Then
-
-$$\frac{d}{dt}f(x(t), y(t)) = \frac{\partial f}{\partial x}\frac{dx}{dt} +  \frac{\partial f}{\partial y}\frac{dy}{dt}$$
-
-<center>![](imgs/toy_multivariate_graph.png){height="250"}</center>
-
-## Multivariate Chain Rule Example
-
-If $f(x, y) = y + e^{xy}$, $x(t) = \cos t$ and $y(t) = t^2$...
-
-\begin{align*}
-\frac{d}{dt}f(x(t), y(t)) &= \frac{\partial f}{\partial x}\frac{dx}{dt} +  \frac{\partial f}{\partial y}\frac{dy}{dt} \\
-&= \left( y e^{xy} \right) \cdot \left( -\sin (t) \right) + \left( 1 + xe^{xy} \right) \cdot 2t
-\end{align*}
-
-## Multivariate Chain Rule Notation
-
-<center>![](imgs/label_equation.png){height="250"} ![](imgs/multivariate_context.png){height="250"}</center>
-
-In our notation
-
-$$\overline{t} = \overline{x} \frac{dx}{dt} +  \overline{y} \frac{dy}{dt}$$
-
-## The Backpropagation Algorithm
-
--   Backpropagation is an *algorithm* to compute gradients efficiency
-    -   Forward Pass: Compute predictions (and save intermediate values)
-    -   Backwards Pass: Compute gradients
--   The idea behind backpropagation is very similar to *dynamic programming*
-    -   Use chain rule, and be careful about the order in which we compute the derivatives
-
-## Backpropagation Example
-
-<center>![](imgs/mlp_graph.png){height="450"}</center>
-
-<!-- \includegraphics[width=0.9 \linewidth]{imgs/mlp_graph.png} -->
-
-## Backpropagation for a MLP
-
-<!-- \begin{minipage}{0.45 \linewidth} -->
-
-<!-- \includegraphics[width=0.9 \linewidth]{imgs/mlp_graph.png} -->
-
-**Forward pass:** \vspace{-1em} \begin{align*}
-z_i &= \sum_j w_{ij}^{(1)} x_j + b_i^{(1)} \\
-h_i &= \sigma(z_i) \\
-y_k &= \sum_i w_{ki}^{(2)} h_i + b_k^{(2)} \\
-\mathcal{L} &= \frac{1}{2}\sum_k (y_k - t_k)^2
-\end{align*} <!-- \end{minipage} -->
-
-## Backpropagation for a MLP II
-
-**Backward pass:**
-
-::: {.column width="50%"}
-\vspace{-1em}
-
-\begin{align*}
-\overline{\mathcal{L}} &= 1 \\
-\overline{y_k}  &= \overline{\mathcal{L}}(y_k - t_k) \\
-\overline{w_{ki}^{(2)}}  &= \overline{y_k}h_i \\
-\overline{b_{k}^{(2)}}  &= \overline{y_k}
-\end{align*}
+[ICR = Instantaneous Center of Rotation]{.small-font}
 :::
 
-:::: {.column width="50%"}
-::: fragment
-\vspace{-1em}
-
-\begin{align*}
-\overline{h_i}  &= \sum_k \overline{y_k} w_{ki}^{(2)} \\
-\overline{z_i} &= \overline{h_i} \sigma'(z_i) \\
-\overline{w_{ij}^{(1)}} &= \overline{z_i} x_j \\
-\overline{b_{i}^{(1)}} &= \overline{z_i}
-\end{align*}
+:::: {.column width="65%"}
+::: medium-font
+$$
+\begin{bmatrix}
+p_x(t+1) \\
+p_y(t+1) \\
+\theta(t+1)
+\end{bmatrix} = 
+\begin{bmatrix}
+\cos(\omega \delta t) & -\sin(\omega \delta t) & 0 \\
+\sin(\omega \delta t) & \cos(\omega \delta t) & 0 \\
+0 & 0 & 1
+\end{bmatrix}
+\begin{bmatrix}
+p_x(t) - \text{ICR}_x \\
+p_y(t) - \text{ICR}_y \\
+\theta(t)
+\end{bmatrix} +
+\begin{bmatrix}
+\text{ICR}_x \\
+\text{ICR}_y \\
+\omega \delta t
+\end{bmatrix}
+$$
 :::
+
+$$
+\text{ICR} = [p_x - W\sin\theta, p_y + W\cos\theta]
+$$
+
+Special cases:
+
+-   moving straight $v_l = v_r$
+-   in-place rotation $v_l = -v_r$
+-   rotation about the left wheel $v_l = 0$
 ::::
+::::::
 
-## Backpropagation for a MLP
+## Ackerman steering
 
-::: {.column width="50%"}
-<!-- \begin{minipage}{0.45 \linewidth} -->
+{{< video https://www.youtube.com/watch?v=i6uBwudwA5o width="90%" height="75%" >}}
 
-<!-- \includegraphics[width=0.9 \linewidth]{imgs/mlp_graph.png} -->
-
-**Forward pass:** \vspace{-1em} \begin{align*}
-{\bf z} &=  W^{(1)}{\bf x} + {\bf b}^{(1)} \\
-{\bf h} &= \sigma({\bf z}) \\
-{\bf y} &=  W^{(2)}{\bf h} + {\bf b}^{(2)} \\
-\mathcal{L} &= \frac{1}{2} || {\bf y} - {\bf t}||^2
-\end{align*} <!-- \end{minipage} -->
+::: small-font
+<https://www.youtube.com/watch?v=i6uBwudwA5o>
 :::
 
-::: {.column width="50%"}
-<center>![](imgs/mlp_graph.png){height="250"}</center>
-:::
+## The state of a double-link inverted pendulum (a.k.a. Acrobot)
 
-## Backpropagation for a MLP
+![](img/Lecture2_197.png)
 
-::: {.column width="50%"}
-**Backward pass:** \vspace{-1em} \begin{align*}
-\overline{\mathcal{L}} &= 1 \\
-\overline{{\bf y}}  &= \overline{\mathcal{L}}({\bf y} - {\bf t}) \\
-\overline{W^{(2)}}  &= \overline{{\bf y}}{\bf h}^\top \\
-\overline{{\bf b^{(2)}}}  &= \overline{{\bf y}} \\
-& \ldots
-\end{align*}
-:::
+![](img/Lecture2_198.png)
 
-::: {.column width="50%"}
-<center>![](imgs/mlp_graph.png){height="250"}</center>
-:::
+State = \[angle of joint 1, joint 2, joint velocities\]
 
-## Backpropagation for a MLP
+Angle of joint 2 is expressed with respect to joint 1. Angle of joint 1 is
 
-::: {.column width="50%"}
-**Backward pass:** \vspace{-1em} \begin{align*}
-& \ldots \\
-\overline{{\bf h}}  &= {W^{(2)}}^\top\overline{y} \\
-\overline{{\bf z}} &= \overline{{\bf h}} \circ \sigma'({\bf z}) \\
-\overline{W^{(1)}} &= \overline{{\bf z}} {\bf x}^\top \\
-\overline{{\bf b}^{(1)}} &= \overline{{\bf z}}
-\end{align*}
-:::
+expressed compared to down vector.
 
-::: {.column width="50%"}
-<center>![](imgs/mlp_graph.png){height="250"}</center>
-:::
+# Controls of a double-link inverted pendulum (a.k.a. Acrobot)
 
-## Implementing Backpropagation I
+![](img/Lecture2_199.png)
 
-<center>![](imgs/message_passing.png){height="500"}</center>
+![](img/Lecture2_200.png)
 
-## Implementing Backpropagation II
+Controls = \[torque applied to joint 1\]
 
-**Forward pass:** Each node...
+# Dynamics of a double-link inverted pendulum (a.k.a Acrobot)
 
--   receives messages (inputs) from its parents
--   uses these messages to compute its own values
+![](img/Lecture2_201.png)
 
-::: fragment
-**Backward pass:** Each node...
+[Provided here just for reference]{style="color:#ff0000"}
 
--   receives messages (error signals) from its children
--   uses these messages to compute its own error signal
--   passes message to its parents
-:::
+[and completeness. You are not expected]{style="color:#ff0000"}
 
-::: fragment
-This algorithm provides **modularity**!
-:::
+[to know this.]{style="color:#ff0000"}
 
-````{=html}
-<!--
-## In PyTorch (from tutorial 4)
+# The state of a single-link cartpole
 
-```python
-model = nn.Linear(784, 10) # classification model
-criterion = nn.CrossEntropyLoss()
-optimizer = optim.SGD(model.parameters(), lr=0.005)
+![](img/Lecture2_202.png)
 
-zs = model(xs)           # forward pass
-loss = criterion(zs, ts) # compute the loss (cost)
-loss.backward()          # backwards pass (error signals)
-optimizer.step()         # update the parameters
-optimizer.zero_grad()    # a clean up step
-```
--->
-````
+![](img/Lecture2_203.png)
 
-## Backpropagation in Vectorized Form
+State = \[Position and velocity of cart, orientation
 
-<center>![](imgs/backprop_vjp.png){height="600"}</center>
+and angular velocity of pole\]
 
-## Backpropagation in practice
+# Controls of a single-link cartpole
 
-::: incrfemental
--   Backprop is used to train the overwhelming majority of neural nets today.
-    -   Even optimization algorithms much fancier than gradient descent (e.g.\~second-order methods) use backprop to compute the gradients.
-:::
+![](img/Lecture2_204.png)
 
-## Backpropagation in practice II
+![](img/Lecture2_205.png)
 
-::: incremental
--   Despite its practical success, backprop is believed to be neurally (biologically) implausible.
-    -   No evidence for biological signals analogous to error derivatives.
-    -   All the biologically plausible alternatives we know about learn much more slowly (on computers).
-:::
+Controls = \[Horizontal force applied to cart\]
 
-<!-- Wrap-Up -->
+# Balancing a triple-link pendulum on a cart
 
-# Wrap Up
+# Extreme Balancing
 
-## Summary
+# The state of a double integrator
 
-::: incremental
--   Artificial neurons draw inspiration from nerve cells / neurons in the brain
--   On its own, the expresiveness of a single neuron is limited
--   Stacking neurons and nonlinear activation functions allows for learning more complex functions
--   Backpropagation can be used for this learning task
-:::
+![](img/Lecture2_206.png)
 
-## What to do this week?
+State = \[Position along x-axis\]
 
-::: incremental
--   You can already complete Assignment 1
-    -   Start early so you can get help early!
--   Attend tutorials this week!
--   Complete the readings for this week.
--   Preview next week's materials
-:::
+# Controls of a double integrator
+
+![](img/Lecture2_208.png)
+
+Controls = \[Force along x-axis\]
+
+# Dynamics of a double integrator
+
+![](img/Lecture2_210.png)
+
+This corresponds to applying force to a brick of mass 1
+
+to move on frictionless ice. Where is the brick going to
+
+end up? Similar to curling.
+
+# The state of a quadrotor
+
+![](img/Lecture2_212.png)
+
+![](img/Lecture2_213.png)
+
+State = \[Roll, pitch, yaw, and roll rate, pitch rate, roll rate\]
+
+Angles are with respect to the global frame.
+
+# Controls of a quadrotor
+
+![](img/Lecture2_215.png)
+
+![](img/Lecture2_216.png)
+
+Controls = \[Thrusts of four motors\]
+
+OR
+
+![](img/Lecture2_217.png)
+
+Controls = \[Torques of four motors\]
+
+Notice how adjacent motors spin in opposite ways.
+
+Why?
+
+# What if all four motors spin the same direction?
+
+# Dynamics of a quadrotor
+
+![](img/Lecture2_218.png)
+
+![](img/Lecture2_220.png)
+
+![](img/Lecture2_221.png)
+
+![](img/Lecture2_222.png)
+
+![](img/Lecture2_223.png)
+
+# Forward and Inverse Kinematics
+
+![](img/Lecture2_224.jpg)
+
+<https://slideplayer.com/slide/4239432/>
+
+# Controllability
+
+A system is controllable if there exist control sequences that can bring the system from any state to any other state, in finite time.
+
+For example, even though cars are subject to non-holonomic constraints (can’t move sideways directly), they are controllable, They can reach sideways states by parallel parking.
+
+![](img/Lecture2_225.jpg)
+
+# Passive Dynamics
+
+Dynamics of systems that operate without drawing (a lot of) energy from a power supply.
+
+Interesting because biological
+
+locomotion systems are more
+
+efficient than current robotic
+
+systems.
+
+Dynamics of systems that operate without drawing (a lot of) energy from a power supply.
+
+Usually propelled by their
+
+own weight.
+
+Interesting because biological
+
+locomotion systems are more
+
+efficient than current robotic
+
+systems.
+
+Steve Collins & Andy Ruina, Cornell, 2001
