@@ -19,7 +19,7 @@ quarto --version
 Clone this repository to your local machine:
 
 ``` bash
-git clone https://github.com/utm-csc413/2024F-website.git
+git clone https://github.com/csc477/website_fall24.git
 cd 2024F-website
 ```
 
