@@ -1,5 +1,3 @@
-------------------------------------------------------------------------
-
 ---
 title: "CSC477 Introduction to Mobile Robotics"
 subtitle: "Week #2: Kinematics and Dynamics"
@@ -20,11 +18,11 @@ html-math-method:
   url: "https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"
 ---
 
-## 
+## {.center}
 
 Today’s slides borrow parts of Paul Furgale’s “Representing robot pose” presentation:
 
-<http://paulfurgale.info/news/2014/6/9/representing-robot-pose-the-good-the-bad-and-the-ugly>
+[http://paulfurgale\.info/news/2014/6/9/representing\-robot\-pose\-the\-good\-the\-bad\-and\-the\-ugly](http://paulfurgale.info/news/2014/6/9/representing-robot-pose-the-good-the-bad-and-the-ugly)
 
 You should absolutely read it.
 
@@ -38,106 +36,118 @@ You should absolutely read it.
 
 • Forward and inverse kinematics
 
+
 ## 3D frames of reference are everywhere in robotics
 
-:::::: columns
+:::: columns
 ::: {.column width="30%"}
-![](img/Lecture2_1.png)
-:::
 
+![](img/Lecture2_1.png)
+
+:::
 ::: {.column width="30%"}
 ![](img/Lecture2_3.png)
+
 :::
 
 ::: {.column width="30%"}
+
 ![](img/Lecture2_2.jpg)
+
 :::
-::::::
+::::
+
 
 ## Right-handed vs left-handed frames
 
 ![](img/left-right-hand.png){width="70%" height="60%"}
 
-::: {.absolute .green right="0" bottom="50%"}
-Unless otherwise specified,\
-we use right-handed\
+:::{.absolute right="0" bottom="50%" .green}
+Unless otherwise specified, \
+we use right\-handed \
 frames in robotics
 :::
 
+
 ## Why do we need to use so many frames?
 
-::::: columns
-::: {.column .small-font width="30%"}
--   Because we want to reason and express quantities relative to their local configuration.
+:::: columns
 
--   For example: “grab the bottle behind the cereal bowl”
+::: {.column width="30%" .small-font}
 
--   This lecture is about defining and representing frames of reference and reasoning about how to express quantities in one frame to quantities in the other.
+- Because we want to reason and express quantities relative to their local configuration\. 
+
+- For example: “grab the bottle behind the cereal bowl” 
+
+- This lecture is about defining and representing frames of reference and reasoning about how to express quantities in one frame to quantities in the other\.
+
 :::
 
 ::: {.column width="70%"}
 ![](img/Lecture2_5.jpg)
 :::
-:::::
+:::: 
+
 
 ## Rigid-body motion
 
--   Motion that can be described by a rotation and translation.
+- Motion that can be described by a rotation and translation\.
 
--   All the parts making up the body move in unison, and there are no deformations.
+- All the parts making up the body move in unison\, and there are no deformations\.
 
--   Representing rotations, translations, and vectors in a given frame of reference is often a source of frustration and bugs in robot software because there are so many options.
+- Representing rotations\, translations\, and vectors in a given frame of reference is often a source of frustration and bugs in robot software because there are so many options\.
 
-## 
+##
 
 ![](img/Lecture2_6.png)
 
 ## The answer is meaningless unless I provide a definition of the coordinate frames {.center}
 
-## 
+##
 
 ![](img/Lecture2_8.png){width="80%" height="85%" fig-align="center"}
 
-::: {.absolute .small-font left="40" top="80"}
-Color convention\
+:::{.absolute left="40" top="80" .small-font}
+Color convention \
 for frames
 :::
 
-::: {.absolute .small-font right="200" top="15%"}
-Moving body (robot) frame
+:::{.absolute right="200" top="15%" .small-font}
+Moving body \(robot\) frame
 :::
 
-::: {.absolute .small-font right="120" bottom="40"}
+:::{.absolute right="120" bottom="40" .small-font}
 Fixed world frame
 :::
 
 ## Always provide a frame diagram {.center}
 
-## 
+
+##
 
 ![](img/Lecture2_10.png){fig-align="center"}
 
 ## Inertial frames of reference
 
--   G, the global frame of reference is fixed, i.e. with zero velocity in our previous example.
+- G\, the global frame of reference is fixed\, i\.e\. with zero velocity in our previous example\.
 
--   But, in general it can move as long as it has zero acceleration. Such a frame is called an “inertial” frame of reference.
+- But\, in general it can move as long as it has zero acceleration\. Such a frame is called an “inertial” frame of reference\.
 
--   Newton’s laws hold for inertial reference frames only. For reference frames with non-constant velocity we need the theory of General Relativity.
+- Newton’s laws hold for inertial reference frames only\. For reference frames with non\-constant velocity we need the theory of General Relativity\.
 
--   So, make sure that your global frame of reference is inertial, preferably fixed.
+- So\, make sure that your global frame of reference is inertial\, preferably fixed\.
 
 ## Today’s Agenda
 
 ::: grey
--   Frames of reference
-:::
+- Frames of reference
+::: 
 
--   Ways to represent rotations
+- Ways to represent rotations
 
--   Simplified models of vehicles
+- Simplified models of vehicles
 
--   Forward and inverse kinematics
+- Forward and inverse kinematics
 
 ## Representing Rotations in 3D: Euler Angles
 
@@ -145,21 +155,23 @@ Fixed world frame
 
 ## Specification ambiguities in Euler Angles
 
--   Need to specify the axes which each angle refers to.
+- Need to specify the axes which each angle refers to\.
 
--   There are **12 different valid combinations** of fundamental rotations. Here are the possible axes:
+- There are  **12 different valid combinations**  of fundamental rotations\. Here are the possible axes:
 
--   z-x-z, x-y-x, y-z-y, z-y-z, x-z-x, y-x-y
+- z\-x\-z\, x\-y\-x\, y\-z\-y\, z\-y\-z\, x\-z\-x\, y\-x\-y
 
--   x-y-z, y-z-x, z-y-x, x-z-y, z-y-x, y-x-z
+- x\-y\-z\, y\-z\-x\, z\-y\-x\, x\-z\-y\, z\-y\-x\, y\-x\-z
 
 . . .
 
--   E.g.: x-y-z rotation with Euler angles $(\theta, \phi, \psi)$ means the rotation can be expressed as a sequence of simple rotations $R_x(\theta) R_y(\phi) R_z(\psi)$
+- E\.g\.: x\-y\-z rotation with Euler angles $(\theta, \phi, \psi)$ means the rotation can be expressed as a sequence of simple rotations $R_x(\theta) R_y(\phi) R_z(\psi)$
+
+
 
 ## Specification ambiguities in Euler Angles
 
-Simple rotations can be counter-clockwise or clockwise. This gives **another 2 possibilities.**
+Simple rotations can be counter\-clockwise or clockwise\. This gives  __another 2 possibilities\.__
 
 $$
 \mathbf{R}_z(\alpha) := 
@@ -179,11 +191,15 @@ $$
 
 ## Specification ambiguities in Euler Angles
 
-::::: columns
-::: {.column .medium-font width="30%"}
-You need to specify whether the rotation rotates from the world frame to the body frame, or the other way around.
+:::: columns
 
-**Another 2 possibilities. More possibilities if you have more frames.**
+::: {.column width="30%" .medium-font}
+You need to specify whether 
+the rotation rotates from the 
+world frame to the body frame\, or 
+the other way around\.
+
+**Another 2 possibilities\. More possibilities if you have more frames\.**
 
 **Degrees or radians? Another 2 possibilities**
 :::
@@ -191,65 +207,69 @@ You need to specify whether the rotation rotates from the world frame to the bod
 ::: {.column width="70%"}
 ![](img/car-euler-angles.png)
 :::
-:::::
+
+::::
 
 ## Specification ambiguities in Euler Angles
 
--   Need to specify the ordering of the three parameters.
+- Need to specify the ordering of the three parameters\.
 
--   1-2-3, 1-3-2, 2-1-3, 2-3-1, 3-1-2, 3-2-1
+- 1\-2\-3\, 1\-3\-2\, 2\-1\-3\, 2\-3\-1\, 3\-1\-2\, 3\-2\-1
 
--   **Another 6 different valid combinations**
+- __Another 6 different valid combinations__
 
 ## 
-
 ![](img/Lecture2_16.png){fig-align="center"}
 
-## 
+##
 
 ![](img/Lecture2_17.png){fig-align="center"}
 
 ## Another problem with Euler angles: Gimbal Lock
 
-video
+{{< video vid/gimbal_lock.mp4 height="400">}}
 
 ## Another problem with Euler angles: Gimbal Lock
 
--   Why should roboticists care about this?
+- Why should roboticists care about this?
 
--   Because when it happens Euler angle representations lose one degree of freedom.
+- Because when it happens Euler angle representations lose one degree of freedom\.
 
--   They cannot represent the entire range of rotations any more.
+- They cannot represent the entire range of rotations any more\.
 
--   They get “locked” into a subset of the space of possible rotations.
+- They get “locked” into a subset of the space of possible rotations\.
 
-## So, we need other representations aside from Euler angles. Even though they are a minimal representation. {.center}
+## So\, we need other representations aside from Euler angles\. Even though they are a minimal representation\. {.center}
 
 ## Representing Rotations in 3D: Axis-Angle
 
-::::: columns
+:::: columns
 ::: {.column width="30%"}
 ![](img/Lecture2_19.png)
-:::
 
+:::
 ::: {.column width="70%"}
--   4-number representation (angle, 3D axis)
 
--   2 ambiguities: (-angle, -axis) is the same as (angle, axis)
+- 4\-number representation \(angle\, 3D axis\)
+
+- 2 ambiguities: \(\-angle\, \-axis\) is the same as \(angle\, axis\)
+
 :::
-:::::
+::::
+
 
 ## Representing Rotations in 3D: Rotation Matrix
 
--   The royalty of rotation representations
+- The royalty of rotation representations
 
--   3x3-number representation, very redundant
+- 3x3\-number representation\, very redundant
 
--   No ambiguities, as long as source frame and target frame are specified correctly. For example, define your notation this way:
+- No ambiguities\, as long as source frame and target frame are specified correctly\. For example\, define your notation this way:
 
--   Rotation from Body frame to World frame: $\mathbf{R}_{BW}$
+- Rotation from Body frame to World frame: $\mathbf{R}_{BW}$
 
--   Or you can define it this way: $_W^B \mathbf{R}$
+- Or you can define it this way: $_B^W \mathbf{R}$
+
 
 ## Inverse Rotation Matrix
 
@@ -257,29 +277,27 @@ $$
 _B^W\mathbf{R}^{-1} = _B^W\mathbf{R}^t = _W^B\mathbf{R}
 $$
 
-Rotation matrices are orthogonal matrices: their
-
-transpose is their inverse and they do not change the
-
-length of a vector, they just rotate it in space.
+Rotation matrices are orthogonal matrices: their transpose is their inverse and they do not change the length of a vector\, they just rotate it in space\.
 
 $${}^W_B\mathbf{R}^{t} {}^W_B\mathbf{R} = \mathbf{I}$$
 
+
 ## Converting axis-angle to rotation matrix
 
--   Given angle theta and axis v the equivalent rotation matrix is
+- Given angle theta and axis v the equivalent rotation matrix is
 
 $$
 \mathbf{R} = \mathbf{I}\cos\theta + (1 - \cos\theta)\mathbf{v}\mathbf{v}^t + [\mathbf{v}]_\times
 $$
 
--   Where I is the 3x3 identity and $$[\mathbf{a}]_\times \stackrel{\text{def}}{=} \begin{bmatrix} 0 & -a_3 & a_2 \\ a_3 & 0 & -a_1 \\ -a_2 & a_1 & 0 \end{bmatrix}$$
+- Where I is the 3x3 identity and $$[\mathbf{a}]_\times \stackrel{\text{def}}{=} \begin{bmatrix} 0 & -a_3 & a_2 \\ a_3 & 0 & -a_1 \\ -a_2 & a_1 & 0 \end{bmatrix}$$
 
--   This is called the “Rodrigues formula”
+- This is called the “Rodrigues formula”
+
 
 ## Example: finding a rotation matrix that rotates one vector to another
 
-::::: columns
+:::: columns
 ::: {.column width="50%"}
 ![](img/rotation_matrix1.png)
 :::
@@ -289,19 +307,21 @@ $$
 _C^D\mathbf{R} = \begin{bmatrix} 0 & 1 & 0 \\ 0 & 0 & 1 \\ 1 & 0 & 0 \end{bmatrix}
 $$
 :::
-:::::
+:::: 
 
-This matrix transforms the x-axis of frame C to the z-axis of frame D. Same for y and z axes.
+
+This matrix transforms the x\-axis of frame C to the z\-axis of frame D\. Same for y and z axes\.
 
 ## Rotation multiplication vs addition: 3D vs 2D
 
--   In 2D adding angles with wraparound at 360 degrees is a valid operation.
+- In 2D adding angles with wraparound at 360 degrees is a valid operation\.
 
--   Rotation matrices can be added, but the result is not necessarily a valid rotation. Rotations are not closed under the operation of addition.
+- Rotation matrices can be added\, but the result is not necessarily a valid rotation\. Rotations are not closed under the operation of addition\.
 
--   Rotations are closed under the operation of multiplication. To compose a sequence of simple rotations we need to multiply them.
+- Rotations are closed under the operation of multiplication\. To compose a sequence of simple rotations we need to multiply them\.
 
 ## Compound rotations
+
 
 ![](img/compound-rotations.png)
 
@@ -311,17 +331,17 @@ $$
 
 ## Representing Rotations in 3D: Quaternions
 
--   Based on axis-angle representation, but more computationally efficient.
+- Based on axis\-angle representation\, but more computationally efficient\.
 
--   The main workhorse of rotation representations.
+- The main workhorse of rotation representations\.
 
--   Used almost everywhere in robotics, aerospace, aviation.
+- Used almost everywhere in robotics\, aerospace\, aviation\.
 
--   Very important to master in this course. You will need it for the first assignment and for working with ROS in general.
+- Very important to master in this course\. You will need it for the first assignment and for working with ROS in general\.
 
 ## Converting axis-angle to quaternion
 
--   Given angle theta and axis v the equivalent quaternion representation is
+- Given angle theta and axis v the equivalent quaternion representation is
 
 $$
 \mathbf{q} = [\sin(\theta/2)v_1, \sin(\theta/2)v_2, \sin(\theta/2)v_3, \cos(\theta/2)] 
@@ -329,25 +349,27 @@ $$
 
 $$\mathbf{q} = x\mathbf{i} + y\mathbf{j} + z\mathbf{k} + w$$
 
--   Just like in the case of rotation matrices we denote the source and target frames of the rotation quaternion: $_B^W \mathbf{q}$
+- Just like in the case of rotation matrices we denote the source and target frames of the rotation quaternion: $_B^W \mathbf{q}$
 
 . . .
 
--   We always work with unit length (normalized) quaternions.
+- We always work with unit length \(normalized\) quaternions\.
+
 
 ## Examples of quaternions
 
--   90 degree rotation about the z-axis
+- 90 degree rotation about the z\-axis
 
 $$
 \mathbf{q} = [0, 0, \sin(\pi / 4)v_3, cos(\pi / 4)]
 $$
 
+
 ## Quaternion multiplication
 
 <!-- ![](img/Lecture2_43.png) -->
 
-Defined algebraically by
+Defined algebraically by 
 
 $$ \begin{align}
 Q = q_0 + q_1i + q_2j q_sk \\
@@ -356,15 +378,17 @@ ij = k, jk = i, ki = j
 \end{align}
 $$
 
-and usually denoted by the circular cross symbol. For example:
+and usually denoted by the circular cross symbol\. For example:
 
 $$
 _F^W\mathbf{q} = _C^W\mathbf{q} \otimes {} _F^C\mathbf{q}
 $$
 
+
 ## Quaternion multiplication
 
 $${}^W_F\mathbf{q} = {}^W_C\mathbf{q} \otimes {}^C_F\mathbf{q}$$
+
 
 Direct correspondence with matrix multiplication:
 
@@ -372,16 +396,14 @@ $$
 _F^W\mathbf{R(q)} = _C^W\mathbf{R(q)} _F^C\mathbf{R(q)}
 $$
 
-NOTE: the quaternion to matrix conversion will not be given here.
+NOTE: the quaternion to matrix conversion will not be given here\.
 
-It is usually present in all numerical algebra libraries. At the moment
-
-we’ll take it for granted.
+It is usually present in all numerical algebra libraries\. At the moment we’ll take it for granted\.
 
 ## Quaternion inversion
 
 $$
-\mathbf{q}^{-1} -x\mathbf{i} - y\mathbf{j} -z\mathbf{k} + w
+\mathbf{q}^{-1} = -x\mathbf{i} - y\mathbf{j} -z\mathbf{k} + w
 $$
 
 <!-- ![](img/Lecture2_48.png) -->
@@ -390,8 +412,10 @@ $$
 [0,0,0,1] = \mathbf{q}^{-1} \otimes \mathbf{q}
 $$
 
-Direct correspondence with matrix inversion: <!-- 
-![](img/Lecture2_49.png) --> $$
+Direct correspondence with matrix inversion:
+<!-- 
+![](img/Lecture2_49.png) -->
+$$
 \mathbf{I} = \mathbf{R(q^{-1})R(q)}
 $$
 
@@ -401,40 +425,41 @@ $$
 
 ## Example: updating orientation based on angular velocity
 
--   If the angular velocity of the Body frame is $^Bw$ and the body-to-world rotation at time t is $_B^W\mathbf{q}(t)$
+- If the angular velocity of the Body frame is $^Bw$ and the body\-to\-world rotation at time t is $_B^W\mathbf{q}(t)$
 
--   Then, at time t+dt the new body-to-world rotation will be $${}^W_{B(t+dt)}\mathbf{q} = {}^W_{B(t)}\mathbf{q} \otimes {}^{B(t)}_{B(t+dt)}\mathbf{q}$$
+- Then\, at time t\+dt the new body\-to\-world rotation will be
+$${}^W_{B(t+dt)}\mathbf{q} = {}^W_{B(t)}\mathbf{q} \otimes {}^{B(t)}_{B(t+dt)}\mathbf{q}$$
 
 where ${}^{B(t)}_{B(t+dt)}\mathbf{q}$ has unit axis $\frac{{}^B\omega}{||{}^B\omega||}$ and angle $||{}^B\omega|| dt$
 
+
 ## Main ambiguities of quaternion representation
 
--   The ones inherited from the axis-angle representation, but also:
+- The ones inherited from the axis\-angle representation\, but also:
 
 ![](img/quaternion-rep.png){height="55%" width="80%"}
 
-## Be clear about your orientation representation. {.center}
+## Be clear about your orientation representation.  {.center}
 
-## Suggested minimum documentation
+## Suggested minimum documentation 
+- Frame diagram 
 
--   Frame diagram
+- Full description of how to build a transformation matrix from the provided scalars and down to the scalar level.
 
--   Full description of how to build a transformation matrix from the provided scalars and down to the scalar level.
-
--   A clear statement of which transformation matrix it is.
+- A clear statement of which transformation matrix it is.
 
 ![](img/Lecture2_60.png)
 
 ## Lets talk about code.
 
--   Code has the same requirements as notation
--   Rotation matrices have two frame decorations:
-    -   to
-    -   from
--   Coordinates of vectors have three decorations:
-    -   to
-    -   from
-    -   expressed in
+- Code has the same requirements as notation
+- Rotation matrices have two frame decorations:
+  + to
+  + from
+- Coordinates of vectors have three decorations:
+    + to
+    + from
+    + expressed in
 
 ## Lets talk about code.
 
@@ -444,16 +469,15 @@ where ${}^{B(t)}_{B(t+dt)}\mathbf{q}$ has unit axis $\frac{{}^B\omega}{||{}^B\om
 
 ![](img/Lecture2_66.png){width="80%" height="70%"}
 
+
 ## Lets talk about code.
 
 ![](img/Lecture2_68.png){width="80%" height="70%"}
 
 ## Lets talk about code.
-
 ![](img/Lecture2_70.png){width="80%" height="70%"}
 
 ## Lets talk about code.
-
 ![](img/Lecture2_72.png){width="80%" height="70%"}
 
 ## Lets talk about code. {.center}
@@ -464,29 +488,31 @@ where ${}^{B(t)}_{B(t+dt)}\mathbf{q}$ has unit axis $\frac{{}^B\omega}{||{}^B\om
 
 **Stick with it.**
 
+
 ## Example: finding quaternion that rotates one vector into another
 
--   Suppose you have a vector in frame A, and a vector in frame B
+- Suppose you have a vector in frame A\, and a vector in frame B
 
--   You want to find a quaternion that transforms $^A\mathbf{v}$ to $^B\mathbf{v}$
+- You want to find a quaternion that transforms $^A\mathbf{v}$ to $^B\mathbf{v}$
 
--   Idea: use axis-angle and convert it to quaternion
+- Idea: use axis\-angle and convert it to quaternion
 
--   Can rotate from $^A\mathbf{v}$ to $^B\mathbf{v}$ along an axis that is perpendicular to both of them. How do we find that?
+- Can rotate from $^A\mathbf{v}$ to $^B\mathbf{v}$  along an axis that is perpendicular to both of them\. How do we find that?
+
 
 ## Cross Product
-
-::::: columns
+:::: columns
 ::: {.column width="50%"}
-![](img/Lecture2_79.png){height="500"}
+![](img/Lecture2_79.png){height=500}
 :::
 
-::: {.column .center width="50%"}
+::: {.column width="50%" .center}
 $$
 \mathbf{a} \times \mathbf{b} = ||\mathbf{a}|| ||\mathbf{b}|| \sin(\theta) \mathbf{n}
 $$
+
 :::
-:::::
+::::
 
 ## Example: finding quaternion that rotates one vector into another
 
@@ -498,37 +524,41 @@ Assuming the two vectors are unit length
 
 ## Rotating a vector via a quaternion
 
--   Let $^A\mathbf{v}$ be given and a quaternion $_A^B\mathbf{q}$
+- Let $^A\mathbf{v}$ be given and a quaternion $_A^B\mathbf{q}$
 
--   To obtain $^B\mathbf{v}$ you have two choices:
+- To obtain $^B\mathbf{v}$ you have two choices:
 
--   Either use the rotation matrix $^B\mathbf{v} = _A^B\mathbf{R(q)} ^A\mathbf{v}$
+- Either use the rotation matrix $^B\mathbf{v} = _A^B\mathbf{R(q)} ^A\mathbf{v}$ 
 
--   Or use quaternion multiplication directly
+- Or use quaternion multiplication directly
 
 $$
 [^B\mathbf{v}, 0] = _A^B\mathbf{q} \otimes [^A\mathbf{v}, 0] \otimes _B^A\mathbf{q}
 $$
 
+
+
 ## Transforming points from one frame to another
 
-::: red
--   **VERY IMPORTANT AND USEFUL**
+:::{.red}
+- **VERY IMPORTANT AND USEFUL**
 :::
 
--   Suppose you have a point in the Body frame,$^B\mathbf{p}$ which you want to transform/express in the World frame. Then you can do any of the two following options:
+- Suppose you have a point in the Body frame\,$^B\mathbf{p}$ which you want to transform/express in the World frame\.  Then you can do any of the two following options:
 
 $${}^W\mathbf{p} = {}^W_B\mathbf{R} {}^B\mathbf{p} + {}^W\mathbf{t}_{WB} \qquad {}^W\mathbf{p} = {}^W_B\mathbf{R}({}^B\mathbf{p} - {}^B\mathbf{t}_{BW})$$
 
--   Think of it as first rotating the point to be in the World frame and then adding to it the translation from Body to World.
+
+- Think of it as first rotating the point to be in the World frame and then adding to it the translation from Body to World\.
+
 
 ## Transforming vectors from one frame to another
 
-::: red
--   **VERY IMPORTANT AND USEFUL**
+:::{.red}
+- **VERY IMPORTANT AND USEFUL**
 :::
 
--   Suppose you have a vector in the Body frame, $^B\mathbf{p}$ which you want to transform/express in the World frame. Then
+- Suppose you have a vector in the Body frame\, $^B\mathbf{v}$ which you want to transform/express in the World frame\. Then
 
 $$
 ^W\mathbf{v} = _B^W\mathbf{R} ^B_\mathbf{v}
@@ -536,11 +566,11 @@ $$
 
 ## Combining rotations and translation into one transformation
 
-::: red
--   **VERY IMPORTANT AND USEFUL**
+:::{.red}
+- **VERY IMPORTANT AND USEFUL**
 :::
 
--   Many times we combine the rotation and translation of a rigid motion into a 4x4 homogeneous matrix
+- Many times we combine the rotation and translation of a rigid motion into a 4x4 homogeneous matrix
 
 $$
 _B^W\mathbf{T} = \begin{bmatrix}
@@ -559,13 +589,14 @@ Composing rigid motions now becomes a series of matrix multiplications
 
 ## Inverting a homogeneous transformation
 
--   Be careful:
+- Be careful:
 
 $$
 _B^W\mathbf{T}^{-1} \neq _A^W\mathbf{T}^t
 $$
 
-as was the case with rotation matrices.
+as was the case with rotation matrices\.
+
 
 ## Physical models of how systems move
 
@@ -573,65 +604,65 @@ as was the case with rotation matrices.
 
 ## Today’s Agenda
 
-::: grey
--   Frames of reference
+:::{.grey}
+- Frames of reference
 
--   Ways to represent rotations
+- Ways to represent rotations
 :::
 
--   Simplified models of vehicles
+- Simplified models of vehicles
 
--   Forward and inverse kinematics
+- Forward and inverse kinematics
 
 ## Why simplified?
 
--   “All models are wrong, but some are useful” – George Box (statistician)
+- “All models are wrong\, but some are useful” – George Box \(statistician\)
 
--   Model: a function that describes a physical phenomenon or a system, i.e. how a set of input variables cause a set of output variables.
+- Model: a function that describes a physical phenomenon or a system\, i\.e\. how a set of input variables cause a set of output variables\.
 
--   Models are useful if they can predict reality [up to some degree]{.underline} .
+- Models are useful if they can predict reality [up to some degree]{.underline} \.
 
--   Mismatch between model prediction and reality = **error / noise**
+- Mismatch between model prediction and reality =  __error / noise __
 
 ## Noise
 
--   Anything that we do not bother modelling with our model
+- Anything that we do not bother modelling with our model
 
--   Example 1: “assume frictionless surface”
+- Example 1: “assume frictionless surface”
 
--   Example 2: Taylor series expansion (only first few terms are dominant)
+- Example 2: Taylor series expansion \(only first few terms are dominant\)
 
--   With models, can be thought of as approximation error.
+- With models\, can be thought of as approximation error\.
 
 ## Simplified physical models of robotic vehicles
 
--   Omnidirectional motion
+- Omnidirectional motion
 
--   Dubins car
+- Dubins car
 
--   Differential drive steering
+- Differential drive steering
 
--   Ackerman steering
+- Ackerman steering
 
--   Unicycle
+- Unicycle
 
--   Cartpole
+- Cartpole
 
--   Quadcopter
+- Quadcopter
 
 ## Omnidirectional Robots
 
 {{< video https://www.youtube.com/watch?v=9GQ0lPGDC1w&list=PL2DF8159717CEACC2&index=3 width="90%" height="80%" >}}
 
 ## Omnidirectional Robots
-
 {{< video https://www.youtube.com/watch?v=TXTo16KKm8Q width="90%" height="80%" >}}
+
 
 ## The state of an omnidirectional robot
 
 State := Configuration := $\mathbf{X}$ := vector of physical quantities of interest about the system
 
-::::: columns
+:::: columns
 ::: {.column width="40%"}
 ![](img/omnidirectional-robot.png)
 :::
@@ -641,21 +672,19 @@ $$
 \mathbf{X} = [^Gp_x, ^Gp_y, ^G\theta]
 $$
 
-State = \[Position, Orientation\]
+State = \[Position\, Orientation\]
 
-Position of the robot’s frame of reference C with
+Position of the robot’s frame of reference C with respect to a fixed frame of reference G\, expressed in coordinates of frame G\. Angle is the orientation of frame C with respect to frame G\.
 
-respect to a fixed frame of reference G, expressed in
-
-coordinates of frame G. Angle is the orientation of frame C with respect to frame G.
 :::
-:::::
+::::
 
 ## Control of an omnidirectional robot
 
 Control := $\mathbf{u}$ := a vector of input commands that can modify the state of the system
 
-::::: columns
+
+:::: columns
 ::: {.column width="40%"}
 ![](img/omnidirectional-robot.png)
 :::
@@ -665,22 +694,24 @@ $$
 \mathbf{u} = [^Cv_x, ^Cv_y, ^Cw_z]
 $$
 
-Control = \[Linear velocity, Angular velocity\]
+Control = \[Linear velocity\, Angular velocity\]
 
-Linear and angular velocity of the robot’s frame of reference C with respect to a fixed frame of reference G, expressed in coordinates of frame C.
+Linear and angular velocity of the robot’s frame of reference C with respect to a fixed frame of reference G\, expressed in coordinates of frame C\.
 :::
-:::::
+::::
+
 
 ## Dynamics of an omnidirectional robot
 
 Dynamical System : = Dynamics := a function that describes the time evolution of the state in response to a control signal
 
-::::: columns
+:::: columns
 ::: {.column width="40%"}
 ![](img/omnidirectional-robot.png)
 :::
 
 ::: {.column width="60%"}
+
 Continuous case:
 
 $$
@@ -692,9 +723,10 @@ $$
 \end{align}
 $$
 
-Note: reference frames have been removed for readability.
+Note: reference frames have been removed for readability\.
 :::
-:::::
+::::
+
 
 ## The state of a simple car
 
@@ -702,9 +734,9 @@ Note: reference frames have been removed for readability.
 
 State = \[Position and orientation\]
 
-Position of the car’s frame of reference C with respect to a fixed frame of reference G, expressed in frame G.
+Position of the car’s frame of reference C with respect to a fixed frame of reference G\, expressed in frame G\.
 
-The angle is the orientation of frame C with respect to G.
+The angle is the orientation of frame C with respect to G\.
 
 $$
 \mathbf{x} = [^Gp_x, ^Gp_y, ^G\theta]
@@ -716,7 +748,7 @@ $$
 
 Controls = \[Forward speed and angular velocity\]
 
-Linear velocity and angular velocity of the car’s frame of reference C with respect to a fixed frame of reference G, expressed in coordinates of C.
+Linear velocity and angular velocity of the car’s frame of reference C with respect to a fixed frame of reference G\, expressed in coordinates of C\.
 
 $$
 \mathbf{u} = [^Cv_x, ^Cw_z]
@@ -724,7 +756,7 @@ $$
 
 ## The dynamical system of a simple car
 
-::::: columns
+:::: columns
 ::: {.column width="50%"}
 ![](img/simple-car.png)
 :::
@@ -738,104 +770,121 @@ $$
 \end{align}
 $$
 
-[Note: reference frames have been removed for readability.]{.small-font}
+[Note: reference frames have been removed for readability\.]{.small-font}
 :::
-:::::
+::::
+
 
 ## Kinematics vs Dynamics
 
--   Kinematics considers models of locomotion independently of external forces and control.
+- Kinematics considers models of locomotion independently of external forces and control\.
 
--   For example, it describes how the speed of a car affects the state without considering what the required control commands required to generate those speeds are.
+- For example\, it describes how the speed of a car affects the state without considering what the required control commands required to generate those speeds are\.
 
--   Dynamics considers models of locomotion as functions of their control inputs and state.
+- Dynamics considers models of locomotion as functions of their control inputs and state\.
 
 ## Special case of simple car: Dubins car
 
-::::: columns
+:::: columns
 ::: {.column width="40%"}
--   Can only go forward
 
--   Constant speed
+- Can only go forward
+
+- Constant speed
 
 $$
 ^Cv_x = \text{const} > 0
 $$
 
--   You only control the angular velocity
+- You only control the angular velocity
 :::
 
 ::: {.column width="60%"}
 {{< video https://youtu.be/fEImNJQ3hUM?si=tIAkbA0r10XJVdV6 width="100%" height=400 >}}
+
 :::
-:::::
+
+::::
+
 
 ## Special case of simple car: Dubins car
 
-::::: columns
+:::: columns
 ::: {.column width="40%"}
--   Can only go forward
 
--   Constant speed
+- Can only go forward
+
+- Constant speed
 
 $$
 ^Cv_x = \text{const} > 0
 $$
 
--   You only control the angular velocity
+- You only control the angular velocity
 :::
 
 ::: {.column width="60%"}
-{{< video https://youtu.be/fEImNJQ3hUM?si=tIAkbA0r10XJVdV6 width="100%" height=400 >}}
+
+{{< video vid/dubins_car.mp4 width=600 height="400" >}}
+
 :::
-:::::
+
+::::
 
 ## Dubins car: motion primitives
 
-The path of the car can be decomposed to L(eft), R(ight), S(traight) segments.
+The path of the car can be decomposed to L\(eft\)\, R\(ight\)\, S\(traight\) segments\.
 
-![](img/Lecture2_128.gif){width="60%"}
+:::: columns
+::: {.column width="80%"}
+![](img/Lecture2_128.gif){width="100%"}
+:::
+::: {.column width="20%" .small-font}
+RSR path
+:::
+:::: 
 
 ## Instantaneous Center of Rotation
 
-::::: columns
+:::: columns
 ::: {.column width="40%"}
 ![](img/Lecture2_129.png)
 :::
-
 ::: {.column width="60%"}
 ![](img/Lecture2_130.gif)
 :::
-:::::
+::::
 
 IC = Instantaneous Center of Rotation
 
-The center of the circle circumscribed by the turning path.
+The center of the circle circumscribed by the turning path\.
 
-Undefined for straight path segments.
+Undefined for straight path segments\.
 
 ## Dubins car $\color{blue}{\Rightarrow}$ Dubins boat
 
--   Why do we care about a car that can only go forward?
+- Why do we care about a car that can only go forward?
 
--   Because we can also model idealized airplanes and boats
+- Because we can also model idealized airplanes and boats
 
--   Dubins boat = Dubins car
+- Dubins boat = Dubins car
 
-{video should go here}
+{{< video vid/dubins_boat.mp4 height="400">}}
 
 ## Dubins car $\color{blue}{\Rightarrow}$ Dubins airplane in 3D
 
--   Pitch angle $\phi$ and forward velocity determine descent rate
+- Pitch angle $\phi$ and forward velocity determine descent rate
 
--   Yaw angle $\theta$ and forward velocity determine turning rate
+- Yaw angle $\theta$ and forward velocity determine turning rate
 
-::::: columns
+:::: columns
 ::: {.column width="60%"}
+
 ![](img/Lecture2_133.jpg)
 :::
 
 ::: {.column width="40%"}
+
 $$
 \begin{align}
 \dot{p}_x &= v_x \cos(\theta) \sin(\phi) \\
@@ -846,64 +895,77 @@ $$
 \end{align}
 $$
 
+:::{.small-font}
 $\theta$ is yaw
 
 $\phi$ is pitch
 :::
-:::::
+
+:::
+::::
+
 
 ## The state of a unicycle
 
-:::::: columns
+:::: columns
+
 ::: {.column width="35%"}
 ![](img/unicycle.png)
 
 Top view of a unicycle
 :::
 
-:::: {.column width="65%"}
+::: {.column width="65%"}
 $$
 \mathbf{x} = [^Gp_x, ^Gp_y, ^G\theta]
 $$
 
-State = \[Position, Orientation\]
+State = \[Position\, Orientation\]
 
-Position of the unicycle’s frame of reference U with respect to a fixed frame of reference G, expressed in coordinates of frame G. Angle is the orientation of frame U with respect to frame G.
+Position of the unicycle’s frame of reference U with respect to a fixed frame of reference G\, expressed in coordinates of frame G\. Angle is the orientation of frame U with respect to frame G\.
 
 [Q: Would you put the radius of the unicycle to be part of the state?]{.red}
 
-::: {.fragment .red}
-A: Most likely not, because it is a constant quantity that we can measure beforehand. But, if we couldn’t measure it, we need to make it part of the state in order to estimate it.
+:::{.fragment .red}
+A: Most likely not\, because it is a constant quantity that we can measure beforehand\. But\, if we couldn’t measure it\, we need to make it part of the state in order to estimate it\. 
+:::
+
 :::
 ::::
-::::::
+
 
 ## Controls of a unicycle
 
-::::: columns
+:::: columns
+
 ::: {.column width="35%"}
 ![](img/unicycle.png)
 :::
 
 ::: {.column width="65%"}
+
 $$
 \mathbf{u} = [^Uw_z, ^Uw_y]
 $$
 
-Controls = \[Yaw rate, and pedaling rate\]
+Controls = \[Yaw rate\,  and pedaling rate\]
 
-Yaw and pedaling rates describe the angular velocities of the respective axes of the unicycle’s frame of reference U with respect to a fixed frame of reference G, expressed in coordinates of U.
+Yaw and pedaling rates describe the angular velocities of the respective axes of the unicycle’s frame of reference U with respect to a fixed frame of reference G\, expressed in coordinates of U\.
+
 :::
-:::::
+
+::::
 
 ## Dynamics of a unicycle
 
-::::: columns
+:::: columns
+
 ::: {.column width="35%"}
 ![](img/unicycle.png)
 :::
 
 ::: {.column width="65%"}
+
 $$
 \begin{align}
 \dot{p}_x &= rw_y\cos(\theta) \\
@@ -916,11 +978,12 @@ r = the radius of the wheel
 
 $rw_y$ is the forward velocity of the unicycle
 :::
-:::::
+::::
+
 
 ## The state of a differential drive vehicle
+:::: columns
 
-::::: columns
 ::: {.column width="35%"}
 ![](img/differential-drive-vehicle.png)
 :::
@@ -930,15 +993,15 @@ $$
 \mathbf{x} = [^Gp_x, ^Gp_y, ^G\theta]
 $$
 
-State = \[Position, Orientation\]
+State = \[Position\, Orientation\]
 
-Position of the vehicle’s frame of reference D with respect to a fixed frame of reference G, expressed in coordinates of frame G. Angle is the orientation of frame D with respect to frame G.
+Position of the vehicle’s frame of reference D with respect to a fixed frame of reference G\, expressed in coordinates of frame G\. Angle is the orientation of frame D with respect to frame G\.
 :::
-:::::
+::::
 
 ## Controls of a differential drive vehicle
+:::: columns
 
-::::: columns
 ::: {.column width="35%"}
 ![](img/diff-drivevehicle2.png)
 
@@ -946,13 +1009,14 @@ Position of the vehicle’s frame of reference D with respect to a fixed frame o
 :::
 
 ::: {.column width="65%"}
+
 $$
 \mathbf{u} = [u_l, u_r]
 $$
 
 Controls = \[Left wheel and right wheel turning rates\]
 
-Wheel turning rates determine the linear velocities of the respective wheels of the vehicle’s frame of reference D with respect to a fixed frame of reference G, expressed in coordinates of D.
+Wheel turning rates determine the linear velocities of the respective wheels of the vehicle’s frame of reference D with respect to a fixed frame of reference G\, expressed in coordinates of D\.
 
 $$
 \begin{align}
@@ -966,19 +1030,20 @@ $v_1 = Ru_l$ R is the wheel radius
 
 $v_r = Ru_r$
 :::
-:::::
+::::
 
 ## Dynamics of a differential drive vehicle
 
-:::::: columns
+:::: columns
 ::: {.column width="35%"}
 ![](img/diff-drive-vehicle3.png)
 
 [ICR = Instantaneous Center of Rotation]{.small-font}
 :::
 
-:::: {.column width="65%"}
-::: medium-font
+::: {.column width="65%"}
+
+:::{.medium-font}
 $$
 \begin{bmatrix}
 p_x(t+1) \\
@@ -1007,21 +1072,21 @@ $$
 \text{ICR} = [p_x - W\sin\theta, p_y + W\cos\theta]
 $$
 
-![](img/Lecture2_185.gif){width="350" fig-align="center"}
+![](img/Lecture2_185.gif){width=350 fig-align="center"}
+:::
 ::::
-::::::
 
 ## Dynamics of a differential drive vehicle
 
-:::::: columns
+:::: columns
 ::: {.column width="35%"}
 ![](img/diff-drive-vehicle3.png)
 
-[ICR = Instantaneous Center of Rotation]{.small-font}
 :::
 
-:::: {.column width="65%"}
-::: medium-font
+::: {.column width="65%"}
+
+:::{.medium-font}
 $$
 \begin{bmatrix}
 p_x(t+1) \\
@@ -1052,174 +1117,332 @@ $$
 
 Special cases:
 
--   moving straight $v_l = v_r$
--   in-place rotation $v_l = -v_r$
--   rotation about the left wheel $v_l = 0$
+- moving straight $v_l = v_r$
+- in\-place rotation $v_l = -v_r$
+- rotation about the left wheel $v_l = 0$
+:::
 ::::
-::::::
+
 
 ## Ackerman steering
 
 {{< video https://www.youtube.com/watch?v=i6uBwudwA5o width="90%" height="75%" >}}
 
-::: small-font
-<https://www.youtube.com/watch?v=i6uBwudwA5o>
+:::{.small-font}
+[https://www\.youtube\.com/watch?v=i6uBwudwA5o](https://www.youtube.com/watch?v=i6uBwudwA5o)
 :::
 
 ## The state of a double-link inverted pendulum (a.k.a. Acrobot)
 
-![](img/Lecture2_197.png)
+:::: columns
+::: {.column width="50%"}
+![](img/Lecture2_198.png){width="50%"}
+:::
 
-![](img/Lecture2_198.png)
+::: {.column width="50%"}
+$$
+\mathbf{x} = [\theta_1, \theta_2, \dot\theta_1, \dot\theta_2]
+$$
 
-State = \[angle of joint 1, joint 2, joint velocities\]
+State = \[angle of joint 1\, joint 2\, joint velocities\]
 
-Angle of joint 2 is expressed with respect to joint 1. Angle of joint 1 is
+Angle of joint 2 is expressed with respect to joint 1\. Angle of joint 1 is expressed compared to down vector\.
+:::
+::::
 
-expressed compared to down vector.
 
-# Controls of a double-link inverted pendulum (a.k.a. Acrobot)
+## Controls of a double-link inverted pendulum (a.k.a. Acrobot)
 
-![](img/Lecture2_199.png)
+:::: columns
+::: {.column width="50%"}
+![](img/Lecture2_198.png){width="50%"}
+:::
 
-![](img/Lecture2_200.png)
+::: {.column width="50%"}
+$$
+\mathbf{u} = [\tau_1]
+$$
 
 Controls = \[torque applied to joint 1\]
+:::
+::::
 
-# Dynamics of a double-link inverted pendulum (a.k.a Acrobot)
 
-![](img/Lecture2_201.png)
+## Dynamics of a double-link inverted pendulum (a.k.a Acrobot)
 
-[Provided here just for reference]{style="color:#ff0000"}
+$$
+\begin{align}
+\ddot{\theta}_1 &= -d_1^{-1}(d_2\ddot{\theta}_2 + \phi_1) \\
+\ddot{\theta}_2 &= \left(m_2l_{c2}^2 + I_2 - \frac{d_2^2}{d_1}\right)^{-1}\left(\tau + \frac{d_2}{d_1}\phi_1 - m_2gl_1l_{c2}\dot{\theta}_1^2\sin\theta_2 - \phi_2\right) \\
+d_1 &= m_1l_{c1}^2 + m_2(l_1^2 + l_{c2}^2 + 2l_1l_{c2}\cos\theta_2) + I_1 + I_2) \\
+d_2 &= m_2(l_{c2}^2 + l_1l_{c2}\cos\theta_2) + I_2 \\
+\phi_1 &= -m_2l_1l_{c2}\dot{\theta}_2^2\sin\theta_2 - 2m_2l_1l_{c2}\dot{\theta}_2\dot{\theta}_1\sin\theta_2
++ (m_1l_{c1} + m_2l_1)g\cos(\theta_1 - \pi/2) + \phi_2 \\
+\phi_2 &= m_2l_{c2}g\cos(\theta_1 + \theta_2 - \pi/2)
+\end{align}
+$$
 
-[and completeness. You are not expected]{style="color:#ff0000"}
+:::{.red-annotation}
+Provided here just for reference and completeness\. You are not expected to know this\.
+:::
 
-[to know this.]{style="color:#ff0000"}
 
-# The state of a single-link cartpole
+## Dynamics of a double-link inverted pendulum (a.k.a Acrobot)
 
+{{< video https://www.youtube.com/watch?v=FeCwtvrD76I width="80%" height="65%" >}}
+
+## The state of a single-link cartpole
+
+:::: columns
+::: {.column width="50%"}
 ![](img/Lecture2_202.png)
+:::
 
-![](img/Lecture2_203.png)
+::: {.column width="50%"}
+$$
+\mathbf{x} = [^Gp_x, ^G{\dot p_x}, ^G\theta, ^G\dot\theta]
+$$
 
-State = \[Position and velocity of cart, orientation
+State = \[Position and velocity of cart\, orientation and angular velocity of pole\]
 
-and angular velocity of pole\]
+:::
+::::
 
-# Controls of a single-link cartpole
 
-![](img/Lecture2_204.png)
+## Controls of a single-link cartpole
+:::: columns
+::: {.column width="50%"}
+![](img/Lecture2_202.png)
+:::
 
-![](img/Lecture2_205.png)
+::: {.column width="50%"}
+
+$$
+\mathbf{u} = [f]
+$$
 
 Controls = \[Horizontal force applied to cart\]
+:::
+::::
 
-# Balancing a triple-link pendulum on a cart
+## Balancing a triple-link pendulum on a cart
 
-# Extreme Balancing
+{{< video https://www.youtube.com/watch?v=cyN-CRNrb3E width="80%" height="70%" >}}
 
-# The state of a double integrator
+## Extreme Balancing
 
-![](img/Lecture2_206.png)
+{{< video https://www.youtube.com/watch?v=n_6p-1J551Y width="80%" height="70%" >}}
 
-State = \[Position along x-axis\]
+## The state of a double integrator
 
-# Controls of a double integrator
+:::: columns
+::: {.column width="40%"}
 
-![](img/Lecture2_208.png)
+![](img/double-integrator.png)
+:::
 
-Controls = \[Force along x-axis\]
+::: {.column width="60%"}
+$$
+\mathbf{x} = [^Gp_x]
+$$
 
-# Dynamics of a double integrator
+State = \[Position along x\-axis\]
+:::
+:::: 
 
-![](img/Lecture2_210.png)
 
-This corresponds to applying force to a brick of mass 1
+## Controls of a double integrator
 
-to move on frictionless ice. Where is the brick going to
+:::: columns
+::: {.column width="40%"}
 
-end up? Similar to curling.
+![](img/double-integrator.png)
+:::
 
-# The state of a quadrotor
+::: {.column width="60%"}
+$$
+\mathbf{x} = [^Gu_x]
+$$
 
-![](img/Lecture2_212.png)
+Controls = \[Force along x\-axis\]
+:::
+:::: 
 
-![](img/Lecture2_213.png)
+## Dynamics of a double integrator
 
-State = \[Roll, pitch, yaw, and roll rate, pitch rate, roll rate\]
+:::: columns
+::: {.column width="40%"}
 
-Angles are with respect to the global frame.
+![](img/double-integrator.png)
+:::
 
-# Controls of a quadrotor
+::: {.column width="60%"}
+$$
+\ddot x = F
+$$
+This corresponds to applying force to a brick of mass 1 to move on frictionless ice\. Where is the brick going to end up? Similar to curling\.
+:::
+::::
 
+## The state of a quadrotor
+:::: columns
+::: {.column width="40%"}
+
+![](img/Lecture2_212.png){width="85%"}
+
+![](img/quadrotor.png)
+:::
+
+::: {.column width="60%"}
+$$
+\mathbf{x} = [^G\phi, ^G\theta, ^G\psi, ^G\dot\phi, ^G\dot\theta, ^G\dot\psi]
+$$
+
+State = \[Roll\, pitch\, yaw\, and roll rate\, pitch rate\, roll rate\]
+
+Angles are with respect to the global frame\.
+:::
+::::
+
+## Controls of a quadrotor
+
+:::: columns
+::: {.column width="40%"}
 ![](img/Lecture2_215.png)
 
-![](img/Lecture2_216.png)
+:::
+
+::: {.column width="60%"}
+
+$$
+\mathbf{u} = [T_1, T_2, T_3, T_4]
+$$
 
 Controls = \[Thrusts of four motors\]
 
 OR
-
-![](img/Lecture2_217.png)
+$$
+\mathbf{u} = [M_1, M_2, M_3, M_4]
+$$
 
 Controls = \[Torques of four motors\]
 
-Notice how adjacent motors spin in opposite ways.
+Notice how adjacent motors spin in opposite ways\. Why?
 
-Why?
+:::
+::::
 
-# What if all four motors spin the same direction?
+## What if all four motors spin the same direction?
 
-# Dynamics of a quadrotor
+{{< video vid/motor_spin.mp4 height="400" >}}
 
-![](img/Lecture2_218.png)
 
+## Dynamics of a quadrotor
+
+![](img/Lecture2_218.png){width=500 fig-align="center"}
+
+![](img/dynamic-quadrotor.png){.absolute left=0 bottom=0}
+
+## Manipulators
+
+:::: columns
+::: {.column width="60%"}
+- Robot arms, industrial robot 
+    + Rigid bodies(links) connected by joints
+    + Joints: revolute or prismatic 
+    + Drive: electric or hydraulic 
+    + End-effector (tool) mounted on a flange or plate secured to the wrist joint of robot
+:::
+
+::: {.column width="40%"}
 ![](img/Lecture2_220.png)
+:::
+:::: 
 
+
+## Manipulators
 ![](img/Lecture2_221.png)
 
-![](img/Lecture2_222.png)
+## Manipulators
 
-![](img/Lecture2_223.png)
+- Motion Control Methods
+    + Point to point control
+        - a sequence of discrete points
+        - spot welding, pick-and-place, loading & unloading
+    + Continuous path control
+        - follow a prescribed path, controlled-path motion
+        - Spray painting, Arc welding, Gluing
 
-# Forward and Inverse Kinematics
+## Manipulators
+
+:::: columns
+::: {.column width="60%"}
+- Robot Specifications
+    + Number of Axes
+        - Major axes, (1-3) => Position the wrist
+        - Minor axes, (4-6) => Orient the tool
+        - Redundant, (7-n) => reaching around obstacles, avoiding undesirable configuration
+    + Degree of Freedom (DOF)
+    + Workspace
+    + Payload (load capacity)
+    + Precision v.s. Repeatability
+
+:::
+
+::: {.column width="40%"}
+![](img/Lecture2_220.png)
+
+Which one is more important?
+:::
+::::
+
+## Forward and Inverse Kinematics
 
 ![](img/Lecture2_224.jpg)
 
-<https://slideplayer.com/slide/4239432/>
+:::{.small-font}
+[https://slideplayer\.com/slide/4239432/](https://slideplayer.com/slide/4239432/)
+:::
 
-# Controllability
+## Controllability
 
-A system is controllable if there exist control sequences that can bring the system from any state to any other state, in finite time.
+- A system is controllable if there exist control sequences that can bring the system from any state to any other state\, in finite time\.
 
-For example, even though cars are subject to non-holonomic constraints (can’t move sideways directly), they are controllable, They can reach sideways states by parallel parking.
+- For example\, even though cars are subject to non\-holonomic constraints \(can’t move sideways directly\)\, they are controllable\, They can reach sideways states by parallel parking\.
 
-![](img/Lecture2_225.jpg)
+![](img/Lecture2_225.jpg){fig-align="center"}
 
-# Passive Dynamics
+## Passive Dynamics
 
-Dynamics of systems that operate without drawing (a lot of) energy from a power supply.
+- Dynamics of systems that operate without drawing \(a lot of\) energy from a power supply\.
 
-Interesting because biological
+:::: columns
+::: {.column width="50%"}
+- Interesting because biological locomotion systems are more efficient than current robotic systems\.
 
-locomotion systems are more
+:::
+::: {.column width="50%"}
+{{< video https://youtu.be/qwEWki9H0Ao width="100%" height="350" >}}
+:::
+::::
 
-efficient than current robotic
+## Passive Dynamics
 
-systems.
+- Dynamics of systems that operate without drawing \(a lot of\) energy from a power supply\.
 
-Dynamics of systems that operate without drawing (a lot of) energy from a power supply.
+:::: columns
+::: {.column width="50%"}
+- Usually propelled by their own weight\.
 
-Usually propelled by their
+- Interesting because biological locomotion systems are more efficient than current robotic systems\.
 
-own weight.
+:::
 
-Interesting because biological
+::: {.column width="50%"}
+{{< video https://www.youtube.com/watch?v=v2qILGYl-BM width="100%" height="350" >}}
 
-locomotion systems are more
+[Steve Collins & Andy Ruina\, Cornell\, 2001]{.small-font}
+:::
+::::
 
-efficient than current robotic
 
-systems.
-
-Steve Collins & Andy Ruina, Cornell, 2001
