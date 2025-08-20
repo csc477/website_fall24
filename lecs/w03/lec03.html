@@ -1,0 +1,912 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.7.31">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>lec03 – CSC477 - Fall 2024</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+</style>
+
+
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<script src="../../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-e1a5c8363afafaef2c763b6775fbf3ca.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-dark-8ef56b68f8fa1e9d2ba328e99e439f80.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-e1a5c8363afafaef2c763b6775fbf3ca.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap-3610b36fc08898c07d6e0ffcd4000319.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-dark-69b08db278f499bc7d235ce342f73d67.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="../../site_libs/bootstrap/bootstrap-3610b36fc08898c07d6e0ffcd4000319.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+
+<meta property="og:title" content="CSC477 - Fall 2024">
+<meta property="og:description" content="Homepage for CSC477/CSC2630: Introduction to Mobile Robotics, Fall 2024">
+<meta property="og:site_name" content="CSC477 - Fall 2024">
+<meta name="twitter:title" content="CSC477 - Fall 2024">
+<meta name="twitter:description" content="Homepage for CSC477/CSC2630: Introduction to Mobile Robotics, Fall 2024">
+<meta name="twitter:card" content="summary">
+</head>
+
+<body class="quarto-light"><script id="quarto-html-before-body" type="application/javascript">
+    const toggleBodyColorMode = (bsSheetEl) => {
+      const mode = bsSheetEl.getAttribute("data-mode");
+      const bodyEl = window.document.querySelector("body");
+      if (mode === "dark") {
+        bodyEl.classList.add("quarto-dark");
+        bodyEl.classList.remove("quarto-light");
+      } else {
+        bodyEl.classList.add("quarto-light");
+        bodyEl.classList.remove("quarto-dark");
+      }
+    }
+    const toggleBodyColorPrimary = () => {
+      const bsSheetEl = window.document.querySelector("link#quarto-bootstrap:not([rel=disabled-stylesheet])");
+      if (bsSheetEl) {
+        toggleBodyColorMode(bsSheetEl);
+      }
+    }
+    const setColorSchemeToggle = (alternate) => {
+      const toggles = window.document.querySelectorAll('.quarto-color-scheme-toggle');
+      for (let i=0; i < toggles.length; i++) {
+        const toggle = toggles[i];
+        if (toggle) {
+          if (alternate) {
+            toggle.classList.add("alternate");
+          } else {
+            toggle.classList.remove("alternate");
+          }
+        }
+      }
+    };
+    const toggleColorMode = (alternate) => {
+      // Switch the stylesheets
+      const primaryStylesheets = window.document.querySelectorAll('link.quarto-color-scheme:not(.quarto-color-alternate)');
+      const alternateStylesheets = window.document.querySelectorAll('link.quarto-color-scheme.quarto-color-alternate');
+      manageTransitions('#quarto-margin-sidebar .nav-link', false);
+      if (alternate) {
+        // note: dark is layered on light, we don't disable primary!
+        enableStylesheet(alternateStylesheets);
+        for (const sheetNode of alternateStylesheets) {
+          if (sheetNode.id === "quarto-bootstrap") {
+            toggleBodyColorMode(sheetNode);
+          }
+        }
+      } else {
+        disableStylesheet(alternateStylesheets);
+        enableStylesheet(primaryStylesheets)
+        toggleBodyColorPrimary();
+      }
+      manageTransitions('#quarto-margin-sidebar .nav-link', true);
+      // Switch the toggles
+      setColorSchemeToggle(alternate)
+      // Hack to workaround the fact that safari doesn't
+      // properly recolor the scrollbar when toggling (#1455)
+      if (navigator.userAgent.indexOf('Safari') > 0 && navigator.userAgent.indexOf('Chrome') == -1) {
+        manageTransitions("body", false);
+        window.scrollTo(0, 1);
+        setTimeout(() => {
+          window.scrollTo(0, 0);
+          manageTransitions("body", true);
+        }, 40);
+      }
+    }
+    const disableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        stylesheet.rel = 'disabled-stylesheet';
+      }
+    }
+    const enableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        if(stylesheet.rel !== 'stylesheet') { // for Chrome, which will still FOUC without this check
+          stylesheet.rel = 'stylesheet';
+        }
+      }
+    }
+    const manageTransitions = (selector, allowTransitions) => {
+      const els = window.document.querySelectorAll(selector);
+      for (let i=0; i < els.length; i++) {
+        const el = els[i];
+        if (allowTransitions) {
+          el.classList.remove('notransition');
+        } else {
+          el.classList.add('notransition');
+        }
+      }
+    }
+    const isFileUrl = () => {
+      return window.location.protocol === 'file:';
+    }
+    const hasAlternateSentinel = () => {
+      let styleSentinel = getColorSchemeSentinel();
+      if (styleSentinel !== null) {
+        return styleSentinel === "alternate";
+      } else {
+        return false;
+      }
+    }
+    const setStyleSentinel = (alternate) => {
+      const value = alternate ? "alternate" : "default";
+      if (!isFileUrl()) {
+        window.localStorage.setItem("quarto-color-scheme", value);
+      } else {
+        localAlternateSentinel = value;
+      }
+    }
+    const getColorSchemeSentinel = () => {
+      if (!isFileUrl()) {
+        const storageValue = window.localStorage.getItem("quarto-color-scheme");
+        return storageValue != null ? storageValue : localAlternateSentinel;
+      } else {
+        return localAlternateSentinel;
+      }
+    }
+    const toggleGiscusIfUsed = (isAlternate, darkModeDefault) => {
+      const baseTheme = document.querySelector('#giscus-base-theme')?.value ?? 'light';
+      const alternateTheme = document.querySelector('#giscus-alt-theme')?.value ?? 'dark';
+      let newTheme = '';
+      if(authorPrefersDark) {
+        newTheme = isAlternate ? baseTheme : alternateTheme;
+      } else {
+        newTheme = isAlternate ? alternateTheme : baseTheme;
+      }
+      const changeGiscusTheme = () => {
+        // From: https://github.com/giscus/giscus/issues/336
+        const sendMessage = (message) => {
+          const iframe = document.querySelector('iframe.giscus-frame');
+          if (!iframe) return;
+          iframe.contentWindow.postMessage({ giscus: message }, 'https://giscus.app');
+        }
+        sendMessage({
+          setConfig: {
+            theme: newTheme
+          }
+        });
+      }
+      const isGiscussLoaded = window.document.querySelector('iframe.giscus-frame') !== null;
+      if (isGiscussLoaded) {
+        changeGiscusTheme();
+      }
+    };
+    const authorPrefersDark = false;
+    const darkModeDefault = authorPrefersDark;
+      document.querySelector('link#quarto-text-highlighting-styles.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+      document.querySelector('link#quarto-bootstrap.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+    let localAlternateSentinel = darkModeDefault ? 'alternate' : 'default';
+    // Dark / light mode switch
+    window.quartoToggleColorScheme = () => {
+      // Read the current dark / light value
+      let toAlternate = !hasAlternateSentinel();
+      toggleColorMode(toAlternate);
+      setStyleSentinel(toAlternate);
+      toggleGiscusIfUsed(toAlternate, darkModeDefault);
+      window.dispatchEvent(new Event('resize'));
+    };
+    // Switch to dark mode if need be
+    if (hasAlternateSentinel()) {
+      toggleColorMode(true);
+    } else {
+      toggleColorMode(false);
+    }
+  </script>
+
+<div id="quarto-search-results"></div>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
+        
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block"></header>
+
+
+
+
+
+<p>CSC477 Introduction to Mobile Robotics</p>
+<p>Florian Shkurti</p>
+<p>Week #3: PID Control, Potential Fields, Obstacle Avoidance</p>
+<p>Feedback Control</p>
+<p>Example</p>
+<p>Main question: what are the controls that will take the system from state A to B?</p>
+<p>Robotic SystemControl InputsNext StateController/PlannerDesired StateRobotic SystemGasNext SpeedCruiseControlDesired SpeedExample: wall/line following at fixed speed</p>
+<p>You have to control the angular velocity</p>
+<p>cross-track error at time t = e(t)</p>
+<p>Why bother with wall/line following?</p>
+<p>• Because it enables arbitrary path following where the line is the local</p>
+<p>tangent of the curved path</p>
+<p>Idea 1: bang-bang control</p>
+<p>What’s wrong with this?</p>
+<p>Idea 2: proportional (P-)control</p>
+<p>Will the car reach the target line?</p>
+<p>Will the car overshoot the target line?</p>
+<p>Is the asymptotic (steady-state) error zero?</p>
+<p>Idea 2: proportional (P-)control</p>
+<p>Will the car reach the target line? YES</p>
+<p>Will the car overshoot the target line? YES</p>
+<p>Is the asymptotic (steady-state) error zero? NO</p>
+<p>10000mm.Addressing the oscillation problem</p>
+<p>• Need to reduce turning rate well before the line is approached</p>
+<p>• Idea: have a small proportional gain</p>
+<p>Problem: that means the car doesn’t turn very much</p>
+<p>• Idea: need to predict the error in the near future</p>
+<p>This is good, as long as the error does not oscillate at a very high frequency</p>
+<p>Idea 3: proportional-derivative (PD-)control</p>
+<p>How do we set the gains?</p>
+<p>What if there are systematic errors/biases?</p>
+<p>What if the error estimate is very noisy?</p>
+<p>10000mm.Handling systematic biases: the integral term</p>
+<p>• Examples of systematic biases:</p>
+<p>• wheels are misaligned • car is much heavier on one side</p>
+<p>• Add integral of the error from the beginning of time:</p>
+<p>Handling systematic biases: the integral term</p>
+<p>• Examples of systematic biases:</p>
+<p>• wheels are misaligned • car is much heavier on one side</p>
+<p>• Add integral of the error from the beginning of time:</p>
+<p>• Can the PI-controller have nonzero error asymptotically (in steady-</p>
+<p>state)?</p>
+<p>• NO. In steady state both the control and the error must be</p>
+<p>constant. If the asymptotic error is nonzero then the control is not constant:</p>
+<p>Potential problem: integrator windup</p>
+<p>• What happens if the control variable reaches the actuator’s limits?</p>
+<p>• I.e. the car can’t turn as fast as the controller commands it.</p>
+<p>• Actuator may remain at its limit for a long time while the controller</p>
+<p>modifies its commands</p>
+<p>• Error increases, integral term winds up while controller goes back to</p>
+<p>issuing commands in the feasible region.</p>
+<p>Potential problem: integrator windup</p>
+<p>• Heuristic fixes:</p>
+<p>• Limit integral error values • Stop integral error while the commands are in the non feasible region • Reduce gain of integral error term</p>
+<p>PID controller</p>
+<p>Perhaps the most widely used controller in industry and robotics. Perhaps the easiest to code.</p>
+<p>You will also see it as:</p>
+<p>Tips: how to implement PID</p>
+<p>• Assume time is discrete</p>
+<p>• Identify your error function e(t)= current_state(t)- target_state(t)</p>
+<p>• Is the measurement of the state reliable?</p>
+<p>• If the measurement of the current state is very noisy you might want to smooth/filter it, using:</p>
+<p>• Moving average filter with uniform weights</p>
+<p>Potential problem: the larger the window of the filter the slower it is going to register changes.</p>
+<p>• Exponential filter</p>
+<p>Potential problem: the closer is to 1 the slower it is going to register changes.</p>
+<p>Tips: how to implement PID</p>
+<p>• Approximate the integral of error by a sum</p>
+<p>• Approximate the derivative of error by:</p>
+<p>• Finite differences • Filtered finite differences, e.g.</p>
+<p>• Limit the computed controls • Limit or stop the integral term when detecting large errors and</p>
+<p>windup</p>
+<p>Tips: how to tune the PID</p>
+<p>• Manually:</p>
+<p>• First, use only the proportional term. Set the other gains to zero. • When you see oscillations slowly add derivative term</p>
+<p>• Increasing increases the duration in which linear error prediction</p>
+<p>is assumed to be valid</p>
+<p>• Add a small integral gain</p>
+<p>Tips: how to tune the PID</p>
+<p>• Ziegler-Nichols heuristic:</p>
+<p>• First, use only the proportional term. Set the other gains to zero. • When you see consistent oscillations, record the proportional gain and</p>
+<p>the oscillation period</p>
+<p>Tips: how to tune the PID</p>
+<p>• After manual or Z-N tweaking you might want to use coordinate</p>
+<p>ascent to search for a better set of parameters automatically:</p>
+<p>See Sebastian Thrun’s online class “AI for robotics” on Udacity for more details on this. He calls the algorithm Twiddle and it is in Lesson 5.</p>
+<p>Other names for this are “Self-tuning PID controllers”</p>
+<p>When is PID insufficient?</p>
+<p>• Systems with large time delays • Controllers that require completion time guarantees • E.g. the system must reach target state within 2 secs</p>
+<p>• Systems with high-frequency oscillations • High-frequency variations on the target state</p>
+<p>Example applications: self-driving cars</p>
+<p>Cascading PID</p>
+<p>• Sometimes we have multiple error sources (e.g.&nbsp;multiple sensors) and</p>
+<p>one actuator to control.</p>
+<p>• We can use a master PID loop that sets the setpoint for the slave PID loop. Master (outer loop) runs at low rate, while slave (inner loop) runs at higher rate.</p>
+<p>• One way of getting hierarchical control behavior.</p>
+<p>Potential Fields Main Motivation</p>
+<p>Q: How do you control the robot to reach the goal state while avoiding the obstacle?</p>
+<p>Main Motivation</p>
+<p>Q: How do you control the robot to reach the goal state while avoiding the obstacle?</p>
+<p>Assume omnidirectional robot.</p>
+<p>Background: potential energy and forces</p>
+<p>Background: potential energy and forces</p>
+<p>Background: potential energy and forces</p>
+<p>In both cases we have conversion from kinetic energy to potential energy U(x).</p>
+<p>In both cases there is a force resulting from the potential field, and F(x)=-dU(x)/dx.</p>
+<p>This is a general rule for conservative systems with no external forces.</p>
+<p>Main Motivation</p>
+<p>Q: How do you control the robot to reach the goal state while avoiding the obstacle?</p>
+<p>Artificial Potential Fields</p>
+<p>Q: How do you control the robot to reach the goal state while avoiding the obstacle?</p>
+<p>A: Place a repulsive potential field around obstacles</p>
+<p>Artificial Potential Fields</p>
+<p>Q: How do you control the robot to reach the goal state while avoiding the obstacle?</p>
+<p>A: Place a repulsive potential field around obstacles</p>
+<p>Artificial Potential Fields</p>
+<p>Q: How do you control the robot to reach the goal state while avoiding the obstacle?</p>
+<p>A: Place a repulsive potential field around obstacles and an attractive potential field around the goal</p>
+<p>Artificial Potential Fields</p>
+<p>Artificial Potential Fields</p>
+<p>How do we compute these distances from obstacles?</p>
+<p>How do we compute these distances from obstacles?</p>
+<p>How do we compute these distances from obstacles?</p>
+<p>How do we compute these distances from obstacles?</p>
+<p>Attractive and Repulsive Potential Fields</p>
+<p>Goal</p>
+<p>Obstacles</p>
+<p>Q1: How do we reach the goal state from an arbitrary state?</p>
+<p>Q2: In this example there is an unambiguous way to reach the goal from any state. Is this true in general?</p>
+<p>From Potential Fields to Forces</p>
+<p>Make the robot move by applying forces resulting from potential fields</p>
+<p>Attractive force makes state x go to the bottom of the potential energy bowl. Bottom=Goal = low-energy state.</p>
+<p>From Potential Fields to Forces</p>
+<p>Make the robot move by applying forces resulting from potential fields</p>
+<p>Attractive force makes state x go to the bottom of the potential energy bowl. Bottom=Goal = low-energy state.</p>
+<p>Move the robot using F=ma, for m=1:</p>
+<p>Gradient descent down the potential bowl</p>
+<p>From Potential Fields to Forces</p>
+<p>Make the robot move by applying forces resulting from potential fields</p>
+<p>Attractive force makes state x go to the bottom of the potential energy bowl. Bottom=Goal = low-energy state.</p>
+<p>Q: Do you see any problems with this potential energy and force if x is far away from goal?</p>
+<p>From Potential Fields to Forces</p>
+<p>Make the robot move by applying forces resulting from potential fields</p>
+<p>Attractive force makes state x go to the bottom of the potential energy bowl. Bottom=Goal = low-energy state.</p>
+<p>Q: Do you see any potential problems with this if x is far away from goal?</p>
+<p>A: The farther the robot is the stronger the force. May need to normalize the force vector. Alternatively:</p>
+<p>From Potential Fields to Forces</p>
+<p>Make the robot move by applying forces resulting from potential fields</p>
+<p>Repulsive force makes state x go away from the obstacle to lower potential energy states. Free space = {low-energy states}</p>
+<p>Move the robot using F=ma, for m=1:</p>
+<p>Gradient descent until obstacle is cleared</p>
+<p>Combining Attractive and Repulsive Forces</p>
+<p>Potential energy</p>
+<p>results in forces</p>
+<p>makes robot accelerate</p>
+<p>Artificial Potential Fields: Example</p>
+<p>Advantages of potential fields: • Can handle moving obstacles • Fast and easy to compute • Fairly reactive</p>
+<p>Combining Attractive and Repulsive Forces</p>
+<p>Potential energy</p>
+<p>results in forces</p>
+<p>makes robot accelerate</p>
+<p>Q: What’s a possible problem with addition of forces?</p>
+<p>Artificial Potential Fields</p>
+<p>What’s the total potential here?</p>
+<p>Artificial Potential Fields</p>
+<p>What’s the total potential here?</p>
+<p>It’s zero. The repulsive force is exactly the opposite of the attractive force (assuming alpha = beta)</p>
+<p>Problem: gradient descent gets stuck</p>
+<p>Local Minima on the Potential Field: Getting Stuck</p>
+<p>States of zero total force correspond to local minima in the potential function:</p>
+<p>You start/end up here</p>
+<p>Goal</p>
+<p>Local Minima on the Potential Field: Getting Stuck</p>
+<p>States of zero total force correspond to local minima in the potential function:</p>
+<p>Problem: If you end up here gradient descent can’t help you. All local moves seem identical in terms of value → local min</p>
+<p>Goal</p>
+<p>Local Minima on the Potential Field: Getting Unstuck Randomly</p>
+<p>States of zero total force correspond to local minima in the potential function:</p>
+<p>Solution #1: Do random move in case it helps you get unstuck.</p>
+<p>Problem: If you end up here gradient descent can’t help you. All local moves seem identical in terms of value → local min</p>
+<p>Goal</p>
+<p>Local Minima on the Potential Field: Getting Unstuck By Backing Up</p>
+<p>States of zero total force correspond to local minima in the potential function:</p>
+<p>Solution #2: back up and get out from the dead end, just like you entered it.</p>
+<p>Problem: If you end up here gradient descent can’t help you. All local moves seem identical in terms of value → local min</p>
+<p>Goal</p>
+<p>Drawbacks of potential fields</p>
+<p>• Local minima</p>
+<p>• Attractive and repulsive forces can balance, so robot makes no progress. • Closely spaced obstacles, or dead end.</p>
+<p>• Unstable oscillation</p>
+<p>• The dynamics of the robot/environment system can become unstable. • High speeds, narrow corridors, sudden changes</p>
+<p>Avoiding Local Minima on the Potential Field: Navigation Functions</p>
+<p>Potential energy function with a single global minimum at the goal, and no local minima.</p>
+<p>For any state x there exists a neighboring state x’ such that .</p>
+<p>So far not used in practice very much because they are usually as hard to compute as a planned path from the current state to the goal.</p>
+<p>Addressing the Drawbacks of Potential Fields</p>
+<p>• Vector Field Histogram (VFH)</p>
+<p>• Dynamic Window Approach</p>
+<p>Both methods for local obstacle avoidance</p>
+<p>VFH (Vector Field Histogram)</p>
+<p>VFH (Vector Field Histogram)</p>
+<p>High risk for cells with high probability of being occupied. Risk inversely proportional to distance.</p>
+<p>VFH (Vector Field Histogram)</p>
+<p>VFH (Vector Field Histogram)</p>
+<p>VFH (Vector Field Histogram)</p>
+<p>DWA (Dynamic Window Approach)</p>
+<p>Local, reactive controller</p>
+<ol type="1">
+<li>Sample a set of controls for x,y,theta</li>
+<li>Simulate where each control is going to take the robot</li>
+<li>Eliminate those that lead to collisions.</li>
+<li>Reward those that agree with a navigation plan.</li>
+<li>Reward high-speeds</li>
+<li>Reward proximity to goal.</li>
+<li>Pick control with highest score that doesn’t lead to collision.</li>
+</ol>
+
+
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    // Ensure there is a toggle, if there isn't float one in the top right
+    if (window.document.querySelector('.quarto-color-scheme-toggle') === null) {
+      const a = window.document.createElement('a');
+      a.classList.add('top-right');
+      a.classList.add('quarto-color-scheme-toggle');
+      a.href = "";
+      a.onclick = function() { try { window.quartoToggleColorScheme(); } catch {} return false; };
+      const i = window.document.createElement("i");
+      i.classList.add('bi');
+      a.appendChild(i);
+      window.document.body.appendChild(a);
+    }
+    setColorSchemeToggle(hasAlternateSentinel())
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+        const codeEl = trigger.previousElementSibling.cloneNode(true);
+        for (const childEl of codeEl.children) {
+          if (isCodeAnnotation(childEl)) {
+            childEl.remove();
+          }
+        }
+        return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp("https:\/\/csc477\.github\.io\/website_fall24");
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+<p>© Copyright 2024, Florian Shkurti</p>
+</div>   
+    <div class="nav-footer-center">
+      &nbsp;
+    <div class="toc-actions"><ul><li><a href="https://github.com/csc477/website_fall24/issues/new" class="toc-action"><i class="bi bi-github"></i>Report an issue</a></li></ul></div></div>
+    <div class="nav-footer-right">
+<p>This page is built with ❤️, <a href="https://quarto.org/">Quarto</a> and inspiration from <a href="https://sta210-s22.github.io/website/">STA210</a>.</p>
+</div>
+  </div>
+</footer>
+
+
+
+
+</body></html>
