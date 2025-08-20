@@ -1,34 +1,24 @@
 ---
-title: "Fall 2024 - UTM - CSC 413: Neural Networks and Deep Learning"
+title: "Fall 2024 - CSC477/CSC2630: Introduction to Mobile Robotics"
 ---
 
 ### Course Overview
 
-It is very hard to hand-design programs to solve many real-world problems, e.g. distinguishing images of cats v.s. dogs. Machine learning algorithms allow computers to learn from example data, and produce a program that does the job. Neural networks are a class of machine learning algorithms originally inspired by the brain, but which have recently have seen a lot of success at practical applications. They're at the heart of production systems at companies like Google and Facebook for image processing, speech-to-text, and language understanding.
-
-This course gives an overview of both the foundational ideas and the recent advances in neural net algorithms. Roughly the first 2/3 of the course focuses on supervised learning - training the network to produce a specified behavior when one has lots of labeled examples of that behavior. The last 1/3 focuses on unsupervised learning.
+This cross-listed course (undergraduate version CSC477H, graduate version CSC2630H) provides an introduction to robotic systems from a computational perspective. A robot is regarded as an intelligent computer that can use sensors and act on the world. We will consider the definitional problems in robotics and look at how they are being solved in practice and by the research community. The emphasis is on algorithms, probabilistic reasoning, optimization, inference mechanisms, and behavior strategies, as opposed to electromechanical systems design. This course aims to help students improve their probabilistic modeling skills and instill the idea that ***a robot that explicitly accounts for its uncertainty works better than a robot that does not.***
 
 ### Prerequisites
 
-Prerequisite: CSC311H5 or CSC411H5\
-Exclusion: CSC321H5 or CSC321H1 or CSC413H1 or CSC421H1 (SCI)\
-Distribution Requirement: SCI
-
-Students who lack a pre/co-requisite can be removed at any time unless they have received an explicit waiver from the department. The waiver form can be downloaded from [here](https://www.utm.utoronto.ca/math-cs-stats/undergraduate-students/forms).
+Required: CSC209H5; STA256H5; MAT223H5/MAT240H5; MAT232H5; CSC376 \
+Recommended: MAT224H5; CSC384H5; CSC311H5;
 
 ### Course Delivery Details
 
-| Lectures | Prof               | Day       | Time               | Location |
-|----------|--------------------|-----------|--------------------|----------|
-| LEC0101  | Igor Gilitschenski | Tuesday   | 5:00 pm - 7:00 pm  | MN3190   |
-| LEC0102  | Florian Shkurti    | Wednesday | 11:00 am - 1:00 pm | MN3190   |
+* **Lectures**: Wednesdays @ 3-5pm ET, MN3190 & Livstreamed on Zoom at MY580
+* **Tutorials**: Wednesdays @ 5-6pm ET, DH2020 & Livstreamed on Zoom at MY580
+* **Office Hours** will be delivered on Zoom. In-person office hours can be arranged by appointment.
+* Zoom links & Announcements will be posted on [Quercus](http://toolboxrenewal.utoronto.ca/)
+* Discussions will take place on [Piazza](http://piazza.com/utoronto.ca/fall2022/csc477)
+* [Anonymous feedback form](https://www.surveymonkey.com/r/H8QH65F) for suggested improvements
+* [Course Syllabus](https://www.cs.toronto.edu/~florian/courses/csc477_fall22/CSC477_Syllabus.pdf)
 
-| Tutorials/Labs | Day    | Time                | Location |
-|----------------|--------|---------------------|----------|
-| PRA0101        | Friday | 10:00 am - 11:00 am | DH2020   |
-| PRA0102        | Friday | 11:00 am - 12:00 pm | DH2020   |
-| PRA0103        | Friday | 12:00 pm - 1:00 pm  | DH2020   |
 
--   Announcements will be posted on Quercus
--   Discussions will take place on Piazza
--   Zoom recordings will be posted on Quercus after lectures

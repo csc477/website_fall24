@@ -4,11 +4,11 @@ project:
 
 website:
   page-navigation: true
-  title: "CSC413 - Fall 2024, UTM"
-  description: "Homepage for CSC413 - Neural Networks and Deep Learning, Fall 2024, UTM."
-  site-url: "https://utm-csc413.github.io/2024F-website/"
+  title: "CSC477 - Fall 2024"
+  description: "Homepage for CSC477/CSC2630: Introduction to Mobile Robotics, Fall 2024"
+  site-url: "https://csc477.github.io/website_fall24"
 
-  repo-url: https://github.com/utm-csc413/2024F-website
+  repo-url: https://github.com/csc477/website_fall24
   repo-actions: [issue]
 
   open-graph: true
@@ -23,20 +23,20 @@ website:
 
   sidebar:
     background: "#D9E3E4"
-    logo: "images/neural_network.jpg"
+    logo: "images/mars-exploration-rover.png"
     pinned: true
     align: center
-    title: "UTM - CSC413 Neural Networks and Deep Learning"
+    title: "CSC477/CSC2630 Introduction to Mobile Robotics"
     
     tools:
       - icon: github
-        href: https://github.com/utm-csc413 
+        href: https://github.com/csc477 
         text: "Github workspace for the course"
       - icon: chat-quote
-        href: https://piazza.com/utoronto.ca/fall2024/csc413h5flec0101/home
+        href: http://piazza.com/utoronto.ca/fall2022/csc477
         text: "Discuss on Piazza"
       - icon: megaphone
-        href: https://q.utoronto.ca/courses/366713
+        href: http://toolboxrenewal.utoronto.ca/
         text: "Official announcements on Quercus"
       - icon: envelope-at
         href: course-team.html
@@ -49,18 +49,18 @@ website:
     contents:
       - href: index.qmd
         text: Overview
-      - href: https://piazza.com/utoronto.ca/fall2024/csc413h5flec0101/home
+      - href: http://piazza.com/utoronto.ca/fall2022/csc477
         text: Piazza
-      - href: https://q.utoronto.ca/courses/366713
+      - href: http://toolboxrenewal.utoronto.ca/
         text: Quercus	
-      - href: course-syllabus.qmd
-        text: Syllabus
+      # - href: course-syllabus.qmd
+      #   text: Syllabus
       - href: course-team.qmd
         text: Teaching Staff
       - href: course-schedule.qmd
         text: Schedule
-      - href: project-description.qmd
-        text: Final Project
+      # - href: project-description.qmd
+      #   text: Final Project
       
 format:
   html:

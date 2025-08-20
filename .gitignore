@@ -13,3 +13,15 @@ staging/
 _site/
 *.key
 *speaker.html
+
+# Ignore .venv directories in lecs subfolders
+lecs/*/.venv/
+
+# Ignore PDF files in lecs subfolders
+lecs/*/*.pdf
+
+# Ignore PPTX files in lecs subfolders
+lecs/*/*.pptx
+
+# Ignore MD files in lecs subfolders
+lecs/*/*.md
