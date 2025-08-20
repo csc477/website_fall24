@@ -32,17 +32,17 @@ html-math-method:
 - Sensors and Actuators
 - Quiz about background and interests
 
-## Your TAs {.small-font}
+## Your TAs 
 
 :::::: columns
-::: {.column width="30%"}
+::: {.column width="30%" .small-font}
 Yewon Lee \
 MSc student \
 Computer Science, UofT \
 <csc477-tas@cs.toronto.edu>
 :::
 
-::: {.column width="30%"}
+::: {.column width="30%" .small-font}
 Yasasa Abeysirigoonawardena \
 MSc student \
 Computer Science, UofT \
@@ -51,7 +51,7 @@ Computer Science, UofT \
 
 :::
 
-::: {.column width="30%"}
+::: {.column width="30%" .small-font}
 Radian Gondokaryono \
 PhD student \
 Computer Science, UofT \
@@ -62,39 +62,25 @@ Computer Science, UofT \
 
 ## My lab: Robot Vision and Learning (RVL)
 
-:::: columns
-::: {.column width="33%"}
+:::{layout="[1,1,1]"}
 ![](img/rvl-lab1.png)
-:::
-::: {.column width="33%"}
+
 ![](img/rvl-lab2.png)
-:::
-::: {.column width="33%"}
+
 ![](img/rvl-lab3.png)
 :::
-::::
 
 Mission: create algorithms that enable robots to learn to act intelligently in outdoor
 environments and alongside humans
 
 ## How I became interested in robotics
 
-:::: columns
-::: {.column width="40%"}
-![](img/mars-rover.png)
+:::{layout="[40, -20, 40]"}
+![Mars Exploration Rover](img/mars-rover.png)
 
-Mars Exploration Rover
+![RoboCup, small-sized league](img/robocup.png)
+
 :::
-
-::: {.column width="20%"}
-:::
-
-::: {.column width="40%"}
-![](img/robocup.png)
-
-RoboCup, small-sized league
-:::
-::::
 
 
 ## How I became interested in robotics
@@ -128,39 +114,31 @@ RoboCup, small-sized league
 
 :::: columns
 ::: {.column width="40%"}
-![](img/amzn-robots.png)
+![Autonomous warehouse robots at Amazon](img/amzn-robots.png)
 
-Autonomous warehouse robots at Amazon
 :::
 ::: {.column width="60%"}
-![](img/tsla-robotarms.png)
-
-Autonomous arms at Tesla
+![Autonomous arms at Tesla](img/tsla-robotarms.png)
 :::
 ::::
 
 ## Pipe Inspection
 
-![](img/pipe-inspection.png)
+![Manually-controlled inspection robots](img/pipe-inspection.png)
 
-Manually-controlled inspection robots
-
-## Nuclear Disaster Cleanup
-
-![](img/nuclear-cleanup.png)
-
-Remote-controlled cleaning robot at Fukushima Daiichi, 2011
 
 ## Nuclear Disaster Cleanup
 
-![](img/fukushima-robot.png)
-
-Remote-controlled cleaning robot at Fukushima Daiichi, 2011
+![Remote-controlled cleaning robot at Fukushima Daiichi, 2011](img/nuclear-cleanup.png)
 
 ## Nuclear Disaster Cleanup
-![](img/chernobyl-robot.png)
 
-Remote-controlled cleaning robot at Chernobyl, 1986
+![Remote-controlled cleaning robot at Fukushima Daiichi, 2011](img/fukushima-robot.png)
+
+
+## Nuclear Disaster Cleanup
+![Remote-controlled cleaning robot at Chernobyl, 1986](img/chernobyl-robot.png)
+
 
 ## Aerial Package Delivery
 
@@ -177,9 +155,7 @@ daVinci robot-assisted surgery
 
 ## Precision Agriculture
 
-![](img/farmbot.png)
-
-farmbot.io
+![farmbot.io](img/farmbot.png)
 
 ## Self-driving Trucks
 
@@ -191,9 +167,7 @@ farmbot.io
 
 ## Oil Spill Containment
 
-![](img/deepwater-horizon.png)
-
-BP Deepwater Horizon Spill, Gulf of Mexico, 2010
+![BP Deepwater Horizon Spill, Gulf of Mexico, 2010](img/deepwater-horizon.png)
 
 ## Autonomy vs. Remote Control
 
@@ -296,21 +270,15 @@ CSC2630
 
 ## Recommended Textbooks (optional) 
 
-::::: columns
+:::{layout-ncol="3"}
 
-::: {.column width="33%"}
 ![](img/rec-textbook1.png)
-:::
 
-::: {.column width="33%"}
 ![](img/rec-textbook2.png)
-:::
 
-::: {.column width="33%"}
 ![](img/rec-textbook3.png)
 
 :::
-:::::
 
 ## Recommended Online Courses (optional)
 
@@ -415,9 +383,7 @@ CSC2630
 
 ## Not covered in CSC477, but related: learning for control
 
-:::{#fig- fig-align="center"}
 {{< video https://www.youtube.com/watch?v=VHmEdRXSi9M width=700 height=500 >}}
-:::
 
 ## Main topics to be covered
 
@@ -620,9 +586,7 @@ A4: Localization in a known map using particle filters
 
 :::: columns
 ::: {.column width="30%"}
-![](img/ccd-imgsensor.png)
-
-CCD image sensor
+![CCD image sensor](img/ccd-imgsensor.png)
 :::
 
 ::: {.column width="70%" .small-font}
@@ -662,90 +626,72 @@ Shutter “speed” = Exposure time = time duration in which the sensor is expos
 :::
 
 ::: {.column width="50%"}
-![](img/rolling-shutter.png)
+![Rolling shutter](img/rolling-shutter.png)
 
-Rolling shutter
 :::
 :::: 
 
 ## Reading RGB images from a camera
 
-:::::: columns
-::: {.column width="33%"}
-Each pixel contains an intensity value from 0…255
+::: {layout-ncol=3}
+[Each pixel contains an intensity value from 0…255]{.small-font}
 
-<br> 
-<br> 
-<br> 
-<br>
-<br> 
-
-![](img/parot-red.png){layout-valign="bottom"}
-
-600  x  1000 pixels
-
-:::
-
-::: {.column width="33%"}
 ![](img/parrot.png)
 
-![](img/parrot-green.png)
-
-600  x  1000 pixels
-
 :::
 
-::: {.column width="33%"}
+::: {layout-ncol=3}
+![600  x  1000 pixels](img/parot-red.png)
 
-<br> 
-<br> 
-<br> 
-<br>
-<br> 
-<br>
-<br>
+![600  x  1000 pixels](img/parrot-green.png)
 
-![](img/parrot-blue.png)
+![600  x  1000 pixels](img/parrot-blue.png)
 
-600  x  1000 pixels
-:::
-::::::
+::: 
+
 
 ## Reading RGB images from a camera
 
-A matrix of
-600   x   1000   x   3  =
-~ 1.8 million numbers
+:::: {layout-ncol=3}
+Each pixel contains an intensity value from 0…255
 
-Each pixel contains an intensity
+![](img/parrot.png)
 
-value from 0…255
+$\to$ [A matrix of 600   x   1000   x   3  = ~ 1.8 million numbers]{.small-font}
 
-600  x  1000 pixels
+:::: 
 
-600  x  1000 pixels
+::: {layout-ncol=3}
+![600  x  1000 pixels](img/img-pixel.png)
 
-600  x  1000 pixels
+![600  x  1000 pixels](img/img-pixel.png)
+
+![600  x  1000 pixels](img/img-pixel.png)
+:::
+
 
 ## Computer/robot vision
 
-?
+:::: columns
+::: {.column width="45%"}
+![Structured numbers](img/img-pixel.png)
+:::
 
-1.
+::: {.column width="10%"}
+![](img/blue-arrow.png)
+:::
 
-I’m seeing a parrot
+::: {.column width="45%"}
 
-2.
+1. I’m seeing a parrot
 
-I’m seeing a toy bicycle
+2. I’m seeing a toy bicycle
 
 3. The parrot is riding the bicycle
 
 4. The bicycle is on top of a desk
 
-5.
-
-Is this physically plausible?
+5. Is this physically plausible?
 
 6. Where is the parrot in 3D w.r.t. the camera?
 
@@ -754,112 +700,178 @@ Is this physically plausible?
 8. What is the speed of the parrot?
 
 Conclusions/Inference/Deduction/Estimation
-
-Structured numbers
+:::
+::::
 
 ## Camera lenses
 
-• Lens determines:
-• image distortion
-• focus
-• sharpness or blur
+:::: columns
+::: {.column width="40%"}
+- Lens determines:
+    - image distortion
+    - focus
+    - sharpness or blur
 
-• Lens characteristics:
+- Lens characteristics:
+    - focal length
+    - aperture
+    - depth-of-field
+:::
 
-• focal length
-• aperture
-• depth-of-field
+::: {.column width="60%"}
+![](img/camera-lens.png)
+:::
+:::: 
 
-## Pinhole Camera Model
+## Pinhole Camera Model {.center}
 
-We know approximately how a 3D point (X,Y,Z) projects to pixel (x,y)
-We call this the pinhole projection model
+![](img/pinhole-dog.png)
 
-## (1) Perspective projection
-[x,y] = 𝜋(X,Y,Z)
+:::{.medium-font}
+We know **approximately** how a 3D point (X,Y,Z) projects to pixel (x,y) \
+We call this the ***pinhole projection model***
+:::
 
+
+## (1) Perspective projection [x,y] = 𝜋(X,Y,Z)
+
+:::: columns
+::: {.column width="45%"}
+![](img/perspective-projection.png){height=400}
+
+[<http://www.cim.mcgill.ca/%7Elanger/558.html>]{.small-font}
+:::
+
+::: {.column width="55%"}
 By similar triangles:   x/f = X/Z
 
 So, x = f * X/Z and similarly y = f * Y/Z
 
-Problem: we just lost depth (Z)
-information by doing this projection, i.e.
-depth is now uncertain.
+Problem: we just lost depth (Z) information by doing this projection, i.e. depth is now uncertain.
 
-http://www.cim.mcgill.ca/%7Elanger/558.html
+:::
+:::: 
 
 ## (2) Lens distortion
 
+:::{layout-ncol="2"}
+![](img/lens-distortion1.png)
+
+![](img/lens-distortion2.png)
+:::
+
 ## (2) Estimating parameters of lens distortion
+
+:::{layout="[45, 10, 45]" layout-valign="center"}
+![](img/chessboard.png)
+
+![](img/orange-arrow.png)
+
+![](img/chessboard2.png)
+
+:::
 
 ## Non-pinhole cameras: thin lens model
 
-Unlike the pinhole camera,
-this is able to model blur.
+:::{layout="[[1, 1], [1, 1]]" layout-valign="bottom"}
+![](img/non-pinhole-camera.png)
 
-http://www.cim.mcgill.ca/%7Elanger/558.html
+Unlike the pinhole camera, this is able to model blur.
 
-## Beyond the visible spectrum:
-infrared cameras
+![<http://www.cim.mcgill.ca/%7Elanger/558.html>](img/non-pinhole-camera2.png)
+:::
 
-## Beyond the visible spectrum:
-infrared cameras
+## Beyond the visible spectrum: infrared cameras
 
-Drawback:
-Doesn’t work underwater
+![](img/infrared-cameras.png)
 
-## Beyond the visible spectrum:
-infrared cameras
+## Beyond the visible spectrum: infrared cameras
 
-## Beyond the visible spectrum:
-RGBD cameras
+![Drawback: Doesn’t work underwater](img/infrared-camera2.png)
+
+## Beyond the visible spectrum: infrared cameras
+![](img/infrared-camera3.png)
+
+## Beyond the visible spectrum: RGBD cameras
+
+
+:::: columns
+::: {.column width="50%"}
+![](img/rgbd-camera.png)
+:::
+
+::: {.column width="50%"}
 
 Main ideas:
-• Active sensing
-• Projector emits infrared light in the scene
-•
-Infrared sensor reads the infrared light
-• Deformation of the expected pattern
-allows computation of the depth
 
-## Beyond the visible spectrum:
-RGBD cameras
+- Active sensing
+- Projector emits infrared light in the scene
+- Infrared sensor reads the infrared light
+- Deformation of the expected pattern allows computation of the depth
+:::
+:::: 
 
-Drawbacks:
-• Does not work well outdoors, sunlight
+## Beyond the visible spectrum: RGBD cameras
 
-saturates its measurements
-• Maximum range is [0.5, 8] meters
+:::: columns
+::: {.column width="50%"}
+Drawbacks: 
 
-Advantages:
-• Real-time depth estimation at 30Hz
-• Cheap
+- Does not work well outdoors, sunlight saturates its measurements
+- Maximum range is [0.5, 8] meters
 
-## Beyond the visible spectrum:
-RGBD cameras
+Advantages: 
 
-Enabled a wave of research, applications,
-and video games, based on real-time
-skeleton tracking
+- Real-time depth estimation at 30Hz
+- Cheap
 
-## Beyond the visible spectrum:
-RGBD cameras
+:::
+
+::: {.column width="50%"}
+![](img/rgbd-camera2.png)
+:::
+:::: 
+
+## Beyond the visible spectrum: RGBD cameras
+
+:::: columns
+::: {.column width="50%"}
+Enabled a wave of research, applications, and video games, based on real-time skeleton tracking
+:::
+
+::: {.column width="50%"}
+![](img/rgbd-camera3.png)
+:::
+:::: 
+
+
+## Beyond the visible spectrum: RGBD cameras
+
+:::: columns
+::: {.column width="40%"}
 
 Despite their drawbacks RGBD sensors
 have been extensively used in robotics.
+:::
+
+::: {.column width="60%"}
+{{< video https://www.youtube.com/watch?v=7vq-1TiXi3g width="100%" height=450 >}}
+:::
+:::: 
 
 ## 3D LIDAR (Light detection and ranging)
-
+:::: columns
+::: {.column width="50%" .small-font}
 Produces a pointcloud of 3D points and intensities
-•
-•
 
-(x,y,z) in the laser’s frame of reference
-Intensity is related to the material of the object
+- (x,y,z) in the laser’s frame of reference
+- Intensity is related to the material of the object
 that reflects the light
 
 Works based on time-of-flight for each beam to
 return back to the scanner
+
+![](img/3d-lidar-diagram.jpeg){height=100}
 
 Not very robust to adverse weather conditions:
 rain, snow, smoke, fog etc.
@@ -867,200 +879,221 @@ rain, snow, smoke, fog etc.
 Used in most self-driving cars today for obstacle
 detection. Range < 100m.
 
-Usually around 1million points in a single pointcloud
+:::
+
+::: {.column width="50%"}
+![Usually around 1million points in a single pointcloud](img/3d-lidar.png)
+:::
+:::: 
 
 ## 2D LIDAR (Light detection and ranging)
 
+:::: columns
+::: {.column width="50%" .small-font} 
+
 Produces a scan of 2D points and intensities
-•
-(x,y) in the laser’s frame of reference
-•
-Intensity is related to the material of the object
-that reflects the light
+
+- (x,y) in the laser’s frame of reference
+- Intensity is related to the material of the object that reflects the light
 
 Certain surfaces are problematic for LIDAR: e.g. glass
 
-## 2D LIDAR (Light detection and ranging)
-
-Produces a scan of 2D points and intensities
-•
-(x,y) in the laser’s frame of reference
-•
-Intensity is related to the material of the object
-that reflects the light
-
-Certain surfaces are problematic for LIDAR: e.g. glass
+:::{.fragment fragment-index=1}
+![](img/2d-lidar2.png){height=120}
 
 Lots of moving parts: motors quickly rotate the laser
 beam and once complete (angle bound reached) a
 scan is returned. I.e. points are not strictly speaking
 time-synchronized, even though we usually treat them as such.
+:::
 
+:::
+
+::: {.column width="50%" .small-font}
+![](img/2d-lidar.png)
+
+:::{.fragment fragment-index=1 .right-align}
 Usually around 1024 points in a single scan.
+:::
+
+:::
+:::: 
 
 ## Inertial Sensors
 
-• Gyroscopes, Accelerometers, Magnetometers
-• Inertial Measurement Unit (IMU)
+- Gyroscopes, Accelerometers, Magnetometers
+- Inertial Measurement Unit (IMU)
 
-• Perhaps the most important sensor for 3D navigation, along with the
+- Perhaps the most important sensor for 3D navigation, along with the GPS
 
-GPS
+- Without IMUs, plane autopilots would be much harder, if not impossible, to build
 
-• Without IMUs, plane autopilots would be much harder, if not
-
-impossible, to build
+##
+![](img/inertial-sensor.png)
 
 ## Gyroscopes
 
-• Measure angular velocity in the body frame
+- Measure angular velocity in the body frame
 
-• Often affected by noise and bias
+- Often affected by noise and bias
 
-• We integrate it to get 3D orientation (Euler angles, quaternions rotation
+$$
+w_\text{measured}(t) = w_\text{true}(t) + b_g(t) + n_g(t)
+$$
 
-matrices), but there is drift due to noise and bias
+- We integrate it to get 3D orientation (Euler angles, quaternions rotation matrices), but there is drift due to noise and bias
 
 ## Accelerometers
 
-• Measure linear acceleration relative to freefall (measured in g)
+- Measure linear acceleration relative to freefall (measured in g)
 
-• A free-falling accelerometer in a vacuum would measure zero g
+- A free-falling accelerometer in a vacuum would measure zero g
 
-• An accelerometer resting on the surface of the earth would measure 1g
+- An accelerometer resting on the surface of the earth would measure 1g
 
-• Also affected by bias and noise.
+- Also affected by bias and noise.
 
-• Double integration to get position is very noisy. Errors grow quadratically with time.
+- Double integration to get position is very noisy. Errors grow quadratically with time.
 
 ## Magnetometers
 
+:::: {.columns}
+::: {.column width="35%"}
 Drawbacks:
-• Needs careful calibration
-• Needs to be placed away from
-moving metal parts, motors
+
+- Needs careful calibration
+- Needs to be placed away from moving metal parts, motors
 
 Advantages:
-• Can be used as a compass for
 
-absolute heading
+- Can be used as a compass for absolute heading
+::: 
+
+::: {.column width="65%"}
+![](img/magnetometer.png)
+::: 
+::::
+
 
 ## Inertial Measurement Unit
 
-• Combines measurements from accelerometer, gyroscope, and
+- Combines measurements from accelerometer, gyroscope, and magnetometer to output an estimate of orientation with reduced drift.
 
-magnetometer to output an estimate of orientation
-with reduced drift.
+- Does not typically provide a position estimate, due to double integration.
+- Runs at 100-1000Hz
+- Expect yaw drift of 5-10 deg/hour on most modern low-end IMUs
 
-• Does not typically provide a position estimate, due to double integration.
+## Global Positioning System: Satellites
 
-• Runs at 100-1000Hz
+- Each GPS satellite periodically transmits:
 
-• Expect yaw drift of 5-10 deg/hour on most modern low-end IMUs
+- [[Coarse/Acquisition code]]{.red} A 1023-bit pseudorandom binary sequence (PRN code), which repeats every 1 ms, unique for each satellite (no correlation with other satellites).
 
-## Global Positioning System:
-Satellites
+- [\[Navigation frame\]]{.red} A 1500-bit packet that contains
+    - GPS date, time, satellite health
+    - Detailed orbital data for the satellite, accurate for the next ~4hrs
+    - PRN codes and status of all satellites in the network
+    - Takes 12.5mins to transmit
 
-• Each GPS satellite periodically transmits:
+- [[Precision code]]{.red} A 6.2-terabit code for military use.
 
-• [Coarse/Acquisition code] A 1023-bit pseudorandom binary sequence (PRN code), which
+- Carrier frequencies are 1575.42 MHz (L1) and 1227.60 MHz (L2)
 
-repeats every 1 ms, unique for each satellite (no correlation with other satellites).
+## Global Positioning System: Receivers
 
-• [Navigation frame] A 1500-bit packet that contains
+- Each (civilian) GPS receiver:
+    - Knows the PRN codes for each satellite in advance
+    - Correlates received PRN signal with database PRN signal → time shift → noisy distance to satellite
+    - If 4 or more satellite PRN codes are received, it does **trilateration** to compute latitude and longitude
 
-• GPS date, time, satellite health
-• Detailed orbital data for the satellite, accurate for the next ~4hrs
-• PRN codes and status of all satellites in the network
-• Takes 12.5mins to transmit
+## Global Positioning System: Receivers and Dilution of Precision
 
-• [Precision code] A 6.2-terabit code for military use.
-
-• Carrier frequencies are 1575.42 MHz (L1) and 1227.60 MHz (L2)
-
-## Global Positioning System:
-Receivers
-
-• Each (civilian) GPS receiver:
-
-• Knows the PRN codes for each satellite in advance
-• Correlates received PRN signal with
-
-database PRN signal → time shift → noisy distance to satellite
-
-• If 4 or more satellite PRN codes are received, it does trilateration
-
-to compute latitude and longitude
-
-## Global Positioning System:
-Receivers and Dilution of Precision
+![](img/global-positioning-system.png){height=400}
 
 ## Hall Effect Sensor
 
-• Varies its voltage in response to a magnetic field
 
-• Used as a proximity switch, to measure a full rotation
+:::: {.columns}
+::: {.column width="80%"}
 
-of a wheel for example
+- Varies its voltage in response to a magnetic field
+- Used as a proximity switch, to measure a full rotation of a wheel for example
+- Used to measure rate of rotation of wheels
+::: 
+::: {.column width="20%"}
+![](img/hall-effect-sensor.png){height=200 .absolute right=0 top=0}
+::: 
+::::
 
-• Used to measure rate of rotation of wheels
 
 ## Rotary Encoder
 
-• Contains an analog to digital converter for encoding the angle of a
+- Contains an analog to digital converter for encoding the angle of a shaft/motor/axle
 
-shaft/motor/axle
+- Usually outputs the discretized absolute angle of the shaft/motor/axle 
 
-• Usually outputs the discretized absolute angle of the shaft/motor/axle
+![](img/rotary-encoder.png){height=180}
 
-• Useful in order to know where different shafts are relative to each to
-
-each other.
+- Useful in order to know where different shafts are relative to each to each other.
 
 ## Example: flippers on the Aqua robot
+![](img/aqua-robot.png)
 
 ## Actuators
 
-DC (direct current) motor
-They turn continuously at high RPM
+:::{layout="[[1,1,1], [1,1,1]]"}
+![**DC (direct current) motor**](img/dc-motor.png)
+
+![**Servo motor**](img/servo-motor.png)
+
+![**Stepper motor**](img/stepper-motor.png)
+
+
+[They turn continuously at high RPM
 (revolutions per minute) when voltage is
 applied. Used in quadrotors and planes,
-model cars etc.
+model cars etc.]{.small-font}
 
-Servo motor
-Usually includes: DC motor, gears,
-control circuit, position feedback
+
+[Usually includes: DC motor, gears,
+control circuit, position feedback \
 Precise control without free rotation
 (e.g. robot arms, boat rudders)
-Limited turning range: 180 degrees
+Limited turning range: 180 degrees]{.small-font}
 
-Stepper motor
-Positioning feedback and no positioning
-errors.
-Rotates by a predefined step angle.
-Requires external control circuit.
-Precise control without free rotation.
+
+[Positioning feedback and no positioning errors. \
+Rotates by a predefined step angle. \
+Requires external control circuit. \
+Precise control without free rotation. \
 Constant holding torque without
 powering the motor (good for robot
-arms or weight-carrying systems).
+arms or weight-carrying systems).]{.small-font}
 
-## Pulse Width Modulation
+:::
 
-Used for creating analog/continuous behavior when voltage applied is discrete.
-Main idea: turn on and off the motor fast enough so average voltage is the desired target.
+## Pulse Width Modulation 
+
+![](img/duty-cycle.png){height=400}
+
+:::{.small-font}
+Used for creating analog/continuous behavior when voltage applied is discrete. \
+Main idea: turn on and off the motor fast enough so average voltage is the desired target. \
 Used in dimming LEDs, controlling the speed of DC motors, controlling the position of
 servo motors.
+:::
 
 ## Today’s agenda
 
-• Introduction
-• Administrivia
-• Office hours
-• Tutorials
-• Assignment descriptions
-• Prerequisites
+:::{.grey}
+- Introduction
+- Administrivia
+    - Office hours
+    - Tutorials
+    - Assignment descriptions
+    - Prerequisites
 
-• Topics covered by the course
-• Sensors and Actuators
-• Quiz about background and interests
-
+- Topics covered by the course 
+- Sensors and Actuators
+:::
+- Quiz about background and interests
