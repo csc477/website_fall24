@@ -78,3 +78,7 @@ font-size: 0.5em;
 .center-align{
     text-align: center; 
 }
+
+.bg-img {
+  z-index: -1;
+}

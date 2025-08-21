@@ -9,284 +9,48 @@
     <lastmod>2025-08-20T16:11:47.111Z</lastmod>
   </url>
   <url>
-    <loc>https://csc477.github.io/website_fall24/computing-troubleshooting.html</loc>
-    <lastmod>2025-08-20T20:05:49.826Z</lastmod>
+    <loc>https://csc477.github.io/website_fall24/lecs/w03/notes.html</loc>
+    <lastmod>2025-08-20T20:35:12.377Z</lastmod>
   </url>
   <url>
-    <loc>https://csc477.github.io/website_fall24/project-description.html</loc>
-    <lastmod>2025-08-20T20:05:50.626Z</lastmod>
-  </url>
-  <url>
-    <loc>https://csc477.github.io/website_fall24/exams/exam-3.html</loc>
-    <lastmod>2025-08-20T20:05:49.855Z</lastmod>
-  </url>
-  <url>
-    <loc>https://csc477.github.io/website_fall24/course-support.html</loc>
+    <loc>https://csc477.github.io/website_fall24/course-syllabus.html</loc>
     <lastmod>2025-08-20T20:05:49.828Z</lastmod>
   </url>
   <url>
-    <loc>https://csc477.github.io/website_fall24/course-faq.html</loc>
-    <lastmod>2025-08-20T20:05:49.826Z</lastmod>
-  </url>
-  <url>
-    <loc>https://csc477.github.io/website_fall24/supplemental/model-selection-criteria.html</loc>
-    <lastmod>2025-08-20T20:05:50.628Z</lastmod>
-  </url>
-  <url>
-    <loc>https://csc477.github.io/website_fall24/supplemental/slr-derivations.html</loc>
-    <lastmod>2025-08-20T20:05:50.628Z</lastmod>
-  </url>
-  <url>
-    <loc>https://csc477.github.io/website_fall24/supplemental/mlr-matrix.html</loc>
-    <lastmod>2025-08-20T20:05:50.628Z</lastmod>
+    <loc>https://csc477.github.io/website_fall24/course-schedule.html</loc>
+    <lastmod>2025-08-21T15:31:30.274Z</lastmod>
   </url>
   <url>
     <loc>https://csc477.github.io/website_fall24/index.html</loc>
-    <lastmod>2025-08-20T20:05:49.904Z</lastmod>
+    <lastmod>2025-08-21T15:32:22.878Z</lastmod>
   </url>
   <url>
-    <loc>https://csc477.github.io/website_fall24/computing-access.html</loc>
-    <lastmod>2025-08-20T20:05:49.826Z</lastmod>
+    <loc>https://csc477.github.io/website_fall24/NOTE.html</loc>
+    <lastmod>2025-08-20T20:17:09.958Z</lastmod>
   </url>
   <url>
-    <loc>https://csc477.github.io/website_fall24/ex/w06/questions/prob-variance-sol.html</loc>
-    <lastmod>2025-08-20T20:05:49.847Z</lastmod>
-  </url>
-  <url>
-    <loc>https://csc477.github.io/website_fall24/ex/w06/questions/ml-variance_bias_decomposition.html</loc>
-    <lastmod>2025-08-20T20:05:49.847Z</lastmod>
-  </url>
-  <url>
-    <loc>https://csc477.github.io/website_fall24/ex/w06/exercises06-ensembling.html</loc>
-    <lastmod>2025-08-20T20:05:49.847Z</lastmod>
-  </url>
-  <url>
-    <loc>https://csc477.github.io/website_fall24/ex/w08/questions/rnn-addition.html</loc>
-    <lastmod>2025-08-20T20:05:49.850Z</lastmod>
-  </url>
-  <url>
-    <loc>https://csc477.github.io/website_fall24/ex/w08/questions/rnn-sentiment-sol.html</loc>
-    <lastmod>2025-08-20T20:05:49.850Z</lastmod>
-  </url>
-  <url>
-    <loc>https://csc477.github.io/website_fall24/ex/w08/questions/rnn-scalar.html</loc>
-    <lastmod>2025-08-20T20:05:49.850Z</lastmod>
-  </url>
-  <url>
-    <loc>https://csc477.github.io/website_fall24/ex/w08/exercises08.html</loc>
-    <lastmod>2025-08-20T20:05:49.849Z</lastmod>
-  </url>
-  <url>
-    <loc>https://csc477.github.io/website_fall24/ex/w09/questions/attn-transformers-sol.html</loc>
-    <lastmod>2025-08-20T20:05:49.851Z</lastmod>
-  </url>
-  <url>
-    <loc>https://csc477.github.io/website_fall24/ex/w09/questions/attn-transformers-notes.html</loc>
-    <lastmod>2025-08-20T20:05:49.851Z</lastmod>
-  </url>
-  <url>
-    <loc>https://csc477.github.io/website_fall24/ex/w09/questions/attn-transformers_by_hand.html</loc>
-    <lastmod>2025-08-20T20:05:49.852Z</lastmod>
-  </url>
-  <url>
-    <loc>https://csc477.github.io/website_fall24/ex/w09/questions/attn-transformers_by_hand-notes.html</loc>
-    <lastmod>2025-08-20T20:05:49.852Z</lastmod>
-  </url>
-  <url>
-    <loc>https://csc477.github.io/website_fall24/ex/w09/questions/attn-transformers.html</loc>
-    <lastmod>2025-08-20T20:05:49.852Z</lastmod>
-  </url>
-  <url>
-    <loc>https://csc477.github.io/website_fall24/ex/w09/exercises09.html</loc>
-    <lastmod>2025-08-20T20:05:49.850Z</lastmod>
-  </url>
-  <url>
-    <loc>https://csc477.github.io/website_fall24/ex/w07/questions/cnn-by_hand.html</loc>
-    <lastmod>2025-08-20T20:05:49.848Z</lastmod>
-  </url>
-  <url>
-    <loc>https://csc477.github.io/website_fall24/ex/w07/questions/opt-influence_functions-sol.html</loc>
-    <lastmod>2025-08-20T20:05:49.848Z</lastmod>
-  </url>
-  <url>
-    <loc>https://csc477.github.io/website_fall24/ex/w07/questions/prob-mle_exp_dist-sol.html</loc>
-    <lastmod>2025-08-20T20:05:49.848Z</lastmod>
-  </url>
-  <url>
-    <loc>https://csc477.github.io/website_fall24/ex/w07/questions/opt-influence_functions.html</loc>
-    <lastmod>2025-08-20T20:05:49.848Z</lastmod>
-  </url>
-  <url>
-    <loc>https://csc477.github.io/website_fall24/ex/w07/exercises07_solution.html</loc>
-    <lastmod>2025-08-20T20:05:49.848Z</lastmod>
-  </url>
-  <url>
-    <loc>https://csc477.github.io/website_fall24/ex/w10/questions/tconv-params.html</loc>
-    <lastmod>2025-08-20T20:05:49.853Z</lastmod>
-  </url>
-  <url>
-    <loc>https://csc477.github.io/website_fall24/ex/w10/questions/tconv-sizes-sol.html</loc>
-    <lastmod>2025-08-20T20:05:49.853Z</lastmod>
-  </url>
-  <url>
-    <loc>https://csc477.github.io/website_fall24/ex/w10/questions/tconv-by_hand-sol.html</loc>
-    <lastmod>2025-08-20T20:05:49.852Z</lastmod>
-  </url>
-  <url>
-    <loc>https://csc477.github.io/website_fall24/ex/w10/questions/tconv-params-sol.html</loc>
-    <lastmod>2025-08-20T20:05:49.853Z</lastmod>
-  </url>
-  <url>
-    <loc>https://csc477.github.io/website_fall24/ex/w10/questions/tcons-by_hand-notes.html</loc>
-    <lastmod>2025-08-20T20:05:49.852Z</lastmod>
-  </url>
-  <url>
-    <loc>https://csc477.github.io/website_fall24/ex/w10/exercises10_solution.html</loc>
-    <lastmod>2025-08-20T20:05:49.852Z</lastmod>
-  </url>
-  <url>
-    <loc>https://csc477.github.io/website_fall24/ex/w11/questions/cnn-by_hand.html</loc>
-    <lastmod>2025-08-20T20:05:49.854Z</lastmod>
-  </url>
-  <url>
-    <loc>https://csc477.github.io/website_fall24/ex/w11/questions/pytorch-parameter_count-sol.html</loc>
-    <lastmod>2025-08-20T20:05:49.855Z</lastmod>
-  </url>
-  <url>
-    <loc>https://csc477.github.io/website_fall24/ex/w11/questions/linalg-evs_to_mat-sol.html</loc>
-    <lastmod>2025-08-20T20:05:49.854Z</lastmod>
-  </url>
-  <url>
-    <loc>https://csc477.github.io/website_fall24/ex/w11/questions/attn-transformers_by_hand.html</loc>
-    <lastmod>2025-08-20T20:05:49.854Z</lastmod>
-  </url>
-  <url>
-    <loc>https://csc477.github.io/website_fall24/ex/w11/questions/attn-transformers_by_hand-sol.html</loc>
-    <lastmod>2025-08-20T20:05:49.854Z</lastmod>
-  </url>
-  <url>
-    <loc>https://csc477.github.io/website_fall24/ex/w11/questions/cnn-by_hand-sol.html</loc>
-    <lastmod>2025-08-20T20:05:49.854Z</lastmod>
-  </url>
-  <url>
-    <loc>https://csc477.github.io/website_fall24/ex/w11/exercises11_solution.html</loc>
-    <lastmod>2025-08-20T20:05:49.853Z</lastmod>
-  </url>
-  <url>
-    <loc>https://csc477.github.io/website_fall24/ex/w02/questions/linalg-evs.html</loc>
-    <lastmod>2025-08-20T20:05:49.840Z</lastmod>
-  </url>
-  <url>
-    <loc>https://csc477.github.io/website_fall24/ex/w02/questions/linalg-evs-sol.html</loc>
-    <lastmod>2025-08-20T20:05:49.837Z</lastmod>
-  </url>
-  <url>
-    <loc>https://csc477.github.io/website_fall24/ex/w02/questions/nn-compgraph-sol.html</loc>
-    <lastmod>2025-08-20T20:05:49.841Z</lastmod>
-  </url>
-  <url>
-    <loc>https://csc477.github.io/website_fall24/ex/w02/questions/prob-evvar-sol.html</loc>
-    <lastmod>2025-08-20T20:05:49.842Z</lastmod>
-  </url>
-  <url>
-    <loc>https://csc477.github.io/website_fall24/ex/w02/exercises02.html</loc>
-    <lastmod>2025-08-20T20:05:49.830Z</lastmod>
-  </url>
-  <url>
-    <loc>https://csc477.github.io/website_fall24/ex/w05/questions/opt-momentum-sol.html</loc>
-    <lastmod>2025-08-20T20:05:49.846Z</lastmod>
-  </url>
-  <url>
-    <loc>https://csc477.github.io/website_fall24/ex/w05/questions/linalg-evs_to_mat.html</loc>
-    <lastmod>2025-08-20T20:05:49.846Z</lastmod>
-  </url>
-  <url>
-    <loc>https://csc477.github.io/website_fall24/ex/w05/questions/calc-taylor-sol.html</loc>
-    <lastmod>2025-08-20T20:05:49.846Z</lastmod>
-  </url>
-  <url>
-    <loc>https://csc477.github.io/website_fall24/ex/w05/exercises05_solution.html</loc>
-    <lastmod>2025-08-20T20:05:49.846Z</lastmod>
-  </url>
-  <url>
-    <loc>https://csc477.github.io/website_fall24/ex/w04/questions/cnn-sizes-sol.html</loc>
-    <lastmod>2025-08-20T20:05:49.844Z</lastmod>
-  </url>
-  <url>
-    <loc>https://csc477.github.io/website_fall24/ex/w04/questions/nlp-co_occurrence-sol.html</loc>
-    <lastmod>2025-08-20T20:05:49.845Z</lastmod>
-  </url>
-  <url>
-    <loc>https://csc477.github.io/website_fall24/ex/w04/questions/nlp-co_occurrence.html</loc>
-    <lastmod>2025-08-20T20:05:49.845Z</lastmod>
-  </url>
-  <url>
-    <loc>https://csc477.github.io/website_fall24/ex/w04/questions/cnn-by_hand-sol.html</loc>
-    <lastmod>2025-08-20T20:05:49.844Z</lastmod>
-  </url>
-  <url>
-    <loc>https://csc477.github.io/website_fall24/ex/w04/exercises04.html</loc>
-    <lastmod>2025-08-20T20:05:49.844Z</lastmod>
-  </url>
-  <url>
-    <loc>https://csc477.github.io/website_fall24/ex/w04/exercises04_solution.html</loc>
-    <lastmod>2025-08-20T20:05:49.844Z</lastmod>
-  </url>
-  <url>
-    <loc>https://csc477.github.io/website_fall24/ex/w03/questions/autodiff-modes.html</loc>
-    <lastmod>2025-08-20T20:05:49.843Z</lastmod>
-  </url>
-  <url>
-    <loc>https://csc477.github.io/website_fall24/ex/w03/questions/prob-mle.html</loc>
-    <lastmod>2025-08-20T20:05:49.843Z</lastmod>
-  </url>
-  <url>
-    <loc>https://csc477.github.io/website_fall24/ex/w03/questions/prob-mle-sol.html</loc>
-    <lastmod>2025-08-20T20:05:49.843Z</lastmod>
-  </url>
-  <url>
-    <loc>https://csc477.github.io/website_fall24/ex/w03/exercises03.html</loc>
-    <lastmod>2025-08-20T20:05:49.842Z</lastmod>
-  </url>
-  <url>
-    <loc>https://csc477.github.io/website_fall24/project-tips-resources.html</loc>
-    <lastmod>2025-08-20T20:05:50.626Z</lastmod>
-  </url>
-  <url>
-    <loc>https://csc477.github.io/website_fall24/ae/ae-10-flight-delays.html</loc>
+    <loc>https://csc477.github.io/website_fall24/ae/ae-2-dcbikeshare.html</loc>
     <lastmod>2025-08-20T20:05:49.817Z</lastmod>
   </url>
   <url>
-    <loc>https://csc477.github.io/website_fall24/ae/ae-3-duke-forest.html</loc>
+    <loc>https://csc477.github.io/website_fall24/ae/ae-0-movies.html</loc>
+    <lastmod>2025-08-20T20:05:49.816Z</lastmod>
+  </url>
+  <url>
+    <loc>https://csc477.github.io/website_fall24/ae/ae-9-odds.html</loc>
     <lastmod>2025-08-20T20:05:49.818Z</lastmod>
   </url>
   <url>
-    <loc>https://csc477.github.io/website_fall24/ae/ae-7-exam-2-review.html</loc>
-    <lastmod>2025-08-20T20:05:49.818Z</lastmod>
-  </url>
-  <url>
-    <loc>https://csc477.github.io/website_fall24/ae/ae-12-exam-3-review.html</loc>
+    <loc>https://csc477.github.io/website_fall24/ae/ae-1-dcbikeshare.html</loc>
     <lastmod>2025-08-20T20:05:49.817Z</lastmod>
   </url>
   <url>
-    <loc>https://csc477.github.io/website_fall24/ae/ae-8-rail-trail.html</loc>
+    <loc>https://csc477.github.io/website_fall24/ae/ae-6-the-office-cv.html</loc>
     <lastmod>2025-08-20T20:05:49.818Z</lastmod>
   </url>
   <url>
-    <loc>https://csc477.github.io/website_fall24/ae/ae-4-exam-1-review.html</loc>
-    <lastmod>2025-08-20T20:05:49.818Z</lastmod>
-  </url>
-  <url>
-    <loc>https://csc477.github.io/website_fall24/ae/ae-5-the-office.html</loc>
-    <lastmod>2025-08-20T20:05:49.818Z</lastmod>
-  </url>
-  <url>
-    <loc>https://csc477.github.io/website_fall24/hw/hw-2.html</loc>
-    <lastmod>2025-08-20T20:05:49.857Z</lastmod>
-  </url>
-  <url>
-    <loc>https://csc477.github.io/website_fall24/hw/hw-4.html</loc>
-    <lastmod>2025-08-20T20:05:49.858Z</lastmod>
+    <loc>https://csc477.github.io/website_fall24/ae/ae-11-volcanoes.html</loc>
+    <lastmod>2025-08-20T20:05:49.817Z</lastmod>
   </url>
   <url>
     <loc>https://csc477.github.io/website_fall24/weeks/week-14.html</loc>
@@ -321,46 +85,6 @@
     <lastmod>2025-08-20T20:05:50.629Z</lastmod>
   </url>
   <url>
-    <loc>https://csc477.github.io/website_fall24/course-links.html</loc>
-    <lastmod>2025-08-20T20:05:49.827Z</lastmod>
-  </url>
-  <url>
-    <loc>https://csc477.github.io/website_fall24/labs/lab09.html</loc>
-    <lastmod>2025-08-20T20:05:49.907Z</lastmod>
-  </url>
-  <url>
-    <loc>https://csc477.github.io/website_fall24/labs/lab11.html</loc>
-    <lastmod>2025-08-20T20:05:49.908Z</lastmod>
-  </url>
-  <url>
-    <loc>https://csc477.github.io/website_fall24/labs/lab05.html</loc>
-    <lastmod>2025-08-20T20:05:49.907Z</lastmod>
-  </url>
-  <url>
-    <loc>https://csc477.github.io/website_fall24/labs/lab03.html</loc>
-    <lastmod>2025-08-20T20:05:49.906Z</lastmod>
-  </url>
-  <url>
-    <loc>https://csc477.github.io/website_fall24/labs/lab01.html</loc>
-    <lastmod>2025-08-20T20:05:49.906Z</lastmod>
-  </url>
-  <url>
-    <loc>https://csc477.github.io/website_fall24/labs/lab07.html</loc>
-    <lastmod>2025-08-20T20:05:49.907Z</lastmod>
-  </url>
-  <url>
-    <loc>https://csc477.github.io/website_fall24/labs/lab02.html</loc>
-    <lastmod>2025-08-20T20:05:49.906Z</lastmod>
-  </url>
-  <url>
-    <loc>https://csc477.github.io/website_fall24/labs/lab10.html</loc>
-    <lastmod>2025-08-20T20:05:49.907Z</lastmod>
-  </url>
-  <url>
-    <loc>https://csc477.github.io/website_fall24/labs/neural_network_optimization.html</loc>
-    <lastmod>2025-08-20T20:05:49.909Z</lastmod>
-  </url>
-  <url>
     <loc>https://csc477.github.io/website_fall24/LICENSE.html</loc>
     <lastmod>2025-08-20T20:05:48.490Z</lastmod>
   </url>
@@ -393,244 +117,36 @@
     <lastmod>2025-08-20T20:05:50.630Z</lastmod>
   </url>
   <url>
-    <loc>https://csc477.github.io/website_fall24/hw/hw-5.html</loc>
-    <lastmod>2025-08-20T20:05:49.858Z</lastmod>
-  </url>
-  <url>
-    <loc>https://csc477.github.io/website_fall24/hw/hw-3.html</loc>
-    <lastmod>2025-08-20T20:05:49.858Z</lastmod>
-  </url>
-  <url>
-    <loc>https://csc477.github.io/website_fall24/hw/hw-1.html</loc>
-    <lastmod>2025-08-20T20:05:49.857Z</lastmod>
-  </url>
-  <url>
-    <loc>https://csc477.github.io/website_fall24/ae/ae-11-volcanoes.html</loc>
-    <lastmod>2025-08-20T20:05:49.817Z</lastmod>
-  </url>
-  <url>
-    <loc>https://csc477.github.io/website_fall24/ae/ae-6-the-office-cv.html</loc>
+    <loc>https://csc477.github.io/website_fall24/ae/ae-5-the-office.html</loc>
     <lastmod>2025-08-20T20:05:49.818Z</lastmod>
   </url>
   <url>
-    <loc>https://csc477.github.io/website_fall24/ae/ae-1-dcbikeshare.html</loc>
-    <lastmod>2025-08-20T20:05:49.817Z</lastmod>
-  </url>
-  <url>
-    <loc>https://csc477.github.io/website_fall24/ae/ae-9-odds.html</loc>
+    <loc>https://csc477.github.io/website_fall24/ae/ae-4-exam-1-review.html</loc>
     <lastmod>2025-08-20T20:05:49.818Z</lastmod>
   </url>
   <url>
-    <loc>https://csc477.github.io/website_fall24/ae/ae-0-movies.html</loc>
-    <lastmod>2025-08-20T20:05:49.816Z</lastmod>
+    <loc>https://csc477.github.io/website_fall24/ae/ae-8-rail-trail.html</loc>
+    <lastmod>2025-08-20T20:05:49.818Z</lastmod>
   </url>
   <url>
-    <loc>https://csc477.github.io/website_fall24/ae/ae-2-dcbikeshare.html</loc>
+    <loc>https://csc477.github.io/website_fall24/ae/ae-12-exam-3-review.html</loc>
     <lastmod>2025-08-20T20:05:49.817Z</lastmod>
   </url>
   <url>
-    <loc>https://csc477.github.io/website_fall24/NOTE.html</loc>
-    <lastmod>2025-08-20T20:17:09.958Z</lastmod>
+    <loc>https://csc477.github.io/website_fall24/ae/ae-7-exam-2-review.html</loc>
+    <lastmod>2025-08-20T20:05:49.818Z</lastmod>
   </url>
   <url>
-    <loc>https://csc477.github.io/website_fall24/ex/w03/exercises03_solution.html</loc>
-    <lastmod>2025-08-20T20:05:49.842Z</lastmod>
+    <loc>https://csc477.github.io/website_fall24/ae/ae-3-duke-forest.html</loc>
+    <lastmod>2025-08-20T20:05:49.818Z</lastmod>
   </url>
   <url>
-    <loc>https://csc477.github.io/website_fall24/ex/w03/questions/autodiff-modes-sol.html</loc>
-    <lastmod>2025-08-20T20:05:49.842Z</lastmod>
+    <loc>https://csc477.github.io/website_fall24/ae/ae-10-flight-delays.html</loc>
+    <lastmod>2025-08-20T20:05:49.817Z</lastmod>
   </url>
   <url>
-    <loc>https://csc477.github.io/website_fall24/ex/w03/questions/backprop-batchnorm.html</loc>
-    <lastmod>2025-08-20T20:05:49.843Z</lastmod>
-  </url>
-  <url>
-    <loc>https://csc477.github.io/website_fall24/ex/w03/questions/backprop-batchnorm-sol.html</loc>
-    <lastmod>2025-08-20T20:05:49.843Z</lastmod>
-  </url>
-  <url>
-    <loc>https://csc477.github.io/website_fall24/ex/w04/exercises04-notes.html</loc>
-    <lastmod>2025-08-20T20:05:49.844Z</lastmod>
-  </url>
-  <url>
-    <loc>https://csc477.github.io/website_fall24/ex/w04/questions/mlp-sizes-sol.html</loc>
-    <lastmod>2025-08-20T20:05:49.845Z</lastmod>
-  </url>
-  <url>
-    <loc>https://csc477.github.io/website_fall24/ex/w04/questions/cnn-sizes.html</loc>
-    <lastmod>2025-08-20T20:05:49.845Z</lastmod>
-  </url>
-  <url>
-    <loc>https://csc477.github.io/website_fall24/ex/w04/questions/mlp-sizes.html</loc>
-    <lastmod>2025-08-20T20:05:49.845Z</lastmod>
-  </url>
-  <url>
-    <loc>https://csc477.github.io/website_fall24/ex/w04/questions/cnn-by_hand.html</loc>
-    <lastmod>2025-08-20T20:05:49.844Z</lastmod>
-  </url>
-  <url>
-    <loc>https://csc477.github.io/website_fall24/ex/w05/exercises05-notes.html</loc>
-    <lastmod>2025-08-20T20:05:49.845Z</lastmod>
-  </url>
-  <url>
-    <loc>https://csc477.github.io/website_fall24/ex/w05/exercises05.html</loc>
-    <lastmod>2025-08-20T20:05:49.845Z</lastmod>
-  </url>
-  <url>
-    <loc>https://csc477.github.io/website_fall24/ex/w05/questions/calc-taylor.html</loc>
-    <lastmod>2025-08-20T20:05:49.846Z</lastmod>
-  </url>
-  <url>
-    <loc>https://csc477.github.io/website_fall24/ex/w05/questions/linalg-evs_to_mat-sol.html</loc>
-    <lastmod>2025-08-20T20:05:49.846Z</lastmod>
-  </url>
-  <url>
-    <loc>https://csc477.github.io/website_fall24/ex/w05/questions/opt-momentum.html</loc>
-    <lastmod>2025-08-20T20:05:49.846Z</lastmod>
-  </url>
-  <url>
-    <loc>https://csc477.github.io/website_fall24/ex/w02/exercises02_solution.html</loc>
-    <lastmod>2025-08-20T20:05:49.837Z</lastmod>
-  </url>
-  <url>
-    <loc>https://csc477.github.io/website_fall24/ex/w02/questions/nn-compgraph.html</loc>
-    <lastmod>2025-08-20T20:05:49.841Z</lastmod>
-  </url>
-  <url>
-    <loc>https://csc477.github.io/website_fall24/ex/w02/questions/linreg-sol.html</loc>
-    <lastmod>2025-08-20T20:05:49.840Z</lastmod>
-  </url>
-  <url>
-    <loc>https://csc477.github.io/website_fall24/ex/w02/questions/linreg.html</loc>
-    <lastmod>2025-08-20T20:05:49.840Z</lastmod>
-  </url>
-  <url>
-    <loc>https://csc477.github.io/website_fall24/ex/w02/questions/prob-evvar.html</loc>
-    <lastmod>2025-08-20T20:05:49.842Z</lastmod>
-  </url>
-  <url>
-    <loc>https://csc477.github.io/website_fall24/ex/w11/exercises11.html</loc>
-    <lastmod>2025-08-20T20:05:49.853Z</lastmod>
-  </url>
-  <url>
-    <loc>https://csc477.github.io/website_fall24/ex/w11/questions/pytorch-parameter_count.html</loc>
-    <lastmod>2025-08-20T20:05:49.855Z</lastmod>
-  </url>
-  <url>
-    <loc>https://csc477.github.io/website_fall24/ex/w11/questions/attn-transformers_by_hand-notes.html</loc>
-    <lastmod>2025-08-20T20:05:49.854Z</lastmod>
-  </url>
-  <url>
-    <loc>https://csc477.github.io/website_fall24/ex/w11/questions/linalg-evs_to_mat.html</loc>
-    <lastmod>2025-08-20T20:05:49.855Z</lastmod>
-  </url>
-  <url>
-    <loc>https://csc477.github.io/website_fall24/ex/w11/questions/pytorch-parameter_count-notes.html</loc>
-    <lastmod>2025-08-20T20:05:49.855Z</lastmod>
-  </url>
-  <url>
-    <loc>https://csc477.github.io/website_fall24/ex/w11/questions/linalg-evs_to_mat-notes.html</loc>
-    <lastmod>2025-08-20T20:05:49.854Z</lastmod>
-  </url>
-  <url>
-    <loc>https://csc477.github.io/website_fall24/ex/w11/questions/cnn-by_hand-notes.html</loc>
-    <lastmod>2025-08-20T20:05:49.854Z</lastmod>
-  </url>
-  <url>
-    <loc>https://csc477.github.io/website_fall24/ex/w10/exercises10.html</loc>
-    <lastmod>2025-08-20T20:05:49.852Z</lastmod>
-  </url>
-  <url>
-    <loc>https://csc477.github.io/website_fall24/ex/w10/questions/tconv-by_hand.html</loc>
-    <lastmod>2025-08-20T20:05:49.852Z</lastmod>
-  </url>
-  <url>
-    <loc>https://csc477.github.io/website_fall24/ex/w10/questions/tconv-params-notes.html</loc>
-    <lastmod>2025-08-20T20:05:49.853Z</lastmod>
-  </url>
-  <url>
-    <loc>https://csc477.github.io/website_fall24/ex/w10/questions/tconv-sizes-notes.html</loc>
-    <lastmod>2025-08-20T20:05:49.853Z</lastmod>
-  </url>
-  <url>
-    <loc>https://csc477.github.io/website_fall24/ex/w10/questions/tconv-sizes.html</loc>
-    <lastmod>2025-08-20T20:05:49.853Z</lastmod>
-  </url>
-  <url>
-    <loc>https://csc477.github.io/website_fall24/ex/w07/exercises07.html</loc>
-    <lastmod>2025-08-20T20:05:49.848Z</lastmod>
-  </url>
-  <url>
-    <loc>https://csc477.github.io/website_fall24/ex/w07/exercises07-notes.html</loc>
-    <lastmod>2025-08-20T20:05:49.848Z</lastmod>
-  </url>
-  <url>
-    <loc>https://csc477.github.io/website_fall24/ex/w07/questions/cnn-by_hand-sol.html</loc>
-    <lastmod>2025-08-20T20:05:49.848Z</lastmod>
-  </url>
-  <url>
-    <loc>https://csc477.github.io/website_fall24/ex/w07/questions/pytorch-parameter_count.html</loc>
-    <lastmod>2025-08-20T20:05:49.849Z</lastmod>
-  </url>
-  <url>
-    <loc>https://csc477.github.io/website_fall24/ex/w07/questions/pytorch-parameter_count-sol.html</loc>
-    <lastmod>2025-08-20T20:05:49.849Z</lastmod>
-  </url>
-  <url>
-    <loc>https://csc477.github.io/website_fall24/ex/w07/questions/prob-mle_exp_dist.html</loc>
-    <lastmod>2025-08-20T20:05:49.849Z</lastmod>
-  </url>
-  <url>
-    <loc>https://csc477.github.io/website_fall24/ex/w09/exercises09_solution.html</loc>
-    <lastmod>2025-08-20T20:05:49.851Z</lastmod>
-  </url>
-  <url>
-    <loc>https://csc477.github.io/website_fall24/ex/w09/questions/attn-transformers_by_hand-sol.html</loc>
-    <lastmod>2025-08-20T20:05:49.852Z</lastmod>
-  </url>
-  <url>
-    <loc>https://csc477.github.io/website_fall24/ex/w09/questions/attn-dot_product_attention.html</loc>
-    <lastmod>2025-08-20T20:05:49.851Z</lastmod>
-  </url>
-  <url>
-    <loc>https://csc477.github.io/website_fall24/ex/w09/questions/attn-dot_product_attention-sol.html</loc>
-    <lastmod>2025-08-20T20:05:49.851Z</lastmod>
-  </url>
-  <url>
-    <loc>https://csc477.github.io/website_fall24/ex/w09/questions/attn-dot_product_attention-notes.html</loc>
-    <lastmod>2025-08-20T20:05:49.851Z</lastmod>
-  </url>
-  <url>
-    <loc>https://csc477.github.io/website_fall24/ex/w08/exercises08_solution.html</loc>
-    <lastmod>2025-08-20T20:05:49.849Z</lastmod>
-  </url>
-  <url>
-    <loc>https://csc477.github.io/website_fall24/ex/w08/questions/rnn-sentiment.html</loc>
-    <lastmod>2025-08-20T20:05:49.850Z</lastmod>
-  </url>
-  <url>
-    <loc>https://csc477.github.io/website_fall24/ex/w08/questions/rnn-scalar-sol.html</loc>
-    <lastmod>2025-08-20T20:05:49.850Z</lastmod>
-  </url>
-  <url>
-    <loc>https://csc477.github.io/website_fall24/ex/w08/questions/rnn-addition-sol.html</loc>
-    <lastmod>2025-08-20T20:05:49.849Z</lastmod>
-  </url>
-  <url>
-    <loc>https://csc477.github.io/website_fall24/ex/w06/exercises06.html</loc>
-    <lastmod>2025-08-20T20:05:49.847Z</lastmod>
-  </url>
-  <url>
-    <loc>https://csc477.github.io/website_fall24/ex/w06/exercises06_solution.html</loc>
-    <lastmod>2025-08-20T20:05:49.847Z</lastmod>
-  </url>
-  <url>
-    <loc>https://csc477.github.io/website_fall24/ex/w06/questions/prob-variance.html</loc>
-    <lastmod>2025-08-20T20:05:49.847Z</lastmod>
-  </url>
-  <url>
-    <loc>https://csc477.github.io/website_fall24/ex/w06/questions/ml-variance_bias_decomposition-sol.html</loc>
-    <lastmod>2025-08-20T20:05:49.847Z</lastmod>
+    <loc>https://csc477.github.io/website_fall24/project-tips-resources.html</loc>
+    <lastmod>2025-08-20T20:05:50.626Z</lastmod>
   </url>
   <url>
     <loc>https://csc477.github.io/website_fall24/course-overview.html</loc>
@@ -638,39 +154,19 @@
   </url>
   <url>
     <loc>https://csc477.github.io/website_fall24/course-team.html</loc>
-    <lastmod>2025-08-20T20:05:49.828Z</lastmod>
+    <lastmod>2025-08-20T20:46:55.556Z</lastmod>
   </url>
   <url>
-    <loc>https://csc477.github.io/website_fall24/supplemental/model-diagnostics-matrix.html</loc>
-    <lastmod>2025-08-20T20:05:50.628Z</lastmod>
+    <loc>https://csc477.github.io/website_fall24/project-description.html</loc>
+    <lastmod>2025-08-20T20:05:50.626Z</lastmod>
   </url>
   <url>
-    <loc>https://csc477.github.io/website_fall24/supplemental/log-transformations.html</loc>
-    <lastmod>2025-08-20T20:05:50.627Z</lastmod>
-  </url>
-  <url>
-    <loc>https://csc477.github.io/website_fall24/computing-pipelines.html</loc>
-    <lastmod>2025-08-20T20:05:49.826Z</lastmod>
-  </url>
-  <url>
-    <loc>https://csc477.github.io/website_fall24/course-schedule.html</loc>
-    <lastmod>2025-08-20T20:26:23.130Z</lastmod>
-  </url>
-  <url>
-    <loc>https://csc477.github.io/website_fall24/exams/exam-1.html</loc>
-    <lastmod>2025-08-20T20:05:49.855Z</lastmod>
-  </url>
-  <url>
-    <loc>https://csc477.github.io/website_fall24/exams/exam-2.html</loc>
-    <lastmod>2025-08-20T20:05:49.855Z</lastmod>
-  </url>
-  <url>
-    <loc>https://csc477.github.io/website_fall24/course-syllabus.html</loc>
-    <lastmod>2025-08-20T20:05:49.828Z</lastmod>
+    <loc>https://csc477.github.io/website_fall24/lecs/w03/lec03.html</loc>
+    <lastmod>2025-08-21T15:27:52.041Z</lastmod>
   </url>
   <url>
     <loc>https://csc477.github.io/website_fall24/lecs/w02/lec02.html</loc>
-    <lastmod>2025-08-20T20:36:04.117Z</lastmod>
+    <lastmod>2025-08-21T14:32:07.373Z</lastmod>
   </url>
   <url>
     <loc>https://csc477.github.io/website_fall24/lecs/w01/notes.html</loc>
