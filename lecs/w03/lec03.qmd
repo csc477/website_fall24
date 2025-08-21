@@ -1,0 +1,732 @@
+---
+title: "CSC477 Introduction to Mobile Robotics"
+subtitle: "Week #3: PID Control, Potential Fields, Obstacle Avoidance"
+author: "Florian Shkurti"
+format: 
+  revealjs:
+    slide-number: true
+    smaller: true
+    footer: '<a href="https://csc477.github.io/website_fall24" target="_blank" style="font-size:0.8em; bottom: -5px;">↩ Back to Course Website</a>'
+    css: ../style.css
+    chalkboard:
+      buttons: true
+      boardmarker-width: 2
+      chalk-width: 2
+      chalk-effect: 1.0
+html-math-method:
+  method: mathjax
+  url: "https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"
+---
+
+## Feedback Control
+
+![](img/feedback-control.png)
+
+[Main question: what are the controls that will take the system from state A to B?]{.orange}
+
+## Example: wall/line following at fixed speed
+
+::: {layout="[1,1]"}
+You have to control the angular velocity $w$
+
+![](img/fixed-speed-ex.png){width=450}
+:::
+
+## Why bother with wall/line following?
+
+-   Because it enables arbitrary path following where the line is the local tangent of the curved path
+
+## Idea 1: bang-bang control
+
+$$
+\omega = \begin{cases}
+\omega_{\text{max}} & \text{if } \text{CTE} > 0 \\
+-\omega_{\text{max}} & \text{if } \text{CTE} < 0 \\
+0 
+\end{cases}
+$$
+
+What’s wrong with this?
+
+## Idea 2: proportional (P-)control
+
+$$
+w = K_{p}e(t)
+$$
+
+Will the car reach the target line?
+
+Will the car overshoot the target line?
+
+Is the asymptotic (steady-state) error zero?
+
+## Idea 2: proportional (P-)control
+
+$$
+w = K_{p}e(t)
+$$
+
+:::{.center-align}
+Will the car reach the target line? YES
+
+Will the car overshoot the target line? YES
+
+Is the asymptotic (steady-state) error zero? NO
+:::
+
+![](img/car-control.png){width=280 .absolute left="0" bottom="0"}
+
+## Addressing the oscillation problem
+
+-   Need to reduce turning rate **well before** the line is approached
+
+-   Idea: have a small proportional gain $K_p$\
+    Problem: that means the car doesn’t turn very much
+
+-   Idea: need to **predict the error** in the near future\
+    This is good, as long as the error does not oscillate at a very high frequency
+
+## Idea 3: proportional-derivative (PD-)control
+
+$$
+W = K_{p}e(t) + K_{d}\dot e(t)
+$$
+
+:::{.center-align}
+How do we set the gains?
+
+What if there are systematic errors/biases?
+
+What if the error estimate is very noisy?
+:::
+
+![](img/idea3-car.png){.absolute left="0" bottom="0" .bg-img}
+
+## Handling systematic biases: the integral term
+
+-   Examples of systematic biases:
+    -   wheels are misaligned
+    -   car is much heavier on one side
+-   Add integral of the error from the beginning of time: $\int_{\tau=0}^{\tau=t} e(\tau) d\tau$
+
+. . .
+
+-   Can the PI-controller have nonzero error asymptotically (in steady-state)?
+    -   NO. In steady state both the control $w_\infty$ and the error $e_\infty$ must be constant. If the asymptotic error is nonzero then the control is not constant: $\omega_\infty = K_p e_\infty + K_i e_\infty t$
+
+## Potential problem: integrator windup
+
+-   What happens if the control variable reaches the actuator’s limits?
+
+-   I.e. the car can’t turn as fast as the controller commands it.
+
+-   Actuator may remain at its limit for a long time while the controller modifies its commands
+
+-   Error increases, integral term winds up while controller goes back to issuing commands in the feasible region.
+
+## Potential problem: integrator windup
+
+-   Heuristic fixes:
+    -   Limit integral error values
+    -   Stop integral error while the commands are in the non feasible region
+    -   Reduce gain of integral error term
+
+## PID controller
+
+$$
+\omega(t) = K_p e(t) + K_d \dot{e}(t) + K_i \int_{\tau=0}^{\tau=t} e(\tau) d\tau
+$$
+
+Perhaps the most widely used controller in industry and robotics.
+
+Perhaps the easiest to code.
+
+{{< pagebreak >}}
+
+You will also see it as:
+
+$$
+\omega(t) = K_p \left[ e(t) + T_d \dot{e}(t) + \frac{1}{T_i} \int_{\tau=0}^{\tau=t} e(\tau) d\tau \right]
+$$
+
+## Tips: how to implement PID
+
+:::{.medium-font}
+-   Assume time is discrete
+-   Identify your error function e(t)= current_state(t)- target_state(t)
+-   Is the measurement of the state reliable?
+-   If the measurement of the current state is very noisy you might want to smooth/filter it, using:
+    -   **Moving average filter** with uniform weights $$
+        \hat{x}_t = \frac{x_t + x_{t-1} + \ldots + x_{t-k+1}}{k} = \hat{x}_{t-1} + \frac{x_t - x_{t-k}}{k}
+        $$
+
+        Potential problem: the larger the window of the filter the slower it is going to register changes.
+
+    -   **Exponential filter** 
+        $$
+        \hat{x}_t = \alpha \hat{x}_{t-1} + (1 - \alpha) x_t, \quad \alpha \in [0, 1]
+        $$ 
+
+        Potential problem: the closer is to 1 the slower it is going to register changes.
+:::
+
+
+## Tips: how to implement PID
+
+-   Approximate the integral of error by a sum
+
+-   Approximate the derivative of error by:
+
+    -   Finite differences $\dot{e}(t_k) \approx \frac{e(t_k) - e(t_{k-1})}{\delta t}$
+    -   Filtered finite differences, e.g. $\dot{e}(t_k) \approx \alpha \dot{e}(t_{k-1}) + (1 - \alpha) \frac{e(t_k) - e(t_{k-1})}{\delta t}$
+
+-   Limit the computed controls
+
+-   Limit or stop the integral term when detecting large errors and windup
+
+## Tips: how to tune the PID
+
+-   Manually:
+    -   First, use only the proportional term. Set the other gains to zero.
+    -   When you see oscillations slowly add derivative term
+        -   Increasing $K_d$ increases the duration in which linear error prediction is assumed to be valid
+    -   Add a small integral gain
+
+## Tips: how to tune the PID
+
+-   Ziegler-Nichols heuristic:
+    -   First, use only the proportional term. Set the other gains to zero.
+    -   When you see consistent oscillations, record the proportional gain $K_u$ and the oscillation period $T_u$
+
+![](img/Lecture3_41.png){width="600" height=300 fig-align="center"}
+
+## Tips: how to tune the PID
+
+-   After manual or Z-N tweaking you might want to use coordinate ascent to search for a better set of parameters automatically:
+
+![](img/Lecture3_42.png){widht="400" height="450" fig-align="right"}
+
+::: {.red-annotation .absolute left="0" bottom="40"}
+See Sebastian Thrun’s online class \
+“AI for robotics” on Udacity for more \
+details on this. He calls the algorithm \
+Twiddle and it is in Lesson 5.
+
+Other names for this are \
+“Self-tuning PID controllers”
+:::
+
+## When is PID insufficient?
+
+-   Systems with large time delays
+-   Controllers that require completion time guarantees
+    -   E.g. the system must reach target state within 2 secs
+-   Systems with high-frequency oscillations
+-   High-frequency variations on the target state
+
+## Example applications: self-driving cars
+
+{{< video https://www.youtube.com/watch?v=M2AcMnfzpNg width=600 height="400" start="7.54" >}}
+
+## Cascading PID
+
+-   Sometimes we have multiple error sources (e.g. multiple sensors) and one actuator to control.
+
+-   We can use a master PID loop that sets the setpoint for the slave PID loop. Master (outer loop) runs at low rate, while slave (inner loop) runs at higher rate.
+
+-   One way of getting hierarchical control behavior.
+
+## Potential Fields Main Motivation
+
+![](img/star-circle.png)
+
+Q: How do you control the robot to reach the goal state while avoiding the obstacle?
+
+## Main Motivation
+
+![](img/star-circle.png)
+
+<br>
+
+Q: How do you control the robot to reach the goal state while avoiding the obstacle?
+
+Assume omnidirectional robot.
+
+:::{.absolute left=0 top=100 }
+{{< video https://www.youtube.com/watch?v=9GQ0lPGDC1w&list=PL2DF8159717CEACC2&index=3 width="350" height="200" >}}
+:::
+
+## Background: potential energy and forces
+
+::: {layout-ncol="2"}
+![](img/Lecture3_48.png)
+
+$$
+\begin{align}
+U(x) &= \frac{1}{2}kx^2 \\
+F(x) &= -kx
+\end{align}
+$$
+:::
+
+## Background: potential energy and forces
+
+::: {layout-ncol="2"}
+![](img/Lecture3_51.jpg)
+
+$$
+\begin{align}
+U(x) &= mgx \\
+F(x) &= -mg
+\end{align}
+$$
+:::
+
+## Background: potential energy and forces
+
+In both cases we have conversion from kinetic energy to potential energy U(x).
+
+In both cases there is a force resulting from the potential field, and F(x)=-dU(x)/dx.
+
+This is a general rule for conservative systems with no external forces.
+
+## Main Motivation
+
+![](img/star-circles.png)
+
+Q: How do you control the robot to reach the goal state while avoiding the obstacle?
+
+## Artificial Potential Fields
+
+![](img/star-circles-arrows.png)
+
+Q: How do you control the robot to reach the goal state while avoiding the obstacle?
+
+A: Place a repulsive potential field around obstacles
+
+## Artificial Potential Fields
+
+![](img/artificial-potential-fields.png)
+
+Q: How do you control the robot to reach the goal state while avoiding the obstacle?
+
+A: Place a repulsive potential field around obstacles and an attractive potential field around the goal
+
+## Artificial Potential Fields
+
+![](img/artificial-potential-fields-r.png)
+
+$$
+U_{\text{repulsive}}(x) = \begin{cases}
+\left( \frac{1}{d(x,\text{obs})} - \frac{1}{r} \right)^2 & \text{if } d(x, \text{obs}) < r \\
+0 & \text{if } d(x, \text{obs}) \geq r
+\end{cases}
+$$
+
+## Artificial Potential Fields
+
+![](img/artificial-potential-fields-longr.png)
+
+::: {layout="[65,-5, 30]"}
+$$
+U_{\text{repulsive}}(x) = \begin{cases}
+\left( \frac{1}{d(x,\text{obs})} - \frac{1}{r} \right)^2 & \text{if } d(x, \text{obs}) < r \\
+0 & \text{if } d(x, \text{obs}) \geq r
+\end{cases}
+$$
+
+$$
+U_\text{attractive}(x) = d(x, x_{\text{goal}})^2
+$$
+
+:::
+
+## How do we compute these distances from obstacles?
+
+![](img/Lecture3_73.png){fig-align="center"}
+
+## How do we compute these distances from obstacles?
+
+![](img/Lecture3_74.png){fig-align="center"}
+
+## How do we compute these distances from obstacles?
+
+![](img/Lecture3_75.png){fig-align="center"}
+
+## How do we compute these distances from obstacles?
+
+![](img/Lecture3_76.png){fig-align="center"}
+
+## Attractive and Repulsive Potential Fields
+
+![](img/sum-potential-fields.png)
+
+$U(x) = \alpha U\_{\text{attractive}}(x) + \beta U\_{\text{repulsive}}(x)$
+
+::: {.red-annotation .absolute right="0" bottom="0"}
+Q1: How do we reach the goal state\
+from an arbitrary state?
+
+Q2: In this example there is an unambiguous way\
+to reach the goal from any state. Is this true in\
+general?
+:::
+
+## From Potential Fields to Forces
+
+Make the robot move by applying forces resulting from potential fields
+
+:::: columns
+::: {.column width="35%"}
+$$
+U_\text{attractive}(x) = d(x, x_{\text{goal}})^2
+$$
+
+![](img/Lecture3_81.png)
+:::
+
+::: {.column width="5%"}
+![](img/blue-arrow.png){width="40"}
+:::
+
+::: {.column width="60%" .medium-font}
+$$
+F_{\text{attractive}}(x) = -\nabla_x U_\text{attractive}(x) = -2(x - x_{\text{goal}})
+$$
+
+![](img/blue-arrow-down.png){height="40" fig-align="center"}
+
+Attractive force makes state x go to the bottom of the potential energy bowl. Bottom=Goal = low-energy state.
+
+:::{.fragment}
+![](img/blue-arrow-down.png){height="40" fig-align="center"}
+
+Move the robot using F=ma, for m=1:
+$$
+\dot{x}_{t+1} = \dot{x}_t + \delta t F(x_t)
+$$
+
+**Gradient descent down the potential bowl**
+:::
+
+:::
+::::
+
+## From Potential Fields to Forces
+
+Make the robot move by applying forces resulting from potential fields
+
+:::: columns
+::: {.column width="35%"}
+$$
+U_\text{attractive}(x) = d(x, x_{\text{goal}})^2
+$$
+
+![](img/Lecture3_81.png)
+:::
+
+::: {.column width="5%"}
+![](img/blue-arrow.png){width="40"}
+:::
+
+::: {.column width="60%" .medium-font}
+$$
+F_{\text{attractive}}(x) = -\nabla_x U_\text{attractive}(x) = -2(x - x_{\text{goal}})
+$$
+
+![](img/blue-arrow-down.png){height="40" fig-align="center"}
+
+Attractive force makes state x go to the bottom of the potential energy bowl. Bottom=Goal = low-energy state.
+
+:::
+::::
+
+[Q: Do you see any problems with this potential energy and force if x is far away from goal?]{.red-annotation}
+
+. . .
+
+[A: The farther the robot is the stronger the force. May need to normalize the force vector. Alternatively:]{.red-annotation}
+
+$$
+U_{\text{attractive}}(x) = d(x, x_{\text{goal}}) \Rightarrow F_{\text{attractive}}(x) = -\frac{(x - x_{\text{goal}})}{d(x, x_{\text{goal}})}
+$$
+
+
+## From Potential Fields to Forces 
+
+Make the robot move by applying forces resulting from potential fields
+
+:::: columns
+::: {.column width="48%" .small-font}
+$$
+U_{\text{repulsive}}(x) = \begin{cases}
+\left( \frac{1}{d(x,\text{obs})} - \frac{1}{r} \right)^2 & \text{if } d(x, \text{obs}) < r \\
+0 & \text{if } d(x, \text{obs}) \geq r
+\end{cases}
+$$
+
+![](img/Lecture3_96.png)
+
+:::
+
+::: {.column width="4%"}
+![](img/blue-arrow.png){width="40"}
+:::
+
+::: {.column width="48%" .small-font}
+$$
+F_{\text{repulsive}}(x) = \begin{cases}
+2\left( \frac{1}{d(x,\text{obs})} - \frac{1}{r} \right) \frac{\nabla_x d(x,\text{obs})}{d(x,\text{obs})^2} & \text{if } d(x, \text{obs}) < r \\
+0 & \text{otherwise}
+\end{cases}
+$$
+
+![](img/blue-arrow-down.png){height="35" fig-align="center"}
+
+Repulsive force makes state x go away from the obstacle to lower potential energy states. Free space = {low-energy states}
+
+![](img/blue-arrow-down.png){height="35" fig-align="center"}
+
+Move the robot using F=ma, for m=1:
+
+$$
+\dot x_{t+1} = \dot x_t + \delta t F(x_t)
+$$
+
+**Gradient descent until obstacle is cleared**
+
+:::
+::::
+
+## Combining Attractive and Repulsive Forces
+
+:::{.medium-font .center-align}
+Potential energy
+
+$$
+U_{\text{total}}(x) = \alpha U_{\text{attractive}}(x) + \beta U_{\text{repulsive}}(x)
+$$
+
+![](img/blue-arrow-down.png){height="35" fig-align="center"}
+
+results in forces 
+
+$$
+F_{\text{total}}(x) = \alpha F_{\text{attractive}}(x) + \beta F_{\text{repulsive}}(x)
+$$
+
+![](img/blue-arrow-down.png){height="35" fig-align="center"}
+
+makes robot accelerate
+
+$$
+\dot{x}_{t+1} = \dot{x}_t + \delta t F(x_t)
+$$
+
+:::
+
+## Artificial Potential Fields: Example
+
+:::: columns
+::: {.column width="40%"}
+Advantages of potential fields:
+
+- Can handle moving obstacles
+
+- Fast and easy to compute
+
+- Fairly reactive
+:::
+
+::: {.column width="60%"}
+{{< video vid/potential_fields.mp4 width=600 height="400" >}}
+:::
+::::
+
+
+## Combining Attractive and Repulsive Forces
+
+:::{.medium-font .center-align}
+Potential energy
+
+$$
+U_{\text{total}}(x) = \alpha U_{\text{attractive}}(x) + \beta U_{\text{repulsive}}(x)
+$$
+
+![](img/blue-arrow-down.png){height="35" fig-align="center"}
+
+results in forces 
+
+$$
+F_{\text{total}}(x) = \alpha F_{\text{attractive}}(x) + \beta F_{\text{repulsive}}(x)
+$$
+
+![](img/blue-arrow-down.png){height="35" fig-align="center"}
+
+makes robot accelerate
+
+$$
+\dot{x}_{t+1} = \dot{x}_t + \delta t F(x_t)
+$$
+
+:::{.red-annotation .absolute right=0 bottom="40%"}
+Q: What’s a possible problem \
+with addition of forces?
+:::
+
+:::
+
+## Artificial Potential Fields
+
+![](img/atrificial-potential-fields.png)
+
+:::: columns
+
+::: {.column width="20%"}
+:::
+
+::: {.column width="40%" .red .medium-font}
+What’s the total potential here?
+
+:::{.fragment fragment-index=1}
+It’s zero. The repulsive force is exactly the opposite of the attractive force (assuming alpha = beta)
+:::
+
+:::
+
+::: {.column width="40%" .medium-font .fragment fragment-index=1}
+$$
+F_{\text{total}}(x) = \alpha F_{\text{attractive}}(x) + \beta F_{\text{repulsive}}(x) = 0
+$$
+
+**Problem: gradient descent gets stuck**
+:::
+::::
+
+## Local Minima on the Potential Field: Getting Stuck
+
+States of zero total force correspond to local minima in the potential function:
+
+![](img/local-minima.png)
+
+
+## Local Minima on the Potential Field: Getting Stuck
+States of zero total force correspond to local minima in the potential function:
+
+![](img/local-minima2.png){fig-align="center"}
+
+[Problem: If you end up here gradient descent \
+can’t help you. All local moves seem \
+identical in terms of value $\rightarrow$ local min]{.red-annotation}
+
+## Local Minima on the Potential Field: Getting Unstuck Randomly
+States of zero total force correspond to local minima in the potential function:
+
+![](img/local-minima2.png){fig-align="center"}
+
+[Problem: If you end up here gradient descent \
+can’t help you. All local moves seem \
+identical in terms of value $\rightarrow$ local min]{.red-annotation}
+
+[**Solution #1: Do random move in case \
+it helps you get unstuck.**]{.absolute right=0 bottom="40%" .medium-font}
+
+## Local Minima on the Potential Field: Getting Unstuck By Backing Up 
+States of zero total force correspond to local minima in the potential function:
+
+![](img/local-minima2.png){fig-align="center"}
+
+[Problem: If you end up here gradient descent \
+can’t help you. All local moves seem \
+identical in terms of value $\rightarrow$ local min]{.red-annotation }
+
+[**Solution #2: back up and get out from \
+the dead end, just like you entered it.**]{.absolute right=0 bottom="40%" .medium-font}
+
+
+## Drawbacks of potential fields
+
+-   *Local minima*
+    -   Attractive and repulsive forces can balance, so robot makes no progress.
+    -   Closely spaced obstacles, or dead end.
+-   *Unstable oscillation*
+    -   The dynamics of the robot/environment system can become unstable.
+    -   High speeds, narrow corridors, sudden changes 
+
+![](img/drawback-potential-field.png){fig-align="right"}
+
+## Avoiding Local Minima on the Potential Field: Navigation Functions
+
+Potential energy function $\phi(x)$ with a **single global minimum** at the goal, and **no local minima.**
+
+For any state x there exists a neighboring state x’ such that $\phi(x') < \phi(x)$
+
+:::{layout="[60, 40]"}
+So far not used in practice very much because they are usually as hard to compute as a planned path from the current state to the goal.
+
+![](img/Lecture3_117.png)
+:::
+
+## Addressing the Drawbacks of Potential Fields
+
+- Vector Field Histogram (VFH)
+
+- Dynamic Window Approach
+
+Both methods for local obstacle avoidance
+
+## VFH (Vector Field Histogram)
+
+![](img/Lecture3_118.png){fig-align="center"}
+
+## VFH (Vector Field Histogram)
+
+:::{layout-ncol="2"}
+![](img/Lecture3_120.png)
+
+![](img/Lecture3_119.png)
+
+:::{.medium-font}
+High risk for cells with high probability of being occupied. \
+Risk inversely proportional to distance.
+:::
+
+::: 
+
+## VFH (Vector Field Histogram)
+![](img/Lecture3_121.png){fig-align="center"}
+
+## VFH (Vector Field Histogram)
+
+{{< video vid/vfh1.mp4 width="600" height=400 >}}
+
+## VFH (Vector Field Histogram)
+{{< video https://www.youtube.com/watch?v=oQ-1pnm6MPk width="600" height=400 >}}
+
+## DWA (Dynamic Window Approach)
+
+:::: columns
+::: {.column width="50%" .medium-font}
+Local, reactive controller
+
+1. Sample a set of controls for x,y,theta
+
+2. Simulate where each control is going to take the robot
+
+3. Eliminate those that lead to collisions.
+
+4. Reward those that agree with a navigation plan.
+
+5. Reward high-speeds
+
+6. Reward proximity to goal.
+
+7. Pick control with highest score that doesn’t lead to collision.
+:::
+
+::: {.column width="50%"}
+![](img/Lecture3_124.png)
+:::
+
+::::
+
