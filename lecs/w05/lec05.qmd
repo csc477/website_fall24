@@ -1,0 +1,1238 @@
+---
+title: "CSC477 Introduction to Mobile Robotics"
+subtitle: "Week #5: Optimal Control and the Linear Quadratic Regulator (LQR)"
+author: "Florian Shkurti"
+format: 
+  revealjs:
+    slide-number: true
+    smaller: true
+    footer: '<a href="https://csc477.github.io/website_fall24" target="_blank" style="font-size:0.8em; bottom: -5px;">↩ Back to Course Website</a>'
+    css: ../style.css
+    chalkboard:
+      buttons: true
+      boardmarker-width: 2
+      chalk-width: 2
+      chalk-effect: 1.0
+html-math-method:
+  method: mathjax
+  url: "https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"
+---
+
+## Today’s agenda
+
+::::: columns
+::: {.column width="70%"}
+-   Intro to Control
+-   Linear Quadratic Regulator (LQR)
+:::
+
+::: {.column width="30%"}
+![](img/Lecture4_1.png)
+:::
+:::::
+
+::: aside
+Acknowledgments \
+Today’s slides have been influenced by: Pieter Abbeel (ECE287), Sergey Levine (DeepRL), Ben Recht (ICML’18), Emo Todorov, Zico Kolter
+:::
+
+## 
+
+::: {layout-ncol="2"}
+![](img/optimal-control.png)
+:::
+
+## 
+
+::: {layout-ncol="2"}
+![](img/opt-control2.png)
+:::
+
+## 
+
+::: {layout-ncol="2"}
+![](img/opt-control2.png)
+:::
+
+::: {layout-ncol="2"}
+$$
+\begin{align}
+\operatorname*{minimize}_{\pi_0, \ldots, \pi_{T-1}} \quad &\mathbb{E}_{e_t} \left[ \sum_{t=0}^{T} c(\mathbf{x}_t, \mathbf{u}_t) \right] \\
+\text{subject to} \quad &\mathbf{x}_{t+1} = f_t(\mathbf{x}_t, \mathbf{u}_t, e_t) \quad \color{red}{\text{known dynamics}} \\
+&\mathbf{u}_t = \pi_t(\mathbf{x}_{0:t}, \mathbf{u}_{0:t-1}) \\
+& \color{red}\text{control law / policy}
+\end{align}
+$$
+
+:::
+
+## Today’s agenda
+
+:::::: columns
+:::: {.column width="70%"}
+::: grey
+-   Intro to Control
+:::
+
+-   Linear Quadratic Regulator (LQR)
+::::
+
+::: {.column width="30%"}
+![](img/Lecture4_1.png)
+:::
+::::::
+
+::: aside
+Acknowledgments \
+Today’s slides have been influenced by: Pieter Abbeel (ECE287), Sergey Levine (DeepRL), Ben Recht (ICML’18), Emo Todorov, Zico Kolter
+:::
+
+## What you can do with LQR control
+
+{{< video https://www.youtube.com/watch?v=DhpYfjwm0Zs width=600 height="400" >}}
+
+## What you can do with (variants of) LQR control
+
+{{< video https://youtu.be/VCdxqn0fcnE width=600 height="400" >}}
+
+[Pieter Abbeel, Helicopter Aerobatics]{.small-font}
+
+## LQR: assumptions
+
+-   You know the dynamics model of the system
+-   It is linear: $x_{t+1} = Ax_t + Bu_t$
+
+<br> 
+<br>
+
+![](img/lqr-assump.png){width="65%" .absolute left=40 bottom="380"}
+
+
+:::{layout="[-5, 45 ,50]"}
+
+$$
+\mathbb{R}^d \qquad\qquad\qquad\qquad \mathbb{R}^k
+$$
+
+:::
+
+:::{layout="[-5, 45 ,50]"}
+$$
+A \in \mathbb{R}^{d \times d} \qquad\qquad\qquad\qquad B \in \mathbb{R}^{d \times k}
+$$
+
+:::
+
+## Which systems are linear?
+
+:::::::: columns
+::::: {.column width="70%"}
+![](img/Lecture4_30.png){.absolute width="30" height="30" top="90" left="0"} 
+
+- Omnidirectional robot
+
+:::{.medium-font}
+$$
+\begin{align}
+x_{t+1} &= x_t + v_x(t)\delta t & \mathbf{x}_{t+1} &= I\mathbf{x}_t + \delta t I \mathbf{u}_t \\
+y_{t+1} &= y_t + v_y(t)\delta t \qquad \Rightarrow & A &= I \\
+\theta_{t+1} &= \theta_t + \omega_z(t)\delta t & B &= \delta t I
+\end{align}
+$$
+
+:::
+
+
+:::: {.fragment fragment-index="1"}
+-   Simple car
+
+::: {layout="[60, 40]" .medium-font}
+$$
+\begin{align}
+x_{t+1} &= x_t + v_x(t)\cos(\theta_t)\delta t \\
+y_{t+1} &= y_t + v_x(t)\sin(\theta_t)\delta t \qquad \Rightarrow \\
+\theta_{t+1} &= \theta_t + \omega_z\delta t
+\end{align}
+$$
+
+:::
+::::
+:::::
+
+:::: {.column width="30%"}
+![](img/Lecture4_31.jpg)
+
+::: {.fragment fragment-index="1"}
+{{< video https://youtu.be/fEImNJQ3hUM height="250" width="400" >}}
+:::
+::::
+::::::::
+
+## Which systems are linear?
+
+::::: columns
+::: {.column width="70%" .medium-font}
+![](img/Lecture4_30.png){.absolute width="30" height="30" top="90" left="0"} 
+
+- Omnidirectional robot
+
+$$
+\begin{align}
+x_{t+1} &= x_t + v_x(t)\delta t & \mathbf{x}_{t+1} &= I\mathbf{x}_t + \delta t I \mathbf{u}_t \\
+y_{t+1} &= y_t + v_y(t)\delta t \qquad \Rightarrow & A &= I \\
+\theta_{t+1} &= \theta_t + \omega_z(t)\delta t & B &= \delta t I
+\end{align}
+$$
+
+
+-   Simple car
+
+:::{.medium-font}
+$$
+\begin{align}
+x_{t+1} &= x_t + v_x(t)\cos(\theta_t)\delta t & \mathbf{x}_{t+1} &= I\mathbf{x}_t + \begin{bmatrix} \delta t\cos(\theta_t) & 0 & 0 \\ 0 & \delta t\sin(\theta_t) & 0 \\ 0 & 0 & \delta t \end{bmatrix} \mathbf{u}_t \\
+y_{t+1} &= y_t + v_x(t)\sin(\theta_t)\delta t  \qquad \Rightarrow & A &= I \\
+\theta_{t+1} &= \theta_t + \omega_z\delta t & B &= B(\mathbf{x}_t)
+\end{align}
+$$
+
+:::
+
+:::
+
+::: {.column width="30%" .medium-font}
+![](img/Lecture4_31.jpg)
+
+{{< video https://youtu.be/fEImNJQ3hUM width=400 height="250" >}}
+:::
+:::::
+
+. . .
+
+![](img/x.png){.absolute bottom="49.5%" left="0" width="35" height="35"}
+
+![](img/o.png){.absolute bottom="185" left="40%" width="30" height="30"}
+
+## The goal of LQR
+
+<br> <br>
+
+-   Stabilize the system around $x_t = 0$ state with control $u_t = 0$
+
+-   Then $x_{t+1} = 0$ and the system will remain at zero forever
+
+::: {.red-annotation .absolute .fragment top="60" left="420"}
+If we want to stabilize around x\* then let x – x\* be the state
+
+![](img/down-arrow.png){width="40" height="60"}
+:::
+
+## LQR: assumptions
+
+-   You know the dynamics model of the system
+
+-   It is linear: $x_{t+1} = Ax_t + Bu_t$
+
+<br> <br>
+
+-   There is an instantaneous cost associated with being at state \
+    $x_t$ and taking the action $\mathbf{u}_t : c(x_t, u_t) = x_t^T Qx_t +u_t^T Ru_t$
+
+::: {.red-annotation .absolute right="420" bottom="100" .center-align}
+![](img/uparrow1.png){width="40" height="80"}
+
+Quadratic state cost:\
+Penalizes deviation\
+from the zero vector
+:::
+
+::: {.red-annotation .absolute right="170" bottom="100"}
+![](img/uparrow2.png){width="40" height="80"}
+
+Quadratic control cost:\
+Penalizes high control\
+signals
+:::
+
+## LQR: assumptions
+
+-   You know the dynamics model of the system
+
+-   It is linear: $x_{t+1} = Ax_t + Bu_t$
+
+<br> <br>
+
+-   There is an instantaneous cost associated with being at state \
+    $x_t$ and taking the action $\mathbf{u}_t : c(x_t, u_t) = x_t^T Qx_t +u_t^T Ru_t$
+
+::: {.red-annotation .absolute right="195" bottom="100" .center-align}
+![](img/doublearrow.png){width="160" height="80"}
+
+Square matrices Q and R must be positive definite:\
+$\color{black}Q = Q^T \quad \text{and} \quad \forall x, x^T Qx > 0$\
+$\color{black}R = R^T \quad \text{and} \quad \forall u, u^T Ru > 0$\
+i.e. positive cost for ANY nonzero state and control vector
+:::
+
+## Finite-Horizon LQR
+
+-   Idea: finding controls is an optimization problem
+-   Compute the control variables that minimize the cumulative cost
+
+:::: columns
+::: {.column width="65%"}
+
+$$
+\begin{align}
+u_0^*, \ldots, u_{N-1}^* &= \operatorname*{argmin}_{u_0,\ldots,u_N} \quad \sum_{t=0}^{N} c(\mathbf{x}_t, \mathbf{u}_t) \\
+\text{s.t.} \quad \mathbf{x}_1 &= A\mathbf{x}_0 + B\mathbf{u}_0 \\
+\mathbf{x}_2 &= A\mathbf{x}_1 + B\mathbf{u}_1 \\
+&\vdots \\
+\mathbf{x}_N &= A\mathbf{x}_{N-1} + B\mathbf{u}_{N-1}
+\end{align}
+$$
+
+:::
+
+::: {.column width="35%" .red-annotation }
+
+::: {.fragment .fade-in-then-out}
+
+<br>
+<br>
+
+We could solve this as a constrained\
+nonlinear optimization problem. But,\
+there is a better way: we can find a\
+closed-form solution.
+:::
+
+:::
+::::
+
+
+
+::: {.red-annotation .absolute .fragment left="0" bottom="240"}
+Open-loop plan!
+
+Given first state compute\
+action sequence
+:::
+
+## Why not use PID control?
+
+{{< pagebreak >}}
+
+:::{.medium-font}
+-   We could, but:
+
+{{< pagebreak >}}
+
+-   The gains for PID are good for a small region of state-space.
+
+    -   System reaches a state outside this set -\> becomes unstable
+    -   PID has no formal guarantees on the size of the set
+
+{{< pagebreak >}}
+
+-   We would need to tune PID gains for every control variable.
+
+    -   If the state vector has multiple dimensions it becomes harder to tune every control variable in isolation. Need to consider interactions and correlations.
+
+{{< pagebreak >}}
+
+-   We would need to tune PID gains for different regions of the state-space and guarantee smooth gain transitions
+
+    -   This is called gain scheduling, and it takes a lot of effort and time
+
+:::
+
+## Why not use PID?
+
+{{< pagebreak >}}
+
+:::{.medium-font}
+-   We could, but:
+
+{{< pagebreak >}}
+
+-   The gains for PID are good for a small region of state-space.
+
+    -   System reaches a state outside this set -\> becomes unstable
+    -   PID has no formal guarantees on the size of the set
+
+{{< pagebreak >}}
+
+-   We would need to tune PID gains for every control variable.
+
+    -   If the state vector has multiple dimensions it becomes harder to tune every control variable in isolation. Need to consider interactions and correlations.
+
+{{< pagebreak >}}
+
+-   We would need to tune PID gains for different regions of the state-space and guarantee smooth gain transitions
+
+    -   This is called gain scheduling, and it takes a lot of effort and time
+
+:::
+
+![](img/why-not-use-pid-txt.png){.absolute left="0" top="57" height="70%" height="58%"}
+
+## Finding the LQR controller in closed-form by recursion
+
+-   Let $J_n(x)$ denote the cumulative cost-to-go starting from state x and moving for n time steps.
+
+-   I.e. cumulative future cost from now till n more steps
+
+-   $J_0(x)$ is the terminal cost of ending up at state x, with no actions left to perform. Recall that $c(\mathbf{x}, \mathbf{u}) = \mathbf{x}^T Q\mathbf{x} + {\mathbf{u}^T R\mathbf{u}}$
+
+. . .
+
+[Q: What is the optimal cumulative cost-to-go function with 1 time step left?]{.red-annotation}
+
+## Finding the LQR controller in closed-form by recursion
+
+:::{layout="[30, 70]"}
+$$
+\begin{align}
+J_0(\mathbf{x}) &= \mathbf{x}^T Q \mathbf{x}
+\end{align}
+$$
+:::
+
+## Finding the LQR controller in closed-form by recursion
+
+:::{layout="[30, -40, 30]"}
+$$
+\begin{align}
+J_0(\mathbf{x}) &= \mathbf{x}^T P_0 \mathbf{x}
+\end{align}
+$$
+
+[For notational convenience later on]{.red-annotation .right-align}
+
+:::
+
+::: {.red-annotation .absolute right="0" top="50"}
+
+:::
+
+## Finding the LQR controller in closed-form by recursion
+
+:::{layout="[60, -10,30]"}
+$$
+\begin{align}
+J_0(\mathbf{x}) &= \mathbf{x}^T P_0 \mathbf{x} \\ 
+J_{1}(\mathbf{x}) &= \min_{\mathbf{u}}
+\underbrace{\left[ \mathbf{x}^T Q \mathbf{x} + \mathbf{u}^T R \mathbf{u} + J_{0}(A\mathbf{x} + B\mathbf{u}) \right]}_{\color{red}\text{ In RL this would be the state-action value function}}
+\end{align}
+$$
+
+::: {.red-annotation}
+
+<br> 
+
+Bellman Update\
+Dynamic Programming\
+Value Iteration
+:::
+
+:::
+
+## Finding the LQR controller in closed-form by recursion
+
+$$
+\begin{align}
+J_0(\mathbf{x}) &= \mathbf{x}^T P_0 \mathbf{x} \\ 
+J_1(\mathbf{x}) &= \min_{\mathbf{u}} [\mathbf{x}^T Q\mathbf{x} + \mathbf{u}^T R\mathbf{u} + J_0(A\mathbf{x} + B\mathbf{u})] \\
+&= \min_{\mathbf{u}} [\mathbf{x}^T Q\mathbf{x} + \mathbf{u}^T R\mathbf{u} + (A\mathbf{x} + B\mathbf{u})^T P_0 (A\mathbf{x} + B\mathbf{u})]
+\end{align}
+$$
+
+::: red-annotation
+Q: How do we optimize a multivariable function with respect to some variables (in our case, the controls)?
+:::
+
+## Finding the LQR controller in closed-form by recursion
+
+$$
+\begin{align}
+J_0(\mathbf{x}) &= \mathbf{x}^T P_0 \mathbf{x} \\
+J_1(\mathbf{x}) &= \min_{\mathbf{u}} [\mathbf{x}^T Q\mathbf{x} + \mathbf{u}^T R\mathbf{u} + J_0(A\mathbf{x} + B\mathbf{u})] \\
+&= \min_{\mathbf{u}} [\mathbf{x}^T Q\mathbf{x} + \mathbf{u}^T R\mathbf{u} + (A\mathbf{x} + B\mathbf{u})^T P_0 (A\mathbf{x} + B\mathbf{u})] \\
+&= \mathbf{x}^T Q\mathbf{x} + \min_{\mathbf{u}} [\mathbf{u}^T R\mathbf{u} + (A\mathbf{x} + B\mathbf{u})^T P_0 (A\mathbf{x} + B\mathbf{u})]
+\end{align}
+$$
+
+## Finding the LQR controller in closed-form by recursion
+
+$$
+\begin{align}
+J_0(\mathbf{x}) &= \mathbf{x}^T P_0 \mathbf{x} \\
+J_1(\mathbf{x}) &= \min_{\mathbf{u}} [\mathbf{x}^T Q\mathbf{x} + \mathbf{u}^T R\mathbf{u} + J_0(A\mathbf{x} + B\mathbf{u})] \\
+&= \min_{\mathbf{u}} [\mathbf{x}^T Q\mathbf{x} + \mathbf{u}^T R\mathbf{u} + (A\mathbf{x} + B\mathbf{u})^T P_0 (A\mathbf{x} + B\mathbf{u})] \\
+&= \mathbf{x}^T Q\mathbf{x} + \min_{\mathbf{u}} [\mathbf{u}^T R\mathbf{u} + (A\mathbf{x} + B\mathbf{u})^T P_0 (A\mathbf{x} + B\mathbf{u})] \\
+&= \mathbf{x}^T Q\mathbf{x} + \mathbf{x}^T A^T P_0 A\mathbf{x} + \min_{\mathbf{u}} [\mathbf{u}^T R\mathbf{u} + 2\mathbf{u}^T B^T P_0 A\mathbf{x} + \mathbf{u}^T B^T P_0 B\mathbf{u}]
+\end{align}
+$$
+
+. . .
+
+![](img/lqr-controller-text.png){.absolute width="45%" height="16%" right="80" bottom="140"}
+
+<br> 
+
+[A: Take the partial derivative w.r.t. controls and set it to zero. That will give you a critical point.]{.red-annotation}
+
+## Finding the LQR controller in closed-form by recursion
+
+$$
+J_1(\mathbf{x}) = \mathbf{x}^T Q\mathbf{x} + \mathbf{x}^T A^T P_0 A\mathbf{x} + \min_{\mathbf{u}} [\mathbf{u}^T R\mathbf{u} + 2\mathbf{u}^T B^T P_0 A\mathbf{x} + \mathbf{u}^T B^T P_0 B\mathbf{u}]
+$$
+
+:::::: columns
+::: {.column .fragment width="65%" .medium-font}
+![](img/curve-arrpw.png){width="35%" .absolute left="15%" top="33%"}
+
+<br>
+
+The minimum is attained at: 
+
+$2R\mathbf{u} + 2B^T P_0 A\mathbf{x} + 2B^T P_0 B\mathbf{u} = 0$
+
+$(R + B^T P_0 B)\mathbf{u} = -B^T P_0 A\mathbf{x}$
+
+![](img/uparrow1.png){width="40" height="60" .absolute left=20 bottom="29%"}
+
+<br>
+
+[Q: Is this matrix invertible? Recall R, Po are positive definite matrices.]{.red}
+:::
+
+:::: {.column width="34%" .medium-font .bordered-box}
+
+From calculus/algebra: 
+
+$$
+\frac{\partial}{\partial \mathbf{u}} (\mathbf{u}^T M\mathbf{u}) = (M + M^T)\mathbf{u}
+$$
+
+$$
+\frac{\partial}{\partial \mathbf{u}} (\mathbf{u}^T M\mathbf{b}) = M\mathbf{b}
+$$
+
+If M is symmetric: 
+
+$$
+\frac{\partial}{\partial \mathbf{u}} (\mathbf{u}^T M\mathbf{u}) = 2M\mathbf{u}
+$$
+
+::::
+::::::
+
+
+## Finding the LQR controller in closed-form by recursion
+
+$$
+J_1(\mathbf{x}) = \mathbf{x}^T Q\mathbf{x} + \mathbf{x}^T A^T P_0 A\mathbf{x} + \min_{\mathbf{u}} [\mathbf{u}^T R\mathbf{u} + 2\mathbf{u}^T B^T P_0 A\mathbf{x} + \mathbf{u}^T B^T P_0 B\mathbf{u}]
+$$
+
+:::::: columns
+::: {.column width="65%" .medium-font}
+![](img/curve-arrpw.png){width="35%" .absolute left="15%" top="33%"}
+
+<br>
+
+The minimum is attained at: 
+
+$2R\mathbf{u} + 2B^T P_0 A\mathbf{x} + 2B^T P_0 B\mathbf{u} = 0$
+
+$(R + B^T P_0 B)\mathbf{u} = -B^T P_0 A\mathbf{x}$
+
+![](img/uparrow1.png){width="40" height="60" .absolute left=20 bottom="29%"}
+
+<br>
+
+[Q: Is this matrix invertible? Recall R, Po are positive definite matrices.]{.red}
+
+$R + B^TP_0B$ [is positive definite, so it is invertible]{.red}
+:::
+
+:::: {.column width="34%" }
+::::
+::::::
+
+
+
+## Finding the LQR controller in closed-form by recursion
+
+$$
+J_1(\mathbf{x}) = \mathbf{x}^T Q\mathbf{x} + \mathbf{x}^T A^T P_0 A\mathbf{x} + \min_{\mathbf{u}} [\mathbf{u}^T R\mathbf{u} + 2\mathbf{u}^T B^T P_0 A\mathbf{x} + \mathbf{u}^T B^T P_0 B\mathbf{u}]
+$$
+
+:::::: columns
+::: {.column width="65%" .medium-font}
+![](img/curve-arrpw.png){width="35%" .absolute left="15%" top="33%"}
+
+<br>
+
+The minimum is attained at: 
+
+$2R\mathbf{u} + 2B^T P_0 A\mathbf{x} + 2B^T P_0 B\mathbf{u} = 0$
+
+$(R + B^T P_0 B)\mathbf{u} = -B^T P_0 A\mathbf{x}$
+
+<br>
+
+So, the optimal control for the last time step is:
+
+$\mathbf{u} = -(R + B^TP_0B)^{-1} B^TP_0A_x$
+$\mathbf{u} = K_1x$
+
+[Linear controller in terms of the state]{.red}
+
+:::
+
+:::: {.column width="34%" }
+::::
+::::::
+
+. . .
+
+![](img/lqr-controller-text-2.png){.absolute bottom="120" right=80 width="50%" height="40%"}
+
+## Finding the LQR controller in closed-form by recursion
+
+$J_0(\mathbf{x}) = \mathbf{x}^T P_0 \mathbf{x}$
+
+$$
+\begin{align}
+J_1(\mathbf{x}) &= \mathbf{x}^T Q\mathbf{x} + \mathbf{x}^T A^T P_0 A\mathbf{x} + \min_{\mathbf{u}} [\mathbf{u}^T R\mathbf{u} + 2\mathbf{u}^T B^T P_0 A\mathbf{x} + \mathbf{u}^T B^T P_0 B\mathbf{u}] \\
+&= \mathbf{x}^T \underbrace{(Q + K_1^T R K_1 + (A + B K_1)^T P_0 (A + B K_1))}_{P_1} \mathbf{x}
+\end{align}
+$$
+
+::: red-annotation
+Q: Why is this a big deal?
+
+A: The cost-to-go function remains quadratic after the first recursive step.
+:::
+
+## Finding the LQR controller in closed-form by recursion
+
+![](img/time-n.png){.absolute left="-80" bottom=0 width="25%" height="80%"}
+
+:::::: columns
+::: {.column width="55%" .small-font}
+$J_0(\mathbf{x}) = \mathbf{x}^T P_0 \mathbf{x}$
+
+<br>
+
+$J_1(\mathbf{x}) = \mathbf{x}^T (Q + K_1^T R K_1 + (A + B K_1)^T P_0 (A + B K_1)) \mathbf{x}$
+
+$\qquad = \mathbf{x}^T P_1 \mathbf{x}$
+
+:::{.red .center-align}
+...
+
+J remains quadratic in x throughout the recursion
+:::
+
+<br>
+
+$J_n(\mathbf{x}) = \mathbf{x}^T (Q + K_n^T R K_n + (A + B K_n)^T P_{n-1} (A + B K_n)) \mathbf{x}$
+
+$\qquad = \mathbf{x}^T P_n \mathbf{x}$
+
+:::{.red .center-align}
+...
+:::
+
+:::
+
+::: {.column width="15%" }
+:::
+
+::: {.column width="30%" .small-font}
+$\mathbf{u} = -(R + B^T P_0 B)^{-1} B^T P_0 A\mathbf{x}$ $\mathbf{u} = K_1 \mathbf{x}$
+
+<br><br><br><br> 
+
+$\mathbf{u} = -(R + B^T P_{n-1} B)^{-1} B^T P_{n-1} A\mathbf{x}$ $\mathbf{u} = K_n \mathbf{x}$
+
+[u remains linear in x throughout\
+the recursion]{.red}
+:::
+::::::
+
+![](img/arrow-series.png){.absolute width="50%" height="51%" left="220" bottom=160}
+
+## Finite-Horizon LQR: algorithm summary
+
+:::{.medium-font}
+$P_0 = Q$
+
+// n is the \# of steps left
+
+for n = 1…N
+
+$K_n = -(R + B^T P_{n-1} B)^{-1} B^T P_{n-1} A$
+
+$P_n = Q + K_n^T R K_n + (A + B K_n)^T P_{n-1} (A + B K_n)$
+
+Optimal control for time t = N – n is $u_t = K_t x_t$ with cost-to-go $J_t(x) = x^T P_tx$
+
+where the states are predicted forward in time according to linear dynamics
+:::
+
+. . .
+
+![](img/lqr-algosum1.png){.absolute left="50%" top="28%" width="40%" height="23%"}
+
+. . .
+
+![](img/algo-sum2.png){.absolute right="10" bottom="31%" width="25%" height="15%"}
+
+## Finite-Horizon LQR: algorithm summary
+
+:::{.medium-font}
+$P_0 = Q$
+
+// n is the \# of steps left
+
+for n = 1…N
+
+$K_n = -(R + B^T P_{n-1} B)^{-1} B^T P_{n-1} A$
+
+$P_n = Q + K_n^T R K_n + (A + B K_n)^T P_{n-1} (A + B K_n)$
+
+Optimal control for time t = N – n is $u_t = K_t x_t$ with cost-to-go $J_t(x) = x^T P_tx$
+
+where the states are predicted forward in time according to linear dynamics
+:::{.medium-font}
+
+
+::: {.red-annotation .absolute}
+Potential problem for states of dimension \>\> 100:\
+Matrix inversion is expensive: O(k\^2.3) for the best\
+known algorithm and O(k\^3) for Gaussian Elimination
+
+![alt](img/downarrow2.png){width="70" height="70"}
+:::
+
+## LQR summary
+
+-   Advantages:
+
+    -   If system is linear LQR gives the optimal controller that takes the system’s state to 0 (or the desired target state, same thing)
+
+-   Drawbacks:
+
+    ::: fragment
+    -   Linear dynamics
+    -   How can you include obstacles or constraints in the specification?
+    -   Not easy to put bounds on control values
+    :::
+
+# What happens in the general nonlinear case?
+
+$$
+\begin{align}
+u_0^*, \ldots, u_{N-1}^* &= \argmin_{u_0, \ldots, u_N} \sum_{t=0}^{N} c(\mathbf{x}_t, \mathbf{u}_t) \\
+\text{s.t.} \quad \mathbf{x}_1 &= f(\mathbf{x}_0, \mathbf{u}_0) \\
+\mathbf{x}_2 &= f(\mathbf{x}_1, \mathbf{u}_1) \\
+&\vdots \\
+\mathbf{x}_N &= f(\mathbf{x}_{N-1}, \mathbf{u}_{N-1})
+\end{align}
+$$
+
+[Arbitrary differentiable functions c, f]{.red-annotation .absolute right="0" bottom="45%"}
+
+. . .
+
+[Idea: iteratively approximate solution by solving linearized versions of the problem via LQR]{.red}
+
+## LQR extensions: time-varying systems
+
+-   What can we do when $x_{t+1} = A_t x_t + B_t \mathbf{u}_t$ and $c(x_t, \mathbf{u}_t) = x_t^T Q x_t + \mathbf{u}_t^T R\mathbf{u}_t$?
+
+-   Turns out, the proof and the algorithm are almost the same
+
+$P_0 = Q_N$
+
+// n is the \# of steps left
+
+for n = 1…N
+
+$K_n = -\big( R_{N-n} + B_{N-n}^T P_{n-1} B_{N-n} \big)^{-1} B_{N-n}^T P_{n-1} A_{N-n}$
+
+$P_n = Q_{N-n} + K_n^T R_{N-n} K_n + (A_{N-n} + B_{N-n} K_n ^T P_{n-1} (A_{N-n} + B_{N-n} K_n)$
+
+Optimal controller for n-step horizon is $u_n = K_n x_n$ with cost-to-go $J_n(x) = x^T P_n x$
+
+## Examples of models and solutions with LQR
+
+## LQR example #1: omnidirectional vehicle with friction
+
+-   Similar to double integrator dynamical system, but with friction:
+
+$$
+m \ddot\mathbf{p} = \mathbf{u} - \alpha \mathbf{\ddot p}
+$$
+
+![](img/lqr-ex1.png){.absolute .fragment .fade-out top="30%" left="30%" width="35%" height="25%"}
+
+. . .
+
+-   Set $\dot p = v$ and then you get: $$
+    m \dot \mathbf{v} = \matbf{u} -\alpha \mathbf{v}
+    $$
+
+. . .
+
+-   We discretize by setting
+
+::: {layout-ncol="2"}
+$$
+\frac{\mathbf{p}_{t+1} - \mathbf{p}_t}{\delta t} \simeq \mathbf{v}_t
+$$
+
+$$
+m \frac{\mathbf{v}_{t+1} - \mathbf{v}_t}{\delta t} \simeq \mathbf{u}_t - \alpha \mathbf{v}_t
+$$
+:::
+
+## LQR example #1: omnidirectional vehicle with friction
+
+::: {layout-ncol="2"}
+$$
+\frac{\mathbf{p}_{t+1} - \mathbf{p}_t}{\delta t} \simeq \mathbf{v}_t
+$$
+
+$$
+m \frac{\mathbf{v}_{t+1} - \mathbf{v}_t}{\delta t} \simeq \mathbf{u}_t - \alpha \mathbf{v}_t
+$$
+:::
+
+-   Define the state vector $\mathbf{x}_t = \begin{bmatrix} \mathbf{p}_t \\ \mathbf{v}_t \end{bmatrix}$
+
+\[Q: How can we express this as a linear system?\].{red-annotation .fragment .fade-out}
+
+. . .
+
+$$
+\mathbf{x}_{t+1} = \begin{bmatrix} \mathbf{p}_{t+1} \\ \mathbf{v}_{t+1} \end{bmatrix} = \begin{bmatrix} \mathbf{p}_t + \delta t\, \mathbf{v}_t \\ \mathbf{v}_t + \frac{\delta t}{m} \mathbf{u}_t - \frac{\alpha \delta t}{m} \mathbf{v}_t \end{bmatrix}
+$$
+
+## LQR example #1: omnidirectional vehicle with friction
+
+::: {layout-ncol="2"}
+$$
+\frac{\mathbf{p}_{t+1} - \mathbf{p}_t}{\delta t} \simeq \mathbf{v}_t
+$$
+
+$$
+m \frac{\mathbf{v}_{t+1} - \mathbf{v}_t}{\delta t} \simeq \mathbf{u}_t - \alpha \mathbf{v}_t
+$$
+:::
+
+-   Define the state vector $\mathbf{x}_t = \begin{bmatrix} \mathbf{p}_t \\ \mathbf{v}_t \end{bmatrix}$
+
+$$
+\mathbf{x}_{t+1} = \begin{bmatrix} \mathbf{p}_{t+1} \\ \mathbf{v}_{t+1} \end{bmatrix} = \begin{bmatrix} \mathbf{p}_t + \delta t\, \mathbf{v}_t \\ \mathbf{v}_t + \frac{\delta t}{m} \mathbf{u}_t - \frac{\alpha \delta t}{m} \mathbf{v}_t \end{bmatrix} = 
+\begin{bmatrix}
+1 & 0 & 0 & \delta t & 0 \\
+0 & 1 & 0 & 0 & \delta t \\
+0 & 0 & 1 - \frac{\alpha \delta t}{m} & 0 & 0 \\
+0 & 0 & 0 & 1 - \frac{\alpha \delta t}{m} & 0
+\end{bmatrix}
+\begin{bmatrix}
+\mathbf{x}_t \\
+\mathbf{u}_t
+\end{bmatrix}
+$$
+
+[**A**]{.red .absolute bottom="25%" right="30%"}
+
+[**B**]{.red .absolute bottom="30%" right="10"}
+
+## LQR example #1: omnidirectional vehicle with friction
+
+-   Define the state vector $\mathbf{x}_t = \begin{bmatrix} \mathbf{p}_t \\ \mathbf{v}_t \end{bmatrix}$
+
+$$
+\mathbf{x}_{t+1} = \begin{bmatrix} \mathbf{p}_{t+1} \\ \mathbf{v}_{t+1} \end{bmatrix} = \begin{bmatrix} \mathbf{p}_t + \delta t\, \mathbf{v}_t \\ \mathbf{v}_t + \frac{\delta t}{m} \mathbf{u}_t - \frac{\alpha \delta t}{m} \mathbf{v}_t \end{bmatrix} = 
+\begin{bmatrix}
+1 & 0 & 0 & \delta t & 0 \\
+0 & 1 & 0 & 0 & \delta t \\
+0 & 0 & 1 - \frac{\alpha \delta t}{m} & 0 & 0 \\
+0 & 0 & 0 & 1 - \frac{\alpha \delta t}{m} & 0
+\end{bmatrix}
+\begin{bmatrix}
+\mathbf{x}_t \\
+\mathbf{u}_t
+\end{bmatrix}
+$$
+
+[**A**]{.red .absolute bottom="55%" right="30%"}
+
+[**B**]{.red .absolute bottom="50%" right="10"}
+
+-   Define the instantaneous cost function
+
+$$
+\begin{align}
+c(\mathbf{x}, \mathbf{u}) &= \mathbf{x}^T Q \mathbf{x} + \mathbf{u}^T R \mathbf{u} \\
+&= \mathbf{x}^T \mathbf{x} + \rho\, \mathbf{u}^T \mathbf{u} \\
+&= \|\mathbf{x}\|^2 + \rho \|\mathbf{u}\|^2
+\end{align}
+$$
+
+## LQR example #1: omnidirectional vehicle with friction
+
+::::: columns
+::: {.column width="65%"}
+With initial state
+
+$$
+\mathbf{x}_0 = 
+\begin{bmatrix}
+10 \\
+30 \\
+10 \\
+-5
+\end{bmatrix}
+$$
+
+Instantaneous cost function
+
+$c(x, \mathbf{u}) = ||x||^2 + 100||\mathbf{u}||^2$
+:::
+
+::: {.column width="65%"}
+![](img/Lecture4_196.png)
+:::
+:::::
+
+## LQR example #1: omnidirectional vehicle with friction
+
+::::: columns
+::: {.column width="65%"}
+With initial state
+
+$$
+\mathbf{x}_0 = 
+\begin{bmatrix}
+10 \\
+30 \\
+10 \\
+-5
+\end{bmatrix}
+$$
+
+Instantaneous cost function
+
+$c(x, \mathbf{u}) = ||x||^2 + 100||\mathbf{u}||^2$
+:::
+
+::: {.column width="65%"}
+![](img/Lecture4_199.png)
+:::
+:::::
+
+[Notice how the controls tend to zero. It’s because\
+the state tends to zero as well.]{.red-annotation .absolute right="0" top="40%"}
+
+. . .
+
+[Also note that in the current LQR framework,\
+we have not included hard constraints on the controls,\
+i.e. upper or lower bounds. We only penalize large\
+norm for controls.]{.red-annotation .absolute right="0" bottom="15%"}
+
+## LQR example #1: omnidirectional vehicle with friction
+
+::::: columns
+::: {.column width="65%"}
+With initial state
+
+$$
+\mathbf{x}_0 = 
+\begin{bmatrix}
+10 \\
+30 \\
+10 \\
+-5
+\end{bmatrix}
+$$
+
+Instantaneous cost function
+
+$c(x, \mathbf{u}) = ||x||^2 + 100||\mathbf{u}||^2$
+:::
+
+::: {.column width="65%"}
+![](img/Lecture4_208.png)
+:::
+:::::
+
+[Notice how the state tends to zero.]{.red-annotation .absolute right="0" top="40%"}
+
+## LQR example #2: trajectory following for omnidirectional vehicle
+
+![](img/Lecture4_211.png){fig-align="center"}
+
+## LQR example #2: trajectory following for omnidirectional vehicle
+
+[**A** $\qquad\qquad$ **B**]{.right-align .red}
+
+$$
+\mathbf{x}_{t+1} = 
+\begin{bmatrix} 
+\mathbf{P}_{t+1} \\ 
+\mathbf{V}_{t+1} 
+\end{bmatrix} = 
+\begin{bmatrix} 
+1 & 0 & \delta t & 0 \\ 
+0 & 1 & 0 & \delta t \\ 
+0 & 0 & 1 - \frac{\alpha \delta t}{m} & 0 \\ 
+0 & 0 & 0 & 1 - \frac{\alpha \delta t}{m} 
+\end{bmatrix} \mathbf{x}_t + 
+\begin{bmatrix} 
+\frac{\delta t}{m} \\ 
+\frac{\delta t}{m} 
+\end{bmatrix} \mathbf{u}_t
+$$
+
+We are given a desired trajectory: $\mathbf{p}_0^*, \mathbf{p}_1^*, \dots, \mathbf{p}_T^*$
+
+Instantaneous cost: $c(\mathbf{x}_t, \mathbf{u}_t) = (\mathbf{p}_t - \mathbf{p}_t^*)^T Q (\mathbf{p}_t - \mathbf{p}_t^*) + \mathbf{u}_t^T R \mathbf{u}_t$
+
+## LQR example #2: trajectory following for omnidirectional vehicle
+
+[**A** $\qquad\qquad$ **B**]{.right-align .red}
+
+$$
+\mathbf{x}_{t+1} = 
+\begin{bmatrix} 
+\mathbf{P}_{t+1} \\ 
+\mathbf{V}_{t+1} 
+\end{bmatrix} = 
+\begin{bmatrix} 
+1 & 0 & \delta t & 0 \\ 
+0 & 1 & 0 & \delta t \\ 
+0 & 0 & 1 - \frac{\alpha \delta t}{m} & 0 \\ 
+0 & 0 & 0 & 1 - \frac{\alpha \delta t}{m} 
+\end{bmatrix} \mathbf{x}_t + 
+\begin{bmatrix} 
+\frac{\delta t}{m} \\ 
+\frac{\delta t}{m} 
+\end{bmatrix} \mathbf{u}_t
+$$
+
+::::: columns
+::: {.column width="60%"}
+Define
+
+$$
+\begin{align}
+{x}_{t+1} &= x_{t+1} - x^{*}_{t+1} \\ 
+&= A x_t + B u_t - x^{*}_{t+1} \\ 
+&= A \bar{x}_t + B u_t - \underbrace{x^{*}_{t+1} - A x^{*}_t}_{\textcolor{red}{\text{Need to get rid of this additive term}}}
+\end{align}
+$$
+
+:::
+
+::: {.column width="40%"}
+We want $\bar{x}_{t+1} = \bar{A} \bar{x}_t + \bar{B} u_t$
+:::
+:::::
+
+![](img/lqr-ex2-txt.png){.absolute right=0 bottom=20%}
+
+. . .
+
+[**C**]{.center-align .red}
+
+Redefine state:
+
+$$
+z_{t+1} =
+\begin{bmatrix}
+\bar{x}_{t+1} \\
+1
+\end{bmatrix}
+=
+\begin{bmatrix}
+A & c \\
+0 & 1
+\end{bmatrix}
+\begin{bmatrix}
+\bar{x}_t \\
+1
+\end{bmatrix}
++
+\begin{bmatrix}
+B \\
+0
+\end{bmatrix} u_t
+=
+\bar{A} z_t + \bar{B} u_t
+$$
+
+. . .
+
+Redefine cost function: $c(z_t, u_t) = z_t^{T} \, \bar{Q} \, z_t + u_t^{T} R \, u_t$
+
+[Idea: augment the state]{.red-annotation .absolute right=40 bottom=10%}
+
+
+## LQR example #2: trajectory following for omnidirectional vehicle
+
+::::: columns
+::: {.column width="65%"}
+With initial state
+
+$$
+\mathbf{z}_0 = 
+\begin{bmatrix}
+10 \\
+30 \\
+0 \\
+0 \\
+1
+\end{bmatrix}
+$$
+
+Instantaneous cost function
+
+$c(\mathbf{z}, \mathbf{u}) = ||\mathbf{z}||^2 + 100||\mathbf{u}||^2$
+:::
+
+::: {.column width="65%"}
+![](img/Lecture4_230.png)
+:::
+:::::
+
+
+## LQR example #2: trajectory following for omnidirectional vehicle
+
+::::: columns
+::: {.column width="65%"}
+With initial state
+
+$$
+\mathbf{z}_0 = 
+\begin{bmatrix}
+10 \\
+30 \\
+0 \\
+0 \\
+1
+\end{bmatrix}
+$$
+
+Instantaneous cost function
+
+$c(\mathbf{z}, \mathbf{u}) = ||\mathbf{z}||^2 + 100||\mathbf{u}||^2$
+:::
+
+::: {.column width="65%"}
+![](img/Lecture4_233.png)
+:::
+:::::
+
+## LQR extensions: trajectory following
+
+- You are given a reference trajectory (not just path, but states and times, or states and controls) that needs to be approximated
+
+$$
+\mathbf{x}_0^*, \mathbf{x}_1^*, \ldots, \mathbf{x}_N^* 
+\qquad\qquad
+\mathbf{u}_0^*, \mathbf{u}_1^*, \ldots, \mathbf{u}_N^*
+$$
+
+
+Linearize the nonlinear dynamics $x_{t+1} = f(x_t, u_t)$ around the reference point $(x_t^*, u_t^*)$
+
+$$
+x_{t+1} \simeq f(x_t^*, u_t^*) 
++ \frac{\partial f}{\partial x}(x_t^*, u_t^*)(x_t - x_t^*) 
++ \frac{\partial f}{\partial u}(x_t^*, u_t^*)(u_t - u_t^*)
+$$
+
+:::{layout="[30, 5, 25, 40]"}
+
+$$
+\begin{align}
+& \bar{x}_{t+1} \simeq A_t \bar{x}_t + B_t \bar{u}_t \\ 
+& c(x_t, u_t) = \bar{x}_t^T Q \bar{x}_t + \bar{u}_t^T R \bar{u}_t
+\end{align}
+$$
+
+where
+
+$$
+\begin{align}
+& \bar{x}_t = x_t - x_t^* \\ 
+& \bar{u}_t = u_t - u_t^*
+\end{align}
+$$
+
+[Trajectory following can be implemented as
+a time-varying LQR approximation. Not 
+always clear if this is the best way though.]{.red-annotation}
+
+:::
+
+## LQR with nonlinear dynamics, quadratic cost {.center}
+
+## LQR variants: nonlinear dynamics, quadratic cost
+
+What can we do when $x_{t+1} = f(x_t, \mathbf{u}_t)$ but the cost is quadratic $c(x_t, \mathbf{u}_t) = x_t^T Qx_t + \mathbf{u}_t^T R \mathbf{u}_t$ ?
+
+We want to stabilize the system around state $x_t = 0$
+
+But with nonlinear dynamics we do not know if $u_t = 0$ will keep the system at the zero state.
+
+. . .
+
+-> Need to compute $u^*$ such that $\mathbf{0}_{t+1} = f(\mathbf{0}_t, \mathbf{u}*)$
+
+. . .
+
+
+Taylor expansion: linearize the nonlinear dynamics around the point $(0, u^*)$
+
+$$
+\mathbf{x}_{t+1} \approx f(0, \mathbf{u}^*) + 
+\underbrace{\frac{\partial f}{\partial \mathbf{x}}(0, \mathbf{u}^*)}_{\mathbf{A}}(\mathbf{x}_t - 0) + \underbrace{\frac{\partial f}{\partial \mathbf{u}}(0, \mathbf{u}^*)}_{\mathbf{B}}(\mathbf{u}_t - \mathbf{u}^*)
+$$
+
+
+## LQR variants: nonlinear dynamics, quadratic cost
+
+What can we do when $x_{t+1} = f(x_t, \mathbf{u}_t)$ but the cost is quadratic $c(x_t, \mathbf{u}_t) = x_t^T Qx_t + \mathbf{u}_t^T R \mathbf{u}_t$ ?
+
+We want to stabilize the system around state $x_t = 0$
+
+But with nonlinear dynamics we do not know if $u_t = 0$ will keep the system at the zero state.
+
+-> Need to compute $u^*$ such that $\mathbf{0}_{t+1} = f(\mathbf{0}_t, \mathbf{u}*)$
+
+Taylor expansion: linearize the nonlinear dynamics around the point $(0, u^*)$
+
+$$
+\begin{align}
+& \mathbf{x}_{t+1} \approx f(0, \mathbf{u}^*) + \frac{\partial f}{\partial \mathbf{x}}(0, \mathbf{u}^*)(\mathbf{x}_t - 0) + \frac{\partial f}{\partial \mathbf{u}}(0, \mathbf{u}^*)(\mathbf{u}_t - \mathbf{u}^*) \\
+& mathbf{x}_{t+1} \approx Ax_t + B(\mathbf{u}_t - \mathbf{u}^*)
+\end{align}
+$$
+
+[Solve this via LQR]{.red-annotation}
+
+## LQR examples: code to replicate these results
+
+- [https://github.com/florianshkurti/csc477_fall19.git](https://github.com/florianshkurti/comp417.git)
+
+- Look under csc477_fall19/lqr_examples/python
