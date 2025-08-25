@@ -379,11 +379,13 @@ action sequence
 
 ## Finding the LQR controller in closed-form by recursion
 
--   Let $J_n(x)$ denote the cumulative cost-to-go starting from state x and moving for n time steps.
+-   Let $J_n(\mathbf{x})$ denote the cumulative cost-to-go starting from state x and moving for n time steps.
 
 -   I.e. cumulative future cost from now till n more steps
 
--   $J_0(x)$ is the terminal cost of ending up at state x, with no actions left to perform. Recall that $c(\mathbf{x}, \mathbf{u}) = \mathbf{x}^T Q\mathbf{x} + {\mathbf{u}^T R\mathbf{u}}$
+-   $J_0(\mathbf{x}) = \mathbf{x}^T Q_\mathbf{x}$ is the terminal cost of ending up at state x, with no actions left to perform. Recall that $c(\mathbf{x}, \mathbf{u}) = \mathbf{x}^T Q\mathbf{x} + {\mathbf{u}^T R\mathbf{u}}$
+
+![](img/red-strike.png){.absolute right=45% bottom="46%" width=70}
 
 . . .
 
@@ -586,6 +588,7 @@ $(R + B^T P_0 B)\mathbf{u} = -B^T P_0 A\mathbf{x}$
 So, the optimal control for the last time step is:
 
 $\mathbf{u} = -(R + B^TP_0B)^{-1} B^TP_0A_x$
+
 $\mathbf{u} = K_1x$
 
 [Linear controller in terms of the state]{.red}
@@ -695,6 +698,9 @@ where the states are predicted forward in time according to linear dynamics
 ## Finite-Horizon LQR: algorithm summary
 
 :::{.medium-font}
+
+<br> 
+
 $P_0 = Q$
 
 // n is the \# of steps left
@@ -708,16 +714,17 @@ $P_n = Q + K_n^T R K_n + (A + B K_n)^T P_{n-1} (A + B K_n)$
 Optimal control for time t = N – n is $u_t = K_t x_t$ with cost-to-go $J_t(x) = x^T P_tx$
 
 where the states are predicted forward in time according to linear dynamics
-:::{.medium-font}
+::: 
 
 
-::: {.red-annotation .absolute}
+::: {.red-annotation .absolute top=150 left=255}
 Potential problem for states of dimension \>\> 100:\
 Matrix inversion is expensive: O(k\^2.3) for the best\
 known algorithm and O(k\^3) for Gaussian Elimination
 
-![alt](img/downarrow2.png){width="70" height="70"}
+![](img/downarrow2.png){width="70" height="70"}
 :::
+
 
 ## LQR summary
 
@@ -733,11 +740,11 @@ known algorithm and O(k\^3) for Gaussian Elimination
     -   Not easy to put bounds on control values
     :::
 
-# What happens in the general nonlinear case?
+## What happens in the general nonlinear case?
 
 $$
 \begin{align}
-u_0^*, \ldots, u_{N-1}^* &= \argmin_{u_0, \ldots, u_N} \sum_{t=0}^{N} c(\mathbf{x}_t, \mathbf{u}_t) \\
+u_0^*, \ldots, u_{N-1}^* &= \operatorname*{argmin}_{u_0, \ldots, u_N} \sum_{t=0}^{N} c(\mathbf{x}_t, \mathbf{u}_t) \\
 \text{s.t.} \quad \mathbf{x}_1 &= f(\mathbf{x}_0, \mathbf{u}_0) \\
 \mathbf{x}_2 &= f(\mathbf{x}_1, \mathbf{u}_1) \\
 &\vdots \\
@@ -745,7 +752,7 @@ u_0^*, \ldots, u_{N-1}^* &= \argmin_{u_0, \ldots, u_N} \sum_{t=0}^{N} c(\mathbf{
 \end{align}
 $$
 
-[Arbitrary differentiable functions c, f]{.red-annotation .absolute right="0" bottom="45%"}
+[Arbitrary differentiable functions c, f]{.red-annotation .absolute right="0" bottom="55%"}
 
 . . .
 
@@ -765,26 +772,28 @@ for n = 1…N
 
 $K_n = -\big( R_{N-n} + B_{N-n}^T P_{n-1} B_{N-n} \big)^{-1} B_{N-n}^T P_{n-1} A_{N-n}$
 
-$P_n = Q_{N-n} + K_n^T R_{N-n} K_n + (A_{N-n} + B_{N-n} K_n ^T P_{n-1} (A_{N-n} + B_{N-n} K_n)$
+$P_n = Q_{N-n} + K_n^T R_{N-n} K_n + (A_{N-n} + B_{N-n} K_n)^T P_{n-1} (A_{N-n} + B_{N-n} K_n)$
 
 Optimal controller for n-step horizon is $u_n = K_n x_n$ with cost-to-go $J_n(x) = x^T P_n x$
 
-## Examples of models and solutions with LQR
+## Examples of models and solutions with LQR {.center}
 
 ## LQR example #1: omnidirectional vehicle with friction
 
 -   Similar to double integrator dynamical system, but with friction:
 
 $$
-m \ddot\mathbf{p} = \mathbf{u} - \alpha \mathbf{\ddot p}
+m \mathbf{\ddot p} = \mathbf{u} - \alpha \mathbf{\dot p}
 $$
 
-![](img/lqr-ex1.png){.absolute .fragment .fade-out top="30%" left="30%" width="35%" height="25%"}
+![](img/lqr-ex1.png){.absolute .fragment .fade-out top="39%" left="370" width="32%" height="20%"}
 
 . . .
 
--   Set $\dot p = v$ and then you get: $$
-    m \dot \mathbf{v} = \matbf{u} -\alpha \mathbf{v}
+-   Set $\dot p = v$ and then you get: 
+
+    $$
+    m \mathbf{\dot v} = \mathbf{u} -\alpha \mathbf{v}
     $$
 
 . . .
@@ -815,12 +824,12 @@ $$
 
 -   Define the state vector $\mathbf{x}_t = \begin{bmatrix} \mathbf{p}_t \\ \mathbf{v}_t \end{bmatrix}$
 
-\[Q: How can we express this as a linear system?\].{red-annotation .fragment .fade-out}
+[Q: How can we express this as a linear system?]{.red-annotation .fragment .fade-out}
 
 . . .
 
 $$
-\mathbf{x}_{t+1} = \begin{bmatrix} \mathbf{p}_{t+1} \\ \mathbf{v}_{t+1} \end{bmatrix} = \begin{bmatrix} \mathbf{p}_t + \delta t\, \mathbf{v}_t \\ \mathbf{v}_t + \frac{\delta t}{m} \mathbf{u}_t - \frac{\alpha \delta t}{m} \mathbf{v}_t \end{bmatrix}
+\mathbf{x}_{t+1} = \begin{bmatrix} \mathbf{p}_{t+1} \\ \mathbf{v}_{t+1} \end{bmatrix} = \begin{bmatrix} \mathbf{p}_t + \delta t \mathbf{v}_t \\ \mathbf{v}_t + \frac{\delta t}{m} \mathbf{u}_t - \frac{\alpha \delta t}{m} \mathbf{v}_t \end{bmatrix} = \begin{bmatrix} \mathbf{p}_t + \delta t \mathbf{v}_t \\ \mathbf{v}_t - \frac{\alpha \delta t}{m} \mathbf{v}_t \end{bmatrix} + \begin{bmatrix} 0 & 0 \\ 0 & 0 \\ \frac{\delta t}{m} & 0 \\ 0 & \frac{\delta t}{m} \end{bmatrix} \mathbf{u}_t
 $$
 
 ## LQR example #1: omnidirectional vehicle with friction
@@ -837,46 +846,36 @@ $$
 
 -   Define the state vector $\mathbf{x}_t = \begin{bmatrix} \mathbf{p}_t \\ \mathbf{v}_t \end{bmatrix}$
 
-$$
-\mathbf{x}_{t+1} = \begin{bmatrix} \mathbf{p}_{t+1} \\ \mathbf{v}_{t+1} \end{bmatrix} = \begin{bmatrix} \mathbf{p}_t + \delta t\, \mathbf{v}_t \\ \mathbf{v}_t + \frac{\delta t}{m} \mathbf{u}_t - \frac{\alpha \delta t}{m} \mathbf{v}_t \end{bmatrix} = 
-\begin{bmatrix}
-1 & 0 & 0 & \delta t & 0 \\
-0 & 1 & 0 & 0 & \delta t \\
-0 & 0 & 1 - \frac{\alpha \delta t}{m} & 0 & 0 \\
-0 & 0 & 0 & 1 - \frac{\alpha \delta t}{m} & 0
-\end{bmatrix}
-\begin{bmatrix}
-\mathbf{x}_t \\
-\mathbf{u}_t
-\end{bmatrix}
-$$
+:::{.medium-font}
 
-[**A**]{.red .absolute bottom="25%" right="30%"}
+$$
+\mathbf{x}_{t+1} = \begin{bmatrix} \mathbf{p}_{t+1} \\ \mathbf{v}_{t+1} \end{bmatrix} = \begin{bmatrix} \mathbf{p}_t + \delta t \mathbf{v}_t \\ \mathbf{v}_t + \frac{\delta t}{m} \mathbf{u}_t - \frac{\alpha \delta t}{m} \mathbf{v}_t \end{bmatrix} = \begin{bmatrix} 1 & 0 & \delta t & 0 \\ 0 & 1 & 0 & \delta t \\ 0 & 0 & 1 - \alpha \delta t/m & 0 \\ 0 & 0 & 0 & 1 - \alpha \delta t/m \end{bmatrix} \mathbf{x}_t + \begin{bmatrix} 0 & 0 \\ 0 & 0 \\ \frac{\delta t}{m} & 0 \\ 0 & \frac{\delta t}{m} \end{bmatrix} \mathbf{u}_t
+$$
+:::
 
-[**B**]{.red .absolute bottom="30%" right="10"}
+:::{.fragment}
+[**A**]{.red .absolute bottom="250" right="400"}
+
+[**B**]{.red .absolute bottom="250" right="100"}
+:::
 
 ## LQR example #1: omnidirectional vehicle with friction
 
 -   Define the state vector $\mathbf{x}_t = \begin{bmatrix} \mathbf{p}_t \\ \mathbf{v}_t \end{bmatrix}$
 
+:::{.medium-font}
+
 $$
-\mathbf{x}_{t+1} = \begin{bmatrix} \mathbf{p}_{t+1} \\ \mathbf{v}_{t+1} \end{bmatrix} = \begin{bmatrix} \mathbf{p}_t + \delta t\, \mathbf{v}_t \\ \mathbf{v}_t + \frac{\delta t}{m} \mathbf{u}_t - \frac{\alpha \delta t}{m} \mathbf{v}_t \end{bmatrix} = 
-\begin{bmatrix}
-1 & 0 & 0 & \delta t & 0 \\
-0 & 1 & 0 & 0 & \delta t \\
-0 & 0 & 1 - \frac{\alpha \delta t}{m} & 0 & 0 \\
-0 & 0 & 0 & 1 - \frac{\alpha \delta t}{m} & 0
-\end{bmatrix}
-\begin{bmatrix}
-\mathbf{x}_t \\
-\mathbf{u}_t
-\end{bmatrix}
+\mathbf{x}_{t+1} = \begin{bmatrix} \mathbf{p}_{t+1} \\ \mathbf{v}_{t+1} \end{bmatrix} = \begin{bmatrix} \mathbf{p}_t + \delta t \mathbf{v}_t \\ \mathbf{v}_t + \frac{\delta t}{m} \mathbf{u}_t - \frac{\alpha \delta t}{m} \mathbf{v}_t \end{bmatrix} = \begin{bmatrix} 1 & 0 & \delta t & 0 \\ 0 & 1 & 0 & \delta t \\ 0 & 0 & 1 - \alpha \delta t/m & 0 \\ 0 & 0 & 0 & 1 - \alpha \delta t/m \end{bmatrix} \mathbf{x}_t + \begin{bmatrix} 0 & 0 \\ 0 & 0 \\ \frac{\delta t}{m} & 0 \\ 0 & \frac{\delta t}{m} \end{bmatrix} \mathbf{u}_t
 $$
+:::
 
-[**A**]{.red .absolute bottom="55%" right="30%"}
+[**A**]{.red .absolute bottom="400" right="400"}
 
-[**B**]{.red .absolute bottom="50%" right="10"}
+[**B**]{.red .absolute bottom="400" right="100"}
 
+
+:::{layout-ncol="2"}
 -   Define the instantaneous cost function
 
 $$
@@ -887,10 +886,12 @@ c(\mathbf{x}, \mathbf{u}) &= \mathbf{x}^T Q \mathbf{x} + \mathbf{u}^T R \mathbf{
 \end{align}
 $$
 
+:::
+
 ## LQR example #1: omnidirectional vehicle with friction
 
 ::::: columns
-::: {.column width="65%"}
+::: {.column width="30%"}
 With initial state
 
 $$
@@ -908,7 +909,7 @@ Instantaneous cost function
 $c(x, \mathbf{u}) = ||x||^2 + 100||\mathbf{u}||^2$
 :::
 
-::: {.column width="65%"}
+::: {.column width="70%"}
 ![](img/Lecture4_196.png)
 :::
 :::::
@@ -916,7 +917,7 @@ $c(x, \mathbf{u}) = ||x||^2 + 100||\mathbf{u}||^2$
 ## LQR example #1: omnidirectional vehicle with friction
 
 ::::: columns
-::: {.column width="65%"}
+::: {.column width="30%"}
 With initial state
 
 $$
@@ -934,25 +935,27 @@ Instantaneous cost function
 $c(x, \mathbf{u}) = ||x||^2 + 100||\mathbf{u}||^2$
 :::
 
-::: {.column width="65%"}
+::: {.column width="70%"}
 ![](img/Lecture4_199.png)
 :::
 :::::
 
+. . .
+
 [Notice how the controls tend to zero. It’s because\
-the state tends to zero as well.]{.red-annotation .absolute right="0" top="40%"}
+the state tends to zero as well.]{.red-annotation .absolute right="0" top="45%"}
 
 . . .
 
 [Also note that in the current LQR framework,\
 we have not included hard constraints on the controls,\
 i.e. upper or lower bounds. We only penalize large\
-norm for controls.]{.red-annotation .absolute right="0" bottom="15%"}
+norm for controls.]{.red-annotation .absolute right="0" bottom="23%"}
 
 ## LQR example #1: omnidirectional vehicle with friction
 
 ::::: columns
-::: {.column width="65%"}
+::: {.column width="30%"}
 With initial state
 
 $$
@@ -970,12 +973,12 @@ Instantaneous cost function
 $c(x, \mathbf{u}) = ||x||^2 + 100||\mathbf{u}||^2$
 :::
 
-::: {.column width="65%"}
+::: {.column width="70%"}
 ![](img/Lecture4_208.png)
 :::
 :::::
 
-[Notice how the state tends to zero.]{.red-annotation .absolute right="0" top="40%"}
+[Notice how the state tends to zero.]{.red-annotation .absolute right="120" top="45%"}
 
 ## LQR example #2: trajectory following for omnidirectional vehicle
 
@@ -983,83 +986,61 @@ $c(x, \mathbf{u}) = ||x||^2 + 100||\mathbf{u}||^2$
 
 ## LQR example #2: trajectory following for omnidirectional vehicle
 
-[**A** $\qquad\qquad$ **B**]{.right-align .red}
+[**A**]{.red .absolute top="150" right="530"}
+
+[**B**]{.red .absolute top="150" right="150"}
 
 $$
-\mathbf{x}_{t+1} = 
-\begin{bmatrix} 
-\mathbf{P}_{t+1} \\ 
-\mathbf{V}_{t+1} 
-\end{bmatrix} = 
-\begin{bmatrix} 
-1 & 0 & \delta t & 0 \\ 
-0 & 1 & 0 & \delta t \\ 
-0 & 0 & 1 - \frac{\alpha \delta t}{m} & 0 \\ 
-0 & 0 & 0 & 1 - \frac{\alpha \delta t}{m} 
-\end{bmatrix} \mathbf{x}_t + 
-\begin{bmatrix} 
-\frac{\delta t}{m} \\ 
-\frac{\delta t}{m} 
-\end{bmatrix} \mathbf{u}_t
+\mathbf{x}_{t+1} = \begin{bmatrix} \mathbf{p}_{t+1} \\ \mathbf{v}_{t+1} \end{bmatrix} = \begin{bmatrix} 1 & 0 & \delta t & 0 \\ 0 & 1 & 0 & \delta t \\ 0 & 0 & 1 - \alpha \delta t/m & 0 \\ 0 & 0 & 0 & 1 - \alpha \delta t/m \end{bmatrix} \mathbf{x}_t + \begin{bmatrix} 0 & 0 \\ 0 & 0 \\ \frac{\delta t}{m} & 0 \\ 0 & \frac{\delta t}{m} \end{bmatrix} \mathbf{u}_t
 $$
+
 
 We are given a desired trajectory: $\mathbf{p}_0^*, \mathbf{p}_1^*, \dots, \mathbf{p}_T^*$
 
-Instantaneous cost: $c(\mathbf{x}_t, \mathbf{u}_t) = (\mathbf{p}_t - \mathbf{p}_t^*)^T Q (\mathbf{p}_t - \mathbf{p}_t^*) + \mathbf{u}_t^T R \mathbf{u}_t$
+Instantaneous cost: $c(x_t, \mathbf{u}_t) = (\mathbf{p}_t - \mathbf{p}_t^*)^T Q (\mathbf{p}_t - \mathbf{p}_t^*) + \mathbf{u}_t^T R \mathbf{u}_t$
 
-## LQR example #2: trajectory following for omnidirectional vehicle
+## LQR example #2: trajectory following for omnidirectional vehicle 
 
-[**A** $\qquad\qquad$ **B**]{.right-align .red}
+[**A**]{.red .absolute top="150" right="530"}
 
+[**B**]{.red .absolute top="150" right="260"}
+
+:::{.small-font}
 $$
-\mathbf{x}_{t+1} = 
-\begin{bmatrix} 
-\mathbf{P}_{t+1} \\ 
-\mathbf{V}_{t+1} 
-\end{bmatrix} = 
-\begin{bmatrix} 
-1 & 0 & \delta t & 0 \\ 
-0 & 1 & 0 & \delta t \\ 
-0 & 0 & 1 - \frac{\alpha \delta t}{m} & 0 \\ 
-0 & 0 & 0 & 1 - \frac{\alpha \delta t}{m} 
-\end{bmatrix} \mathbf{x}_t + 
-\begin{bmatrix} 
-\frac{\delta t}{m} \\ 
-\frac{\delta t}{m} 
-\end{bmatrix} \mathbf{u}_t
+\mathbf{x}_{t+1} = \begin{bmatrix} \mathbf{p}_{t+1} \\ \mathbf{v}_{t+1} \end{bmatrix} = \begin{bmatrix} 1 & 0 & \delta t & 0 \\ 0 & 1 & 0 & \delta t \\ 0 & 0 & 1 - \alpha \delta t/m & 0 \\ 0 & 0 & 0 & 1 - \alpha \delta t/m \end{bmatrix} \mathbf{x}_t + \begin{bmatrix} 0 & 0 \\ 0 & 0 \\ \frac{\delta t}{m} & 0 \\ 0 & \frac{\delta t}{m} \end{bmatrix} \mathbf{u}_t
 $$
+
 
 ::::: columns
-::: {.column width="60%"}
-Define
+::: {.column width="60%" .left-align}
+Define 
 
 $$
 \begin{align}
-{x}_{t+1} &= x_{t+1} - x^{*}_{t+1} \\ 
-&= A x_t + B u_t - x^{*}_{t+1} \\ 
-&= A \bar{x}_t + B u_t - \underbrace{x^{*}_{t+1} - A x^{*}_t}_{\textcolor{red}{\text{Need to get rid of this additive term}}}
+\bar{\mathbf{x}}_{t+1} &= \mathbf{x}_{t+1} - \mathbf{x}^{*}_{t+1} \\ 
+&= A \mathbf{x}_t + B \mathbf{u}_t - \mathbf{x}^{*}_{t+1} \\ 
+&= A \bar{\mathbf{x}}_t + B \mathbf{u}_t - \mathbf{x}^{*}_{t+1} - A \mathbf{x}^{*}_t 
 \end{align}
 $$
 
 :::
 
 ::: {.column width="40%"}
-We want $\bar{x}_{t+1} = \bar{A} \bar{x}_t + \bar{B} u_t$
+We want $\bar{\mathbf{x}}_{t+1} = \bar{A} \bar{\mathbf{x}}_t + \bar{B} \mathbf{u}_t$
 :::
 :::::
 
-![](img/lqr-ex2-txt.png){.absolute right=0 bottom=20%}
+![](img/lqr-ex2-txt.png){.absolute right=145 bottom=30% width="55%" .fragment}
 
-. . .
-
-[**C**]{.center-align .red}
+:::{.fragment}
+[**C**]{.red .absolute bottom=28% left=38%}
 
 Redefine state:
 
 $$
 z_{t+1} =
 \begin{bmatrix}
-\bar{x}_{t+1} \\
+\bar{\mathbf{x}}_{t+1} \\
 1
 \end{bmatrix}
 =
@@ -1068,29 +1049,31 @@ A & c \\
 0 & 1
 \end{bmatrix}
 \begin{bmatrix}
-\bar{x}_t \\
+\bar{\mathbf{x}}_t \\
 1
 \end{bmatrix}
 +
 \begin{bmatrix}
 B \\
 0
-\end{bmatrix} u_t
+\end{bmatrix} \mathbf{u}_t
 =
-\bar{A} z_t + \bar{B} u_t
+\bar{A} z_t + \bar{B} \mathbf{u}_t
 $$
+:::
 
-. . .
+:::{.fragment}
+Redefine cost function: $c(z_t, \mathbf{u}_t) = z_t^{T} \, \bar{Q} \, z_t + \mathbf{u}_t^{T} R \, \mathbf{u}_t$
 
-Redefine cost function: $c(z_t, u_t) = z_t^{T} \, \bar{Q} \, z_t + u_t^{T} R \, u_t$
+[Idea: augment the state]{.red .absolute right=200 bottom=29%}
+:::
 
-[Idea: augment the state]{.red-annotation .absolute right=40 bottom=10%}
-
+:::
 
 ## LQR example #2: trajectory following for omnidirectional vehicle
 
 ::::: columns
-::: {.column width="65%"}
+::: {.column width="30%"}
 With initial state
 
 $$
@@ -1106,10 +1089,10 @@ $$
 
 Instantaneous cost function
 
-$c(\mathbf{z}, \mathbf{u}) = ||\mathbf{z}||^2 + 100||\mathbf{u}||^2$
+$c(\mathbf{z}, \mathbf{u}) = ||\mathbf{z}||^2 + ||\mathbf{u}||^2$
 :::
 
-::: {.column width="65%"}
+::: {.column width="70%"}
 ![](img/Lecture4_230.png)
 :::
 :::::
@@ -1118,7 +1101,7 @@ $c(\mathbf{z}, \mathbf{u}) = ||\mathbf{z}||^2 + 100||\mathbf{u}||^2$
 ## LQR example #2: trajectory following for omnidirectional vehicle
 
 ::::: columns
-::: {.column width="65%"}
+::: {.column width="30%"}
 With initial state
 
 $$
@@ -1134,10 +1117,10 @@ $$
 
 Instantaneous cost function
 
-$c(\mathbf{z}, \mathbf{u}) = ||\mathbf{z}||^2 + 100||\mathbf{u}||^2$
+$c(\mathbf{z}, \mathbf{u}) = ||\mathbf{z}||^2 + ||\mathbf{u}||^2$
 :::
 
-::: {.column width="65%"}
+::: {.column width="70%"}
 ![](img/Lecture4_233.png)
 :::
 :::::
@@ -1153,20 +1136,20 @@ $$
 $$
 
 
-Linearize the nonlinear dynamics $x_{t+1} = f(x_t, u_t)$ around the reference point $(x_t^*, u_t^*)$
+Linearize the nonlinear dynamics $\mathbf{x}_{t+1} = f(\mathbf{x}_t, \mathbf{u}_t)$ around the reference point $(\mathbf{x}_t^*, \mathbf{u}_t^*)$
 
 $$
-x_{t+1} \simeq f(x_t^*, u_t^*) 
-+ \frac{\partial f}{\partial x}(x_t^*, u_t^*)(x_t - x_t^*) 
-+ \frac{\partial f}{\partial u}(x_t^*, u_t^*)(u_t - u_t^*)
+\mathbf{x}_{t+1} \simeq f(\mathbf{x}_t^*, \mathbf{u}_t^*) 
++ \frac{\partial f}{\partial \mathbf{x}}(\mathbf{x}_t^*, \mathbf{u}_t^*)(\mathbf{x}_t - \mathbf{x}_t^*) 
++ \frac{\partial f}{\partial \mathbf{u}}(\mathbf{x}_t^*, \mathbf{u}_t^*)(\mathbf{u}_t - \mathbf{u}_t^*)
 $$
 
 :::{layout="[30, 5, 25, 40]"}
 
 $$
 \begin{align}
-& \bar{x}_{t+1} \simeq A_t \bar{x}_t + B_t \bar{u}_t \\ 
-& c(x_t, u_t) = \bar{x}_t^T Q \bar{x}_t + \bar{u}_t^T R \bar{u}_t
+& \bar{\mathbf{x}}_{t+1} \simeq A_t \bar{\mathbf{x}}_t + B_t \bar{\mathbf{u}}_t \\ 
+& c(\mathbf{x}_t, \mathbf{u}_t) = \bar{\mathbf{x}}_t^T Q \bar{\mathbf{x}}_t + \bar{\mathbf{u}}_t^T R \bar{\mathbf{u}}_t
 \end{align}
 $$
 
@@ -1174,8 +1157,8 @@ where
 
 $$
 \begin{align}
-& \bar{x}_t = x_t - x_t^* \\ 
-& \bar{u}_t = u_t - u_t^*
+& \bar{\mathbf{x}}_t = \mathbf{x}_t - \mathbf{x}_t^* \\ 
+& \bar{\mathbf{u}}_t = \mathbf{u}_t - \mathbf{u}_t^*
 \end{align}
 $$
 
@@ -1189,47 +1172,47 @@ always clear if this is the best way though.]{.red-annotation}
 
 ## LQR variants: nonlinear dynamics, quadratic cost
 
-What can we do when $x_{t+1} = f(x_t, \mathbf{u}_t)$ but the cost is quadratic $c(x_t, \mathbf{u}_t) = x_t^T Qx_t + \mathbf{u}_t^T R \mathbf{u}_t$ ?
+What can we do when $\mathbf{x}_{t+1} = f(\mathbf{x}_t, \mathbf{u}_t)$ but the cost is quadratic $c(\mathbf{x}_t, \mathbf{u}_t) = \mathbf{x}_t^T Q\mathbf{x}_t + \mathbf{u}_t^T R \mathbf{u}_t$ ?
 
-We want to stabilize the system around state $x_t = 0$
+We want to stabilize the system around state $\mathbf{x}_t = 0$
 
-But with nonlinear dynamics we do not know if $u_t = 0$ will keep the system at the zero state.
-
-. . .
-
--> Need to compute $u^*$ such that $\mathbf{0}_{t+1} = f(\mathbf{0}_t, \mathbf{u}*)$
+But with nonlinear dynamics we do not know if $\mathbf{u}_t = 0$ will keep the system at the zero state.
 
 . . .
 
+-> Need to compute $\mathbf{u}^*$ such that $\mathbf{0}_{t+1} = f(\mathbf{0}_t, \mathbf{u}*)$
 
-Taylor expansion: linearize the nonlinear dynamics around the point $(0, u^*)$
+. . .
+
+
+Taylor expansion: linearize the nonlinear dynamics around the point $(0, \mathbf{u}^*)$
 
 $$
-\mathbf{x}_{t+1} \approx f(0, \mathbf{u}^*) + 
+\mathbf{x}_{t+1} \simeq f(0, \mathbf{u}^*) + 
 \underbrace{\frac{\partial f}{\partial \mathbf{x}}(0, \mathbf{u}^*)}_{\mathbf{A}}(\mathbf{x}_t - 0) + \underbrace{\frac{\partial f}{\partial \mathbf{u}}(0, \mathbf{u}^*)}_{\mathbf{B}}(\mathbf{u}_t - \mathbf{u}^*)
 $$
 
 
 ## LQR variants: nonlinear dynamics, quadratic cost
 
-What can we do when $x_{t+1} = f(x_t, \mathbf{u}_t)$ but the cost is quadratic $c(x_t, \mathbf{u}_t) = x_t^T Qx_t + \mathbf{u}_t^T R \mathbf{u}_t$ ?
+What can we do when $\mathbf{x}_{t+1} = f(\mathbf{x}_t, \mathbf{u}_t)$ but the cost is quadratic $c(\mathbf{x}_t, \mathbf{u}_t) = \mathbf{x}_t^T Q\mathbf{x}_t + \mathbf{u}_t^T R \mathbf{u}_t$ ?
 
-We want to stabilize the system around state $x_t = 0$
+We want to stabilize the system around state $\mathbf{x}_t = 0$
 
-But with nonlinear dynamics we do not know if $u_t = 0$ will keep the system at the zero state.
+But with nonlinear dynamics we do not know if $\mathbf{u}_t = 0$ will keep the system at the zero state.
 
--> Need to compute $u^*$ such that $\mathbf{0}_{t+1} = f(\mathbf{0}_t, \mathbf{u}*)$
+-> Need to compute $\mathbf{u}^*$ such that $\mathbf{0}_{t+1} = f(\mathbf{0}_t, \mathbf{u}*)$
 
-Taylor expansion: linearize the nonlinear dynamics around the point $(0, u^*)$
+Taylor expansion: linearize the nonlinear dynamics around the point $(0, \mathbf{u}^*)$
 
 $$
 \begin{align}
-& \mathbf{x}_{t+1} \approx f(0, \mathbf{u}^*) + \frac{\partial f}{\partial \mathbf{x}}(0, \mathbf{u}^*)(\mathbf{x}_t - 0) + \frac{\partial f}{\partial \mathbf{u}}(0, \mathbf{u}^*)(\mathbf{u}_t - \mathbf{u}^*) \\
-& mathbf{x}_{t+1} \approx Ax_t + B(\mathbf{u}_t - \mathbf{u}^*)
+& \mathbf{x}_{t+1} \simeq f(0, \mathbf{u}^*) + \frac{\partial f}{\partial \mathbf{x}}(0, \mathbf{u}^*)(\mathbf{x}_t - 0) + \frac{\partial f}{\partial \mathbf{u}}(0, \mathbf{u}^*)(\mathbf{u}_t - \mathbf{u}^*) \\
+& \mathbf{x}_{t+1} \simeq Ax_t + B(\mathbf{u}_t - \mathbf{u}^*)
 \end{align}
 $$
 
-[Solve this via LQR]{.red-annotation}
+[$\qquad\qquad\qquad$ Solve this via LQR]{.red-annotation}
 
 ## LQR examples: code to replicate these results
 
