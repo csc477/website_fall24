@@ -237,9 +237,9 @@ Topology: study of spatial properties that are preserved under continuous deform
 
 ## Deformation Retraction: GVG in Plane
 
-[GVG nodes: points that are equidistant to 3 or more obstacle points]{.blue .small-font} 
+[$\qquad\qquad\quad$ GVG nodes: points that are equidistant to 3 or more obstacle points]{.blue .small-font} 
 
-![](img/Lecture6_25.png){fig-align="center" width="73%" height=400}
+![](img/deformation-retraction.png){.absolute top=-10 right=0}
 
 [Retractions are \
 also called \
@@ -467,7 +467,7 @@ Find the 3D rotation matrix R and the 3D translation
 vector t that will best align the corresponding points
 
 $$
-\text{error}(R, t) = \frac{1}{N} \sum_{i=1}^{N} ||\mathbf{p}_i - (R\mathbf{q}_i + t)||^2
+\text{error}(R, t) = \frac{1}{N} \sum_{i=1}^{N} ||p_i - (Rq_i + t)||^2
 $$
 
 $$
@@ -494,7 +494,7 @@ A: Turns out it has a closed-form solution.]{.red }
 Find the 3D rotation matrix R and the 3D translation vector t that will best align the corresponding points
 
 $$
-\text{error}(R, t) = \frac{1}{N} \sum_{i=1}^{N} ||\mathbf{p}_i - (R\mathbf{q}_i + t)||^2
+\text{error}(R, t) = \frac{1}{N} \sum_{i=1}^{N} ||p_i - (Rq_i + t)||^2
 $$
 
 $$
@@ -504,16 +504,16 @@ $$
 Step 1: compute the means of the two scans
 
 $$
-\mu_p = \frac{1}{N} \sum_{i=1}^{N} \mathbf{p}_i \qquad\qquad \mu_q = \frac{1}{N} \sum_{i=1}^{N} \mathbf{q}_i
+\mu_p = \frac{1}{N} \sum_{i=1}^{N} p_i \qquad\qquad \mu_q = \frac{1}{N} \sum_{i=1}^{N} q_i
 $$
 
 Step 2: subtract the means from the scans
 
-$\qquad \bar{\mathbf{p}}_i = \mathbf{p}_i - \mu_p \qquad\qquad \bar{\mathbf{q}}_i = \mathbf{q}_i - \mu_q$
+$\qquad \bar{p}_i = p_i - \mu_p \qquad\qquad \bar{q}_i = q_i - \mu_q$
 
 Step 3: form the matrix
 
-$$W = \sum_{i=1}^{N} \bar{\mathbf{p}}_i \bar{\mathbf{q}}_i^T$$
+$$W = \sum_{i=1}^{N} \bar{p}_i \bar{q}_i^T$$
 
 :::
 
@@ -586,7 +586,7 @@ $$
 R^*, t^* = \operatorname*{argmin}_{R,t} \text{error}(R, t)
 $$
 
-<br><br>
+<br><br><br>
 
 [If you’re interested, the proof of the closed-form solution can be found in: \
 K. S. Arun, T. S. Huang, and S. D. Blostein. Least square fitting of two 3-d point sets. \
@@ -629,7 +629,7 @@ Repeat until no significant drop in error.
 
 ## libpointmatcher
 
-{{< video https://youtu.be/jlAArM_6N-I?si=Bg8swXnIk8EkUuAs width=600 height="400" >}}
+{{< video https://youtu.be/jlAArM_6N-I?si=Bg8swXnIk8EkUuAs width=800 height="500" >}}
 
 
 
@@ -649,7 +649,7 @@ Repeat until no significant drop in error.
 
 ## What we want to do
 
-{{< video https://youtu.be/HGt3XpclMa8?si=H2UeSP9hhIqujbqI width=600 height="400" >}}
+{{< video https://youtu.be/HGt3XpclMa8?si=H2UeSP9hhIqujbqI width=800 height="500" >}}
 
 
 ## Terminology
@@ -657,9 +657,7 @@ Repeat until no significant drop in error.
 - Pose: the rotation and translation of a robot
 - Odometry: the transformation of the body frame with respect to its initial pose (fixed frame of reference).
 
-$$
-_B_{t}^{B_0}T
-$$
+$$_{B_{t}}^{B_0}T$$
 
 - Dynamics model: what is the next state given current state and control?
 
@@ -676,14 +674,14 @@ $$z_t = h(x_t)$$
 
 ![](img/perfect-model.png)
 
-:::{layout-ncol="2"}
+:::{layout="[-20, 30, 30]"}
 $x_{t+1} = f(x_t, u_t)$ 
 
 $x_{t+1} = f(x_t, u_t) + w_t$
 :::
 
 
-![](img/noise-as-rand-var.png){.width=80 .absolute right=0 top=25%}
+![](img/noise-as-rand-var.png){width=150 height="100" .absolute right=-40 top=34%}
 
 ## Perfect models vs. Reality
 
@@ -717,12 +715,12 @@ $z_t = x_t + v_t, \quad v_t \sim \mathcal{N}(0, \sigma^2I)$
 ::: {.column width="25%"}
 Dynamics 
 
-<br>
+<br><br><br>
 
 Sensor
 Measurements
 
-<br> 
+<br><br><br>
 
 e.g. GPS (simplified)
 :::
@@ -732,9 +730,11 @@ $x_{t+1} = f(x_t, u_t)$
 
 ![](img/perfect-model-1.png)
 
+<br>
 
 $z_t = h(x_t)$
 
+<br><br>
 
 $z_t = x_t$
 ![](img/Lecture6_181.jpg)
@@ -754,6 +754,7 @@ $p(x_{t+1} | x_t, u_t)$
 probabilistic
 dynamics model
 
+<br><br><br><br>
 
 $p(z_t| x_t)$
 
@@ -803,26 +804,31 @@ $p(x_{t+1} | x_t, u_t)$
 
 - The occupancy grid map is a binary random variable
 
-$$m = {m_{ij} \in {0, 1}^{W \times H}}$$
+$$\mathbf{m} = \{m_{ij}\} \in \{0,1\}^{W \times H}$$
 
-[![](img/left-arrow.png) width = #columns \
+![](img/left-arrow.png){width=120 .absolute right=230 top=170}  
+
+[width = #columns \
 height = #rows \
-of the occupancy grid]{.red-annotation .absolute right=50 top=200}
+of the occupancy grid]{.red-annotation .absolute right=70 top=150 .right-align}
 
+. . .
 
-- The path of the robot up to time t is a sequence of random variables $x_{1:t} = x_1, . . ., x_t$ with $x_i = (x_i, y_i, \theta_i)$
+- The path of the robot up to time t is a sequence of random variables $\mathbf{x}_{1:t} = \mathbf{x}_1, . . ., \mathbf{x}_t$ with $\mathbf{x}_i = (x_i, y_i, \theta_i)$
 
-[Odometry coordinates ]{.red-annotation .absolute bottom=50% right=50%}
+[Odometry coordinates ]{.red-annotation .absolute bottom=48% left=100}
 
+. . .
 
-- At each time step the robot makes a measurement (sonar/laser). Measurements up to time t are a sequence of random variables $z_{1:t} = z_1, . . ., z_t$ with $z_i = {(r_i, \psi_i)}^K$
+- At each time step the robot makes a measurement (sonar/laser). Measurements up to time t are a sequence of random variables \
+    $\mathbf{z}_{1:t} = \mathbf{z}_1, . . ., \mathbf{z}_t$ with $\mathbf{z}_i = {(r_i, \psi_i)}^K$
 
-[![](img/left-arrow.png) K = #beams, or \ 
-#points in the scan]{.red-annotation .absolute right=50 bottom=150}
+[![](img/left-arrow.png){width=140} K = #beams, or \ 
+#points in the scan]{.red-annotation .absolute right=130 bottom=210 .right-align}
 
 [(range, angle) in \
 the laser’s local \
-coordinates ]{.red-annotation .absolute bottom=100 left="50%"}
+coordinates ]{.red-annotation .absolute bottom=120 left="35%"}
 
 
 ## The goal of mapping
@@ -830,17 +836,17 @@ coordinates ]{.red-annotation .absolute bottom=100 left="50%"}
 - To estimate the probability of any map, given path and measurements 
 
 $$
-belief_{t}(m) = p(m|z_{1:t}, x_{1:t})
+belief_{t}(\mathbf{m}) = p(\mathbf{m}|\mathbf{z}_{1:t}, \mathbf{x}_{1:t})
 $$
 
-:::{.red-annotation .absolute right=250 bottom="60%"}
-![](img/up-arrow.png){width="70"} \
+:::{.red-annotation .absolute right=350 bottom="48%"}
+![](img/up-arrow.png){height="70"} \
 Sensor \
 Measurements
 :::
 
-:::{.red-annotation .absolute right=180 bottom="65%"}
-![](img/uparrow2.png){width="70"}
+:::{.red-annotation .absolute right=170 bottom="51%"}
+![](img/uparrow2.png){height="70"} \
 Odometry / Robot Poses
 :::
 
@@ -848,24 +854,24 @@ Odometry / Robot Poses
 - To estimate the probability of any map, given path and measurements
 
 $$
-p(m|z_{1:t}, x_{1:t})
+p(\mathbf{m}|\mathbf{z}_{1:t}, \mathbf{x}_{1:t})
 $$
 
 - This is intractable. E.g. for a 100 x 100 grid there are $2^{1000}$ possible binary maps.
 
 
-- We can approximate $p(m|z_{1:t}, x_{1:t}) \simeq \prod_{i,j}p(m_{ij} | z_{1:t}, x_{1:t}) $
+- We can approximate $$p(\mathbf{m}|\mathbf{z}_{1:t}, \mathbf{x}_{1:t}) \simeq \prod_{i,j} p(m_{ij} | \mathbf{z}_{1:t}, \mathbf{x}_{1:t})$$
 
 [Approximation ignores all dependencies \
 between map cells, given known info. \
 Assumes (for tractability) that cells are \
-independent given path and measurements ]{.red-annotation .absolute bottom=20 right=200}
+independent given path and measurements ]{.red-annotation .absolute bottom=150 right=200}
 
 ## Why is it an approximation?
 
 ![](img/Lecture6_224.png){fig-align="center"}
 
-:::{layout-ncol="4" .red-annotation}
+:::{layout="[-5, 20, 20, 20, 20]" .red-annotation}
 Scenario
 
 Nearby \
@@ -882,19 +888,21 @@ jointly
 
 ## Evaluating the occupancy of a map cell
 
-- How do we evaluate $p(m_{ij} = 1 | z_{1:t}, x_{1:t})$ ?
+- How do we evaluate $p(m_{ij} = 1 | \mathbf{z}_{1:t}, \mathbf{x}_{1:t})$ ?
 
 <!-- . . . -->
 
 ::: {.columns}
-::: {.column width="70%"}
+::: {.column width="70%" .fragment fragment-index=2}
 <!-- .fragment -->
 - Using conditional Bayes’ rule we get
 
-$p(m_{ij} = 1|\mathbf{z}_{1:t}, \mathbf{x}_{1:t}) = \frac{p(z_t|z_{1:t-1}, x_{1:t}, m_{ij} = 1)p(m_{ij} = 1|z_{1:t-1}, x_{1:t})}{p(z_t|z_{1:t-1}, x_{1:t})}$
+$p(m_{ij} = 1|\mathbf{z}_{1:t}, \mathbf{x}_{1:t}) = \frac{p(\mathbf{z}_t|\mathbf{z}_{1:t-1}, \mathbf{x}_{1:t}, m_{ij} = 1)p(m_{ij} = 1|\mathbf{z}_{1:t-1}, \mathbf{x}_{1:t})}{p(\mathbf{z}_t|\mathbf{z}_{1:t-1}, \mathbf{x}_{1:t})}$
 
 :::
-::: {.column width="30%" .bordered-box}
+::: {.column width="30%"}
+
+:::{.bordered-box .medium-font .fragment fragment-index=1}
 Bayes’ Rule
 
 $p(A|B) = \frac{p(B|A)p(A)}{p(B)}$
@@ -903,6 +911,8 @@ Conditional Bayes’ Rule
 
 $p(A|B, C) = \frac{p(B|A, C)p(A|C)}{p(B|C)}$
 :::
+
+:::
 :::
 
 ## Evaluating the occupancy of a map cell
@@ -914,25 +924,31 @@ $p(A|B, C) = \frac{p(B|A, C)p(A|C)}{p(B|C)}$
 ::: {.columns}
 ::: {.column width="70%"}
 
-$p(m_{ij} = 1|\mathbf{z}_{1:t}, \mathbf{x}_{1:t}) = \frac{p(z_t|z_{1:t-1}, x_{1:t}, m_{ij} = 1)p(m_{ij} = 1|z_{1:t-1}, x_{1:t})}{p(z_t|z_{1:t-1}, x_{1:t})}$
+$p(m_{ij} = 1|\mathbf{z}_{1:t}, \mathbf{x}_{1:t}) = \frac{p(\mathbf{z}_t|\mathbf{z}_{1:t-1}, \mathbf{x}_{1:t}, m_{ij} = 1)p(m_{ij} = 1|\mathbf{z}_{1:t-1}, \mathbf{x}_{1:t})}{p(\mathbf{z}_t|\mathbf{z}_{1:t-1}, \mathbf{x}_{1:t})}$
+
+<br>
 
 - And we simplify
 
-$$p(m_{ij} = 1|z_{1:t}, x_{1:t}) = \frac{p(z_t|x_t, m_{ij} = 1)p(m_{ij} = 1|z_{1:t-1}, x_{1:t-1})}{p(z_t|z_{1:t-1}, x_{1:t})}$$
+$p(m_{ij} = 1|\mathbf{z}_{1:t}, \mathbf{x}_{1:t}) = \frac{p(\mathbf{z}_t|\mathbf{x}_t, m_{ij} = 1)p(m_{ij} = 1|\mathbf{z}_{1:t-1}, \mathbf{x}_{1:t-1})}{p(\mathbf{z}_t|\mathbf{z}_{1:t-1}, \mathbf{x}_{1:t})}$
 
 :::
-::: {.column width="30%" .bordered-box}
 
+::: {.column width="30%"}
+
+:::{.bordered-box .medium-font}
 If C is independent of A \
 given B, then C provides \
 no extra information \
 about A after we know B \
 $p(A|B, C) = p(A | B)$
 :::
+
+:::
 :::
 
 
-![](img/red-blue-arrows.png){width="50%" .absolute bottom=10% left="300"}
+![](img/red-blue-arrows.png){width="300" height="170" .absolute bottom=28% left="350"}
 
 
 ## Evaluating the occupancy of a map cell
@@ -941,34 +957,36 @@ $p(A|B, C) = p(A | B)$
 
 - Using conditional Bayes’ rule we get
 
-$p(m_{ij} = 1|\mathbf{z}_{1:t}, \mathbf{x}_{1:t}) = \frac{p(z_t|z_{1:t-1}, x_{1:t}, m_{ij} = 1)p(m_{ij} = 1|z_{1:t-1}, x_{1:t})}{p(z_t|z_{1:t-1}, x_{1:t})}$
+$p(m_{ij} = 1|\mathbf{z}_{1:t}, \mathbf{x}_{1:t}) = \frac{p(\mathbf{z}_t|\mathbf{z}_{1:t-1}, \mathbf{x}_{1:t}, m_{ij} = 1)p(m_{ij} = 1|\mathbf{z}_{1:t-1}, \mathbf{x}_{1:t})}{p(\mathbf{z}_t|\mathbf{z}_{1:t-1}, \mathbf{x}_{1:t})}$
+
+<br>
 
 - And we simplify
 
-$$p(m_{ij} = 1|z_{1:t}, x_{1:t}) = \frac{p(z_t|x_t, m_{ij} = 1)p(m_{ij} = 1|z_{1:t-1}, x_{1:t-1})}{p(z_t|z_{1:t-1}, x_{1:t})}$$
+$p(m_{ij} = 1|\mathbf{z}_{1:t}, \mathbf{x}_{1:t}) = \frac{p(\mathbf{z}_t|\mathbf{x}_t, m_{ij} = 1)p(m_{ij} = 1|\mathbf{z}_{1:t-1}, \mathbf{x}_{1:t-1})}{p(\mathbf{z}_t|\mathbf{z}_{1:t-1}, \mathbf{x}_{1:t})}$
 
 
-![](img/red-blue-arrows.png){width="50%" .absolute bottom=10% left="300"}
+![](img/red-blue-arrows.png){width="300" height="170" .absolute bottom=28% left="350"}
 
 [Current measurement \
 only depends on current \
-state and map cell ]{.red-annotation .absolute bottom="25%" right="35%"}
+state and map cell ]{.red-annotation .absolute bottom="34%" right="43%"}
 
 [Current state without \
 current measurement provides \
 no additional information \
-about the occupancy of the map cell]{.blue .small-font .absolute bottom="25%" right="15%"}
+about the occupancy of the map cell]{.blue .small-font .absolute bottom="33%" right="100"}
 
 
 ## Evaluating the occupancy of a map cell
 
 - And we simplify:
 
-$p(m_{ij} = 1|z_{1:t}, x_{1:t}) = \frac{p(z_t|x_t, m_{ij} = 1)p(m_{ij} = 1|z_{1:t-1}, x_{1:t-1})}{p(z_t|z_{1:t-1}, x_{1:t})}$
+$p(m_{ij} = 1|\mathbf{z}_{1:t}, \mathbf{x}_{1:t}) = \frac{p(\mathbf{z}_t|\mathbf{x}_t, m_{ij} = 1)p(m_{ij} = 1|\mathbf{z}_{1:t-1}, \mathbf{x}_{1:t-1})}{p(\mathbf{z}_t|\mathbf{z}_{1:t-1}, \mathbf{x}_{1:t})}$
 
 - Another way to write this:
 
-$belief_t(m_{ij} = 1) = \eta \, p(z_t|x_t, m_{ij} = 1) \, belief_{t-1}(m_{ij} = 1)$
+$belief_t(m_{ij} = 1) = \eta \, p(\mathbf{z}_t|\mathbf{x}_t, m_{ij} = 1) \, belief_{t-1}(m_{ij} = 1)$
 
 - Belief at time t-1 was updated to belief at time t based on likelihood of measurement received at time t.
 
@@ -976,33 +994,38 @@ $belief_t(m_{ij} = 1) = \eta \, p(z_t|x_t, m_{ij} = 1) \, belief_{t-1}(m_{ij} = 
 
 - And we simplify:
 
-$p(m_{ij} = 1|z_{1:t}, x_{1:t}) = \frac{p(z_t|x_t, m_{ij} = 1)p(m_{ij} = 1|z_{1:t-1}, x_{1:t-1})}{p(z_t|z_{1:t-1}, x_{1:t})}$
+$p(m_{ij} = 1|\mathbf{z}_{1:t}, \mathbf{x}_{1:t}) = \frac{p(\mathbf{z}_t|\mathbf{x}_t, m_{ij} = 1)p(m_{ij} = 1|\mathbf{z}_{1:t-1}, \mathbf{x}_{1:t-1})}{p(\mathbf{z}_t|\mathbf{z}_{1:t-1}, \mathbf{x}_{1:t})}$
 
 ::: {.columns}
 ::: {.column width="70%"}
 - Another way to write this:
 
-$belief_t(m_{ij} = 1) = \eta \, p(z_t|x_t, m_{ij} = 1) \, belief_{t-1}(m_{ij} = 1)$
+$belief_t(m_{ij} = 1) = \eta \, p(\mathbf{z}_t|\mathbf{x}_t, m_{ij} = 1) \, belief_{t-1}(m_{ij} = 1)$
 :::
 
-::: {.column width="30%" .red-annotation}
+::: {.column width="30%" .red-annotation .right-align}
 So, as long as we can evaluate
 the measurement likelihood
-$\color{black}p(z_t | x_t, m_{ij} = 1)$
+$\color{black}p(\mathbf{z}_t | \mathbf{x}_t, m_{ij} = 1)$
 
 and the normalization factor
-$\color{black}\eta = 1/p(z_t | z_{1: t-1}, x_{1:t})$
+$\color{black}\eta = 1/p(\mathbf{z}_t | \mathbf{z}_{1: t-1}, \mathbf{x}_{1:t})$
 
 we can do the belief update.
 :::
 ::: 
 
-:::{.blue .small-font .absolute bottom=80 right=200}
-<!-- .fragment -->
-![](img/blue-arrow.png){width=100} \
+:::{.blue .small-font .absolute bottom=110 right=210 .right-align .fragment}
+![](img/blue-arrow.png){width=150} \
 Problem: this is hard to \
 compute. How can we avoid it?
 :::
+
+## The log-odds trick for binary random variables
+
+- We showed $belief_t(m_{ij} = 1) = \eta p(\mathbf{z_t}|\mathbf{x_t}, m_{ij} = 1) belief_{t-1}(m_{ij} = 1)$ 
+
+- Define the log odds ratio $l_t^{(ij)} = \log \frac{p(m_{ij} = 1|\mathbf{z}_{1:t}, \mathbf{x}_{1:t})}{p(m_{ij} = 0|\mathbf{z}_{1:t}, \mathbf{x}_{1:t})} = \log \frac{belief_t(m_{ij} = 1)}{belief_t(m_{ij} = 0)}$
 
 ## The log-odds trick for binary random variables
 
@@ -1018,7 +1041,7 @@ compute. How can we avoid it?
 
 - We can recover the original belief as 
 
-$\text{belief}_t(m_{ij} = 1) = 1 - \frac{1}{1 + \exp(l_t^{(ij)})}$
+$belief_t(m_{ij} = 1) = 1 - \frac{1}{1 + \exp(l_t^{(ij)})}$
 
 
 ## The log-odds trick for binary random variables
@@ -1031,7 +1054,8 @@ $\text{belief}_t(m_{ij} = 1) = 1 - \frac{1}{1 + \exp(l_t^{(ij)})}$
 
 :::{.red-annotation .center-align}
 So, as long as we can evaluate \
-the log odds ratio for the measurement likelihood: \
+the log odds ratio for the \
+measurement likelihood: \
 $\color{black}\log \frac{p(\mathbf{z}_t | \mathbf{x}_t, m_{ij} = 1)}{p(\mathbf{z}_t | \mathbf{x}_t, m_{ij} = 0)}$ \
 we can do the belief update.
 :::
@@ -1041,38 +1065,41 @@ we can do the belief update.
 
 - We want to compute $\log \frac{p(\mathbf{z}_t | \mathbf{x}_t, m_{ij} = 1)}{p(\mathbf{z}_t | \mathbf{x}_t, m_{ij} = 0)}$ to do the belief update
 
-- We apply conditional Bayes’ rule again: $p(\mathbf{z}_t | \mathbf{x}_t, m_{ij} = 1) = \frac{p(m_{ij} = 1 | \mathbf{z}_t, \mathbf{x}_t) p(\mathbf{z}_t | \mathbf{x}_t)}{p(m_{ij} = 1 | \mathbf{x}_t)}$
+- We apply conditional Bayes’ rule again: $\quad p(\mathbf{z}_t | \mathbf{x}_t, m_{ij} = 1) = \frac{p(m_{ij} = 1 | \mathbf{z}_t, \mathbf{x}_t) p(\mathbf{z}_t | \mathbf{x}_t)}{p(m_{ij} = 1 | \mathbf{x}_t)}$
 
 . . .
 
-- If we take the log-odds ratio: $\log \frac{p(\mathbf{z}_t | \mathbf{x}_t, m_{ij} = 1)}{p(\mathbf{z}_t | \mathbf{x}_t, m_{ij} = 0)} = \log\frac{p(m_{ij}=1|\mathbf{z}_{t},\mathbf{x}_{t})}{p(m_{ij}=0|\mathbf{z}_{t},\mathbf{x}_{t})}+\log\frac{p(m_{ij}=0|\mathbf{x}_{t})}{p(m_{ij}=1|\mathbf{x}_{t})}$
+- If we take the log-odds ratio: $\quad \log \frac{p(\mathbf{z}_t | \mathbf{x}_t, m_{ij} = 1)}{p(\mathbf{z}_t | \mathbf{x}_t, m_{ij} = 0)} = \log\frac{p(m_{ij}=1|\mathbf{z}_{t},\mathbf{x}_{t})}{p(m_{ij}=0|\mathbf{z}_{t},\mathbf{x}_{t})}+\log\frac{p(m_{ij}=0|\mathbf{x}_{t})}{p(m_{ij}=1|\mathbf{x}_{t})}$
 
 . . .
 
-<br> 
+<br><br>
 
-- We can simplify further: $\log \frac{p(\mathbf{z}_t | \mathbf{x}_t, m_{ij} = 1)}{p(\mathbf{z}_t | \mathbf{x}_t, m_{ij} = 0)} = \log\frac{p(m_{ij}=1|\mathbf{z}_{t},\mathbf{x}_{t})}{p(m_{ij}=0|\mathbf{z}_{t},\mathbf{x}_{t})}+\log\frac{p(m_{ij}=0)}{p(m_{ij}=1)}$
+- We can simplify further: $\quad\quad \log \frac{p(\mathbf{z}_t | \mathbf{x}_t, m_{ij} = 1)}{p(\mathbf{z}_t | \mathbf{x}_t, m_{ij} = 0)} = \log\frac{p(m_{ij}=1|\mathbf{z}_{t},\mathbf{x}_{t})}{p(m_{ij}=0|\mathbf{z}_{t},\mathbf{x}_{t})}+\log\frac{p(m_{ij}=0)}{p(m_{ij}=1)}$
 
+:::{.fragment .fade-out}
+[Knowing the current state provides no \
+information about whether cell is \
+occupied, if there are no observations]{.red-annotation .absolute right=120 bottom=210}
 
-[Knowing the current state provides no 
-information about whether cell is 
-occupied, if there are no observations]{.red-annotation .absolte right=100 bottom=20%}
+![](img/arrow2.png){height=100 .absolute right=80 bottom=190}
+:::
 
-![](img/arrow2.png){height=100 .absolute right=80 bottom=250}
-
-
+:::{.fragment .fade-in-then-out}
 [Prior probability of cell being occupied. \
-Can choose uniform distribution, for example.]{.red-annotation .absolte right=100 bottom=20%}
+Can choose uniform distribution, for example.]{.red-annotation .absolute right=150 bottom=60}
 
-![](img/red-arrow3.png){width="60" .absolte right=70 bottom=140}
+![](img/red-arrow3.png){width="70" .absolute right=140 bottom=70}
+:::
 
+:::{.fragment}
 [Inverse measurement model: \
 what is the likelihood of the map \
 cell being occupied given the current \
-state and current measurement?]{.red-annotation .absolte right=400 bottom=30%}
+state and current measurement?]{.red-annotation .absolute right=450 bottom=30%}
 
-![](img/arrow-circle.png){width="160" .absolte right=100 bottom=340}
-
+![](img/arrow-circle.png){width="230" .absolute right=230 bottom=155}
+:::
 
 
 ## Summary: Log-odds ratio for the measurement likelihood
@@ -1083,7 +1110,7 @@ state and current measurement?]{.red-annotation .absolte right=400 bottom=30%}
 
 $$\log \frac{p(\mathbf{z}_t | \mathbf{x}_t, m_{ij} = 1)}{p(\mathbf{z}_t | \mathbf{x}_t, m_{ij} = 0)} = \log\frac{p(m_{ij}=1|\mathbf{z}_{t},\mathbf{x}_{t})}{p(m_{ij}=0|\mathbf{z}_{t},\mathbf{x}_{t})}+\log\frac{p(m_{ij}=0)}{p(m_{ij}=1)}$$
 
-![](img/summary.png){.absolute bottom="40%" right=200}
+![](img/summary.png){.absolute width="500" bottom="12%" right=90}
 
 
 ## Inverse sensor measurement model
@@ -1093,32 +1120,35 @@ $$\log \frac{p(\mathbf{z}_t | \mathbf{x}_t, m_{ij} = 1)}{p(\mathbf{z}_t | \mathb
 ![$p(m_{ij} = 1 | z_t, x_t)$](img/inverse-sensor.png)
 :::
 
-::: {.column width="70%"}
-Given map cell $(i, j)$ , the robot’s state $x = (x, y, \theta)$, and beams $z = {(r_k, \psi_k)}$
+::: {.column width="70%" .medium-font}
+Given map cell $(i, j)$ , the robot’s state $\mathbf{x} = (x, y, \theta)$, and beams $\mathbf{z} = {(r_k, \psi_k)}$
 
 Find index k of sensor beam that is closest in heading to the cell $(i,j)$
 
 :::{.fragment fragment-index=2}
-If the cell $(i, j)$ is sufficiently farther than $r_k$ or out of the field of view
+<br> 
 
-[// We don’t have enough information to decide whether cell is occupied]{.small-font}
-
+If the cell $(i, j)$ is sufficiently farther than $r_k$ or out of the field of view \
+[// We don’t have enough information to decide whether cell is occupied]{.small-font} \
 Return prior occupation probability $p(m_{ij} = 1)$
 :::
 
 
-:::{.fragment fragment-index=3}
-If the cell $(i, j)$ is nearly as far as the measurement $r_k$
+:::{.fragment fragment-index=3 }
 
-[// Cell is most likely occupied]{.small-font}
+<br> 
 
+If the cell $(i, j)$ is nearly as far as the measurement $r_k$ \
+[// Cell is most likely occupied]{.small-font} \
 Return $p_{\text{occupied}}$ that is well above 0.5
 :::
 
 
-:::{.fragment fragment-index=1}
+:::{.fragment fragment-index=1 }
+<br> 
+
 If the cell $(i, j)$ is sufficiently closer than $r_k$ \
-[// Cell is most likely free]{.small-font}
+[// Cell is most likely free]{.small-font} \
 Return $p_{\text{occupied}}$ that is well below 0.5
 :::
 
@@ -1126,9 +1156,10 @@ Return $p_{\text{occupied}}$ that is well below 0.5
 ::: 
 
 
-## inverse_sensor_measurement_model($(i,j), \mathbf{x} = (x, y, \theta), \mathbf{z} = \{(r_k, \psi_k)\}$)
+## [inverse_sensor_measurement_model($(i,j), \mathbf{x} = (x, y, \theta), \mathbf{z} = \{(r_k, \psi_k)\}$)]{.tiny-font}
 [From Probabilistic Robotics, chapter 9.2]{.small-font}
 
+:::{.medium-font}
 -   Let $(x_i, y_i)$ be the center of the cell $(i, j)$
 -   Let $r = \|(x_i, y_i) - (x, y)\|$
 -   Let $\phi = \operatorname{atan2}(y_i - y, x_i - x) - \theta$ // Might need to ensure this angle difference is in $[-\pi, \pi]$
@@ -1139,16 +1170,19 @@ Return $p_{\text{occupied}}$ that is well below 0.5
     -   Return the log odds ratio of being occupied (corresponding to occupation probability \> 0.5)
 -   If $r \le r_k$
     -   Return the log odds ratio of being free (corresponding to occupation probability \< 0.5)
-
+:::
 
 ## Recap
 
+:::{.small-font}
 - We wanted to compute the likelihood of any map based on known states and observations
 
 $$p(\mathbf{m}|\mathbf{z}_{1:t}, \mathbf{x}_{1:t}) \simeq \prod_{i,j} p(m_{ij}|\mathbf{z}_{1:t}, \mathbf{x}_{1:t})$$
+:::
 
 ## Recap
 
+:::{.small-font}
 - We wanted to compute the likelihood of any map based on known path and observations
 
 $$p(\mathbf{m}|\mathbf{z}_{1:t}, \mathbf{x}_{1:t}) \simeq \prod_{i,j} p(m_{ij}|\mathbf{z}_{1:t}, \mathbf{x}_{1:t})$$
@@ -1158,9 +1192,9 @@ $$p(\mathbf{m}|\mathbf{z}_{1:t}, \mathbf{x}_{1:t}) \simeq \prod_{i,j} p(m_{ij}|\
 $$belief_t(m_{ij} = 1) = \eta p(\mathbf{z}_t|\mathbf{x}_t, m_{ij} = 1) belief_{t-1}(m_{ij} = 1)$$
 
 [Very frequent \
-reasoning in \ 
+reasoning in \
 probabilistic \
-robotics]{.red-annotation .absolute right=0 bottom=50 .fragment .fade-out}
+robotics]{.red-annotation .absolute right=0 bottom=350 .fragment .fade-out}
 
 :::{.fragment}
 - To avoid evaluating $\eta$ we used the log odds ratio 
@@ -1168,11 +1202,14 @@ robotics]{.red-annotation .absolute right=0 bottom=50 .fragment .fade-out}
 $$l_t^{(ij)} = \log \frac{p(\mathbf{z}_t | \mathbf{x}_t, m_{ij} = 1)}{p(\mathbf{z}_t | \mathbf{x}_t, m_{ij} = 0)} + l_{t-1}^{(ij)}$$
 
 [Can do this for binary \
-random variables]{.red-annotation .absolute right=0 bottom=30%}
+random variables]{.red-annotation .absolute right=0 bottom=33%}
+:::
+
 :::
 
 ## Recap
 
+:::{.small-font}
 - We wanted to compute the likelihood of any map based on known path and observations
 
 $$p(\mathbf{m}|\mathbf{z}_{1:t}, \mathbf{x}_{1:t}) \simeq \prod_{i,j} p(m_{ij}|\mathbf{z}_{1:t}, \mathbf{x}_{1:t})$$
@@ -1190,8 +1227,11 @@ $$l_t^{(ij)} = \log \frac{p(\mathbf{z}_t | \mathbf{x}_t, m_{ij} = 1)}{p(\mathbf{
 
 $$l_{t}^{(ij)}=l_{t-1}^{(ij)}+\log\frac{p(m_{ij}=1|\mathbf{z}_{t},\mathbf{x}_{t})}{p(m_{ij}=0|\mathbf{z}_{t},\mathbf{x}_{t})}-\log\frac{p(m_{ij}=1)}{p(m_{ij}=0)}$$
 
+:::
+
 ## Occupancy Grid Algorithm
 
+:::{.medium-font}
 - Upon reception of a new laser/sonar/scan measurement $\mathbf{z}_t = \{(r_k, \psi_k)\}$
 
 - Let the robot’s current state be $\mathbf{x}_t = (x_t, y_t, \theta_t)$
@@ -1199,16 +1239,18 @@ $$l_{t}^{(ij)}=l_{t-1}^{(ij)}+\log\frac{p(m_{ij}=1|\mathbf{z}_{t},\mathbf{x}_{t}
 - Let the previous log-odds ratio of the occupancy belief be the 2D array $l_{t}^{(ij)}$ where i is a row, j is a column 
 
     In the beginning we set the prior $l_{0}^{(ij)}=\log\frac{p(m_{ij}=1)}{p(m_{ij}=0)}$ where the occupancy probability is a design decision.
+:::
 
 . . .
 
+:::{.medium-font}
 -   For all cells (i,j) in the grid
-    -   If the cell (i,j) is in the field of view of the robot’s sensor at state $\mathbf{x}_t$ $$l_t^{(ij)} = _{t-1}^{(ij)} + \text{inverse-sensor-measurement-model}((i,j), \mathbf{x}_t, \mathbf{z}_t) - l_0^{(ij)}$$
+    -   If the cell (i,j) is in the field of view of the robot’s sensor at state $\qquad \mathbf{x}_t$ $$l_t^{(ij)} = _{t-1}^{(ij)} + \text{inverse-sensor-measurement-model}((i,j), \mathbf{x}_t, \mathbf{z}_t) - l_0^{(ij)}$$
 
-    -   Else $$l_{t}^{(ij)} = l_{t-1}^{(ij)}$$
+    -   Else $\qquad l_{t}^{(ij)} = l_{t-1}^{(ij)}$
 -   If asked, return the following 2D matrix of occupancy probabilities:
-    $$\text{belief}_t(m_{ij} = 1) = 1 - \frac{1}{1 + \exp(l_t^{(ij)})}$$
-
+    $\qquad \text{belief}_t(m_{ij} = 1) = 1 - \frac{1}{1 + \exp(l_t^{(ij)})}$
+:::
 
 ## Results
 ![](img/results-diagram.png)
