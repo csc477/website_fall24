@@ -7,6 +7,496 @@
     "text": "Assignment 1\n15%\n\n\nAssignment 2\n15%\n\n\nPanel Discussion\n10%\n\n\nProject Proposal\n10%\n\n\nProject Presentation\n25%\n\n\nFinal Project Report\n25%\n\n\n\n\nMarking rubric for panel discussion\nEvery week we will reserve 20-30 mins for a panel discussion based on the assigned reading for that day (4-5 papers). This discussion will include three types of roles: panel members, audience members, and a moderator. Each panel discussion will include 4 panel members, 1 moderator, and audience members. Panel members are responsible for answering questions, the audience is responsible for asking questions, and the moderator is responsible for steering the discussion and having backup questions if the audience is not asking any.\n\nPanel member evaluation\n\nAnswering questions from the moderator and the audience correctly / well (6 pts)\nEngaging with points of other panelists (1 pts)\nKeeping answers brief / allowing other people time to speak (2 pts)\nPre-submitting 1-2 questions on Quercus about the assigned papers of the day, the Thursday before lecture (1 pts)\n\n\n\nAudience member evaluation\n\nPre-submitting 1-2 questions on Quercus about the assigned papers of the day, the Thursday before lecture (10 pts)\n\n\n\nModerator evaluation\n\nSteering the discussion in terms of groups / themes of questions (2 pts)\nEnsuring there is time for every panel member to speak (4 pts)\nEngaging the audience / ensuring the audience has enough time to ask questions (3 pts)\nPre-submitting 1-2 questions on Quercus about the assigned papers of the day, the Thursday before lecture (1 pts)\n\n\n\n\nMarking rubric for the project proposal\n\nIntroduction (1 pts), which states the proposed problem being solved and any applications / implications.\nFigure or diagram (1 pts), showing an overview of your proposed solution, i.e. shows the overall idea in a way that is easily understandable without even reading the rest of the report.\nRelated work (1 pts) and bibliography. Highlight how your method is different from other approaches. Present other approaches in the proper light without diminishing their contributions.\nMethodology (2 pts). Describe your proposed methodology as well as any assumptions it relies on. Explain prerequisite concepts clearly and succinctly.\nEvaluation (2 pts). What experiments are you planning to do and why? What are the questions you want to answer through these experiments?\nTimeline (1 pts). What are the milestones required to complete your project and by when do you plan to complete them?\nAnticipated risks and mitigation plan (2 pts). What issues might arise with your proposed project and timeline and how will you address these issues if they occur?\n\n\n\nMarking rubric for the project presentation\n\nQuality of presentation\n\nSlide design (2 pts)\nDelivery of presentation (3 pts)\nRespecting time constraints (2 pts)\nResponse to questions (3 pts)\n\n\n\nTechnical content\n\nMotivation and definition of the problem (2 pts)\nPutting prior work into context (3 pts)\nMethodology explanation (3 pts)\nDiscussion of experiments (5 pts)\nDiscussion of limitations (2 pts)\n\n\n\n\nMarking rubric for the final project report\n\nAbstract (2 pts) that summarizes the main idea of the project and your contributions.\nIntroduction (3 pts) that states the problem being solved and any applications / implications.\nFigure or diagram (2 pts) that shows the overall idea in a way that is easily understandable.\nRelated work (2 pts) and bibliography. Highlight how your method is different from other approaches. Present other approaches in the proper light without diminishing their contributions.\nMethodology (7 pts). Describe your method in detail as well as any assumptions it relies on. Explain prerequisite concepts clearly and succinctly. Include algorithm descriptions, figures, and equations as you wish.\nEvaluation (8 pts). Include any figures or tables that illustrate your experimental results. Do not forget to include error bars if applicable. Analyze your findings, and comment on their statistical significance. In your evaluation please take into account Joelle Pineau’s ML reproducibility checklist.\nLimitations (2 pts). Describe some settings in which your approach performs poorly, and list a few ideas for how to adddress them. Describe opportunities for future work, as well as open problems.\nConclusions (1 pts). A summary of your contributions and results."
   },
   {
+    "objectID": "lecs/w06/lec06.html#todays-agenda",
+    "href": "lecs/w06/lec06.html#todays-agenda",
+    "title": "CSC477 Introduction to Mobile Robotics",
+    "section": "Today’s agenda",
+    "text": "Today’s agenda\n\n\n\nHow to represent maps\nProbabilistic occupancy grid mapping"
+  },
+  {
+    "objectID": "lecs/w06/lec06.html#categories-of-maps",
+    "href": "lecs/w06/lec06.html#categories-of-maps",
+    "title": "CSC477 Introduction to Mobile Robotics",
+    "section": "Categories of maps",
+    "text": "Categories of maps\n\nMetric\n\nMap accurately represents lengths and angles\n\nTopological\n\nMap is reduced to a graph representation of the structure of free space\n\nTopometric\n\nAtlas: a combination of local metric maps (nodes) connected via edges\n\nSequence of raw time-series observations (e.g. video)\n\nNo metric or topological information directly represented by the map"
+  },
+  {
+    "objectID": "lecs/w06/lec06.html#typical-operations-on-maps",
+    "href": "lecs/w06/lec06.html#typical-operations-on-maps",
+    "title": "CSC477 Introduction to Mobile Robotics",
+    "section": "Typical operations on maps",
+    "text": "Typical operations on maps\n\nDistance and direction to closest obstacle\nCollision detection: is a given robot configuration in free space?\nMap merging / alignment\nOccupancy updates\nRaytracing\n\n\n\nCommon operations in\ncomputer graphics"
+  },
+  {
+    "objectID": "lecs/w06/lec06.html#metric-maps",
+    "href": "lecs/w06/lec06.html#metric-maps",
+    "title": "CSC477 Introduction to Mobile Robotics",
+    "section": "Metric Maps",
+    "text": "Metric Maps"
+  },
+  {
+    "objectID": "lecs/w06/lec06.html#occupancy-grids",
+    "href": "lecs/w06/lec06.html#occupancy-grids",
+    "title": "CSC477 Introduction to Mobile Robotics",
+    "section": "Occupancy Grids",
+    "text": "Occupancy Grids\n\n\n\n\n\n\n\n\n\nAdvantages:\n• O(1) occupancy lookup and update\n• Supports image operations\nDisadvantages:\n• Doesn’t scale well in higher dimensions\n\n\nEach cell contains either:\n\nunknown/unexplored (grey)\nprobability of occupation"
+  },
+  {
+    "objectID": "lecs/w06/lec06.html#quadtrees",
+    "href": "lecs/w06/lec06.html#quadtrees",
+    "title": "CSC477 Introduction to Mobile Robotics",
+    "section": "Quadtrees",
+    "text": "Quadtrees\n\n\n\n\n\n\n\n\n\n\n\n\n\nEach node represents a square. If the node is fully empty or fully occupied it has no children.\nIf it is partially occupied it has four children. Subdivision stops after some minimal square size."
+  },
+  {
+    "objectID": "lecs/w06/lec06.html#octrees",
+    "href": "lecs/w06/lec06.html#octrees",
+    "title": "CSC477 Introduction to Mobile Robotics",
+    "section": "Octrees",
+    "text": "Octrees\n\n\n\n\n\n\n \n\n\n\n\n\n\nEach node represents a cube. If the node is fully empty or fully occupied it has no children.\nIf it is partially occupied it has eight children. Subdivision stops after some minimal cube size."
+  },
+  {
+    "objectID": "lecs/w06/lec06.html#octrees-1",
+    "href": "lecs/w06/lec06.html#octrees-1",
+    "title": "CSC477 Introduction to Mobile Robotics",
+    "section": "Octrees",
+    "text": "Octrees\n\n\n\n\n\n\nProblem 1: quadtrees and octrees are not balanced trees. So, in the worst case an occupancy query could be O(n) in the number of nodes.\n\n\n\n\n\n\nEach node represents a cube. If the node is fully empty or fully occupied it has no children.\nIf it is partially occupied it has eight children. Subdivision stops after some minimal cube size."
+  },
+  {
+    "objectID": "lecs/w06/lec06.html#octrees-2",
+    "href": "lecs/w06/lec06.html#octrees-2",
+    "title": "CSC477 Introduction to Mobile Robotics",
+    "section": "Octrees",
+    "text": "Octrees\n\n\n\n\nProblem 1: quadtrees and octrees are not balanced trees. So, in the worst case an occupancy query could be O(n) in the number of nodes.\nProblem 2: quadtrees and octrees are sensitive to small changes in the location of obstacles.\n\n\n\nEach node represents a cube. If the node is fully empty or fully occupied it has no children.\nIf it is partially occupied it has eight children. Subdivision stops after some minimal cube size."
+  },
+  {
+    "objectID": "lecs/w06/lec06.html#octree-example-octomap",
+    "href": "lecs/w06/lec06.html#octree-example-octomap",
+    "title": "CSC477 Introduction to Mobile Robotics",
+    "section": "Octree Example: Octomap",
+    "text": "Octree Example: Octomap\n\nOpen source as a ROS package"
+  },
+  {
+    "objectID": "lecs/w06/lec06.html#implicit-surface-definitions-signed-distance-function",
+    "href": "lecs/w06/lec06.html#implicit-surface-definitions-signed-distance-function",
+    "title": "CSC477 Introduction to Mobile Robotics",
+    "section": "Implicit Surface Definitions: Signed Distance Function",
+    "text": "Implicit Surface Definitions: Signed Distance Function\n\n\n\n\n\nThis distance function\nis defined over any point\nin 3D space."
+  },
+  {
+    "objectID": "lecs/w06/lec06.html#sdf-example",
+    "href": "lecs/w06/lec06.html#sdf-example",
+    "title": "CSC477 Introduction to Mobile Robotics",
+    "section": "SDF Example",
+    "text": "SDF Example"
+  },
+  {
+    "objectID": "lecs/w06/lec06.html#pointclouds",
+    "href": "lecs/w06/lec06.html#pointclouds",
+    "title": "CSC477 Introduction to Mobile Robotics",
+    "section": "Pointclouds",
+    "text": "Pointclouds"
+  },
+  {
+    "objectID": "lecs/w06/lec06.html#pointclouds-1",
+    "href": "lecs/w06/lec06.html#pointclouds-1",
+    "title": "CSC477 Introduction to Mobile Robotics",
+    "section": "Pointclouds",
+    "text": "Pointclouds\n\n\n\nAdvantages:\n\ncan make local changes to the map without affecting the pointcloud globally\ncan align pointclouds\nnearest neighbor queries are easy with kd-trees or locality-sensitive hashing\n\n\n\nDisadvantages:\n\nneed to segment objects in the map\nraytracing is approximate and nontrivial"
+  },
+  {
+    "objectID": "lecs/w06/lec06.html#topological-maps",
+    "href": "lecs/w06/lec06.html#topological-maps",
+    "title": "CSC477 Introduction to Mobile Robotics",
+    "section": "Topological Maps",
+    "text": "Topological Maps\nTopology: study of spatial properties that are preserved under continuous deformations of the space."
+  },
+  {
+    "objectID": "lecs/w06/lec06.html#generalized-voronoi-graph-gvg",
+    "href": "lecs/w06/lec06.html#generalized-voronoi-graph-gvg",
+    "title": "CSC477 Introduction to Mobile Robotics",
+    "section": "Generalized Voronoi Graph (GVG)",
+    "text": "Generalized Voronoi Graph (GVG)"
+  },
+  {
+    "objectID": "lecs/w06/lec06.html#deformation-retraction-gvg-in-plane",
+    "href": "lecs/w06/lec06.html#deformation-retraction-gvg-in-plane",
+    "title": "CSC477 Introduction to Mobile Robotics",
+    "section": "Deformation Retraction: GVG in Plane",
+    "text": "Deformation Retraction: GVG in Plane\n\\(\\qquad\\qquad\\quad\\) GVG nodes: points that are equidistant to 3 or more obstacle points\n\nRetractions are\nalso called\nroadmaps."
+  },
+  {
+    "objectID": "lecs/w06/lec06.html#roadmap-voronoi-diagrams",
+    "href": "lecs/w06/lec06.html#roadmap-voronoi-diagrams",
+    "title": "CSC477 Introduction to Mobile Robotics",
+    "section": "Roadmap: Voronoi diagrams",
+    "text": "Roadmap: Voronoi diagrams\n\n\n\nGVG is formed by paths equidistant from the two closest objects\nmaximizing the clearance between the obstacles.\n\n\n\n\n\nThis generates a very safe roadmap which avoids obstacles as much as possible"
+  },
+  {
+    "objectID": "lecs/w06/lec06.html#generalized-voronoi-graphs-gvg",
+    "href": "lecs/w06/lec06.html#generalized-voronoi-graphs-gvg",
+    "title": "CSC477 Introduction to Mobile Robotics",
+    "section": "Generalized Voronoi Graphs (GVG)",
+    "text": "Generalized Voronoi Graphs (GVG)\n\nTurns comparison between pixels to comparison between graphs."
+  },
+  {
+    "objectID": "lecs/w06/lec06.html#gvg-sensitivity",
+    "href": "lecs/w06/lec06.html#gvg-sensitivity",
+    "title": "CSC477 Introduction to Mobile Robotics",
+    "section": "GVG: sensitivity",
+    "text": "GVG: sensitivity\n\nThe skeleton is sensitive to small changes in the object’s boundary."
+  },
+  {
+    "objectID": "lecs/w06/lec06.html#gvg-advantages",
+    "href": "lecs/w06/lec06.html#gvg-advantages",
+    "title": "CSC477 Introduction to Mobile Robotics",
+    "section": "GVG: advantages",
+    "text": "GVG: advantages\n\nCan specify whether we pass on the “left” or “right” of each obstacle\non our way to the goal."
+  },
+  {
+    "objectID": "lecs/w06/lec06.html#gvg-advantages-1",
+    "href": "lecs/w06/lec06.html#gvg-advantages-1",
+    "title": "CSC477 Introduction to Mobile Robotics",
+    "section": "GVG: advantages",
+    "text": "GVG: advantages"
+  },
+  {
+    "objectID": "lecs/w06/lec06.html#how-a-curve-winds-around-an-obstacle",
+    "href": "lecs/w06/lec06.html#how-a-curve-winds-around-an-obstacle",
+    "title": "CSC477 Introduction to Mobile Robotics",
+    "section": "How a curve winds around an obstacle",
+    "text": "How a curve winds around an obstacle\n\n\nNote: winding angle of a path\ncan be more than 360 degrees"
+  },
+  {
+    "objectID": "lecs/w06/lec06.html#homotopy-classes",
+    "href": "lecs/w06/lec06.html#homotopy-classes",
+    "title": "CSC477 Introduction to Mobile Robotics",
+    "section": "Homotopy classes",
+    "text": "Homotopy classes\n\n\nTwo paths with the same endpoints are homotopic or belong to the same homotopy class iff one can be deformed continuously (without hitting obstacles) into the other. Formally, the paths:\n\n\n\nwith\n\n\n\\[\n\\begin{align}\n\\tau_1 : [0, T] &\\to \\mathbb{R}^2 \\\\\n\\tau_2 : [0, T] &\\to \\mathbb{R}^2 \\\\\n\\tau_1(0) &= \\tau_2(0) \\\\\n\\tau_1(T) &= \\tau_2(T)\n\\end{align}\n\\]\n\n\n\nare homotopic iff there exists a continuous function\n\\[H : [0, 1] \\times [0, T] \\to \\mathbb{R}^2\\]\nsuch that for any time t:\n\\[\n\\begin{align}\nH(0, t) &= \\tau_1(t) \\\\\nH(1, t) &= \\tau_2(t)\n\\end{align}\n\\]"
+  },
+  {
+    "objectID": "lecs/w06/lec06.html#homotopy-functions-for-deformations",
+    "href": "lecs/w06/lec06.html#homotopy-functions-for-deformations",
+    "title": "CSC477 Introduction to Mobile Robotics",
+    "section": "Homotopy functions for deformations",
+    "text": "Homotopy functions for deformations\n\n\nTwo paths with the same endpoints are homotopic or belong to the same homotopy class iff one can be deformed continuously (without hitting obstacles) into the other. Formally, the paths:\n\n\n\nwith\n\n\n\\[\n\\begin{align}\n\\tau_1 : [0, T] &\\to \\mathbb{R}^2 \\\\\n\\tau_2 : [0, T] &\\to \\mathbb{R}^2 \\\\\n\\tau_1(0) &= \\tau_2(0) \\\\\n\\tau_1(T) &= \\tau_2(T)\n\\end{align}\n\\]\n\n\n\nare homotopic iff there exists a continuous function\n\\[H : [0, 1] \\times [0, T] \\to \\mathbb{R}^2\\]\nsuch that for any time t:\n\\[\n\\begin{align}\nH(0, t) &= \\tau_1(t) \\\\\nH(1, t) &= \\tau_2(t)\n\\end{align}\n\\]"
+  },
+  {
+    "objectID": "lecs/w06/lec06.html#topometric-maps",
+    "href": "lecs/w06/lec06.html#topometric-maps",
+    "title": "CSC477 Introduction to Mobile Robotics",
+    "section": "Topometric maps",
+    "text": "Topometric maps"
+  },
+  {
+    "objectID": "lecs/w06/lec06.html#topometric-maps-1",
+    "href": "lecs/w06/lec06.html#topometric-maps-1",
+    "title": "CSC477 Introduction to Mobile Robotics",
+    "section": "Topometric maps",
+    "text": "Topometric maps\n\n\n\n\nOccupancy grid\n\n\nTopological map\n\n\nTopometric map"
+  },
+  {
+    "objectID": "lecs/w06/lec06.html#topometric-maps-2",
+    "href": "lecs/w06/lec06.html#topometric-maps-2",
+    "title": "CSC477 Introduction to Mobile Robotics",
+    "section": "Topometric maps",
+    "text": "Topometric maps\nEdges: rotations and\ntranslations between\nlocal maps, but also topological\nconnectivity\n\n\n\n\n\nMain advantage:\nallows us combine accurate local\nmaps into a global, typically\ninconsistent map that nevertheless\nprovides sufficient navigation information."
+  },
+  {
+    "objectID": "lecs/w06/lec06.html#maps-of-raw-observations",
+    "href": "lecs/w06/lec06.html#maps-of-raw-observations",
+    "title": "CSC477 Introduction to Mobile Robotics",
+    "section": "Maps of Raw Observations",
+    "text": "Maps of Raw Observations"
+  },
+  {
+    "objectID": "lecs/w06/lec06.html#main-idea",
+    "href": "lecs/w06/lec06.html#main-idea",
+    "title": "CSC477 Introduction to Mobile Robotics",
+    "section": "Main Idea",
+    "text": "Main Idea\n\nMap = entire (unprocessed) sequence of observations, e.g. video.\nDo not try to support distance, collision, and raytracing queries.\nInstead, provide only a similarity/nearest neighbors query\n\n“Find the image in the video that is most similar to the one I’m seeing now.”\n\nHistory of observations determines a (set of) location(s) in the map"
+  },
+  {
+    "objectID": "lecs/w06/lec06.html#metric-map-alignment",
+    "href": "lecs/w06/lec06.html#metric-map-alignment",
+    "title": "CSC477 Introduction to Mobile Robotics",
+    "section": "Metric Map Alignment",
+    "text": "Metric Map Alignment\na.k.a. scan matching, a.k.a. iterative closest point (ICP), a.k.a. registration"
+  },
+  {
+    "objectID": "lecs/w06/lec06.html#problem-definition",
+    "href": "lecs/w06/lec06.html#problem-definition",
+    "title": "CSC477 Introduction to Mobile Robotics",
+    "section": "Problem definition",
+    "text": "Problem definition\n\n\n\nGiven\n\ntwo pointclouds or\na (local) laser scan and a pointcloud (global map) or\ntwo maps\n\nfind the rotation and translation that aligns them\n\n\n\n\n\n\nAssumption: We are assuming in these slides for simplicity that that rigid-body transformations are sufficient to align the scans. They might not be. We might need to also model scaling, non-uniform stretching and other nonlinear transformations."
+  },
+  {
+    "objectID": "lecs/w06/lec06.html#scan-alignment-with-known-correspondences",
+    "href": "lecs/w06/lec06.html#scan-alignment-with-known-correspondences",
+    "title": "CSC477 Introduction to Mobile Robotics",
+    "section": "Scan alignment with known correspondences",
+    "text": "Scan alignment with known correspondences\nIf the correct correspondences are known, the correct relative rotation/translation can be calculated in closed form.\n\n\nWhen correct correspondences\nare known we say that data\nassociation is known/unambiguous.\nIn general, data association is a real\nand hairy problem in robotics."
+  },
+  {
+    "objectID": "lecs/w06/lec06.html#scan-alignment-with-known-correspondences-1",
+    "href": "lecs/w06/lec06.html#scan-alignment-with-known-correspondences-1",
+    "title": "CSC477 Introduction to Mobile Robotics",
+    "section": "Scan alignment with known correspondences",
+    "text": "Scan alignment with known correspondences\n\n\nFind the 3D rotation matrix R and the 3D translation vector t that will best align the corresponding points\n\\[\n\\text{error}(R, t) = \\frac{1}{N} \\sum_{i=1}^{N} ||p_i - (Rq_i + t)||^2\n\\]\n\\[\nR^*, t^* = \\operatorname*{argmin}_{R,t} \\text{error}(R, t)\n\\]\n\nQ: How do we minimize this error?\nA: Turns out it has a closed-form solution."
+  },
+  {
+    "objectID": "lecs/w06/lec06.html#closed-form-solution-of-scan-alignment-with-known-correspondences",
+    "href": "lecs/w06/lec06.html#closed-form-solution-of-scan-alignment-with-known-correspondences",
+    "title": "CSC477 Introduction to Mobile Robotics",
+    "section": "Closed form solution of scan alignment with known correspondences",
+    "text": "Closed form solution of scan alignment with known correspondences\n\n\nFind the 3D rotation matrix R and the 3D translation vector t that will best align the corresponding points\n\\[\n\\text{error}(R, t) = \\frac{1}{N} \\sum_{i=1}^{N} ||p_i - (Rq_i + t)||^2\n\\]\n\\[\nR^*, t^* = \\operatorname*{argmin}_{R,t} \\text{error}(R, t)\n\\]\nStep 1: compute the means of the two scans\n\\[\n\\mu_p = \\frac{1}{N} \\sum_{i=1}^{N} p_i \\qquad\\qquad \\mu_q = \\frac{1}{N} \\sum_{i=1}^{N} q_i\n\\]\nStep 2: subtract the means from the scans\n\\(\\qquad \\bar{p}_i = p_i - \\mu_p \\qquad\\qquad \\bar{q}_i = q_i - \\mu_q\\)\nStep 3: form the matrix\n\\[W = \\sum_{i=1}^{N} \\bar{p}_i \\bar{q}_i^T\\]"
+  },
+  {
+    "objectID": "lecs/w06/lec06.html#closed-form-solution-of-scan-alignment-with-known-correspondences-1",
+    "href": "lecs/w06/lec06.html#closed-form-solution-of-scan-alignment-with-known-correspondences-1",
+    "title": "CSC477 Introduction to Mobile Robotics",
+    "section": "Closed form solution of scan alignment with known correspondences",
+    "text": "Closed form solution of scan alignment with known correspondences\n\n\nFind the 3D rotation matrix R and the 3D translation vector t that will best align the corresponding points\n\\[\n\\text{error}(R, t) = \\frac{1}{N} \\sum_{i=1}^{N} ||\\mathbf{p}_i - (R\\mathbf{q}_i + t)||^2\n\\]\n\\[\nR^*, t^* = \\operatorname*{argmin}_{R,t} \\text{error}(R, t)\n\\]\nStep 1: compute the means of the two scans\n\\[\n\\mu_p = \\frac{1}{N} \\sum_{i=1}^{N} \\mathbf{p}_i \\qquad\\qquad \\mu_q = \\frac{1}{N} \\sum_{i=1}^{N} \\mathbf{q}_i\n\\]\nStep 2: subtract the means from the scans\n\\(\\qquad \\bar{\\mathbf{p}}_i = \\mathbf{p}_i - \\mu_p \\qquad\\qquad \\bar{\\mathbf{q}}_i = \\mathbf{q}_i - \\mu_q\\)\nStep 3: form the matrix\n\\[W = \\sum_{i=1}^{N} \\bar{\\mathbf{p}}_i \\bar{\\mathbf{q}}_i^T\\]\n\n\nStep 4: compute the SVD of the matrix W\n\\(\\qquad W = U\\Sigma V^T\\)\nStep 5: if rank(W)=3, optimal solution is unique:\n\\(\\qquad R^* = UV^T \\qquad\\qquad t^* = \\mu_p - R^* \\mu_q\\)"
+  },
+  {
+    "objectID": "lecs/w06/lec06.html#closed-form-solution-of-scan-alignment-with-known-correspondences-2",
+    "href": "lecs/w06/lec06.html#closed-form-solution-of-scan-alignment-with-known-correspondences-2",
+    "title": "CSC477 Introduction to Mobile Robotics",
+    "section": "Closed form solution of scan alignment with known correspondences",
+    "text": "Closed form solution of scan alignment with known correspondences\n\n\nFind the 3D rotation matrix R and the 3D translation vector t that will best align the corresponding points\n\\[\n\\text{error}(R, t) = \\frac{1}{N} \\sum_{i=1}^{N} ||p_i - (Rp_i + t)||^2\n\\]\n\\[\nR^*, t^* = \\operatorname*{argmin}_{R,t} \\text{error}(R, t)\n\\]\n\nIf you’re interested, the proof of the closed-form solution can be found in:\nK. S. Arun, T. S. Huang, and S. D. Blostein. Least square fitting of two 3-d point sets.\nIEEE Transactions on Pattern Analysis and Machine Intelligence, 9(5):698 – 700, 1987"
+  },
+  {
+    "objectID": "lecs/w06/lec06.html#scan-alignment-with-unknown-correspondences",
+    "href": "lecs/w06/lec06.html#scan-alignment-with-unknown-correspondences",
+    "title": "CSC477 Introduction to Mobile Robotics",
+    "section": "Scan alignment with unknown correspondences",
+    "text": "Scan alignment with unknown correspondences\nIf correct correspondences are not known, it is generally impossible to determine the optimal relative rotation/ translation in one step"
+  },
+  {
+    "objectID": "lecs/w06/lec06.html#scan-alignment-with-unknown-correspondences-1",
+    "href": "lecs/w06/lec06.html#scan-alignment-with-unknown-correspondences-1",
+    "title": "CSC477 Introduction to Mobile Robotics",
+    "section": "Scan alignment with unknown correspondences",
+    "text": "Scan alignment with unknown correspondences\n\n\n\n\nMain idea for data association:\n\nassociate each point in the source scan to its nearest neighbor in the target scan\nFind optimal rotation and translation for this correspondence.\n\nRepeat until no significant drop in error."
+  },
+  {
+    "objectID": "lecs/w06/lec06.html#libpointmatcher",
+    "href": "lecs/w06/lec06.html#libpointmatcher",
+    "title": "CSC477 Introduction to Mobile Robotics",
+    "section": "libpointmatcher",
+    "text": "libpointmatcher"
+  },
+  {
+    "objectID": "lecs/w06/lec06.html#todays-agenda-1",
+    "href": "lecs/w06/lec06.html#todays-agenda-1",
+    "title": "CSC477 Introduction to Mobile Robotics",
+    "section": "Today’s agenda",
+    "text": "Today’s agenda\n\n\n\nHow to represent maps\nProbabilistic occupancy grid mapping"
+  },
+  {
+    "objectID": "lecs/w06/lec06.html#what-we-want-to-do",
+    "href": "lecs/w06/lec06.html#what-we-want-to-do",
+    "title": "CSC477 Introduction to Mobile Robotics",
+    "section": "What we want to do",
+    "text": "What we want to do"
+  },
+  {
+    "objectID": "lecs/w06/lec06.html#terminology",
+    "href": "lecs/w06/lec06.html#terminology",
+    "title": "CSC477 Introduction to Mobile Robotics",
+    "section": "Terminology",
+    "text": "Terminology\n\nPose: the rotation and translation of a robot\nOdometry: the transformation of the body frame with respect to its initial pose (fixed frame of reference).\n\n\\[_{B_{t}}^{B_0}T\\]\n\nDynamics model: what is the next state given current state and control?\n\n\\[\nx_{t+1} = f(x_t, u_t)\n\\]\n\nSensor measurement model: what is the expected measurement given the robot’s current state?\n\n\\[z_t = h(x_t)\\]"
+  },
+  {
+    "objectID": "lecs/w06/lec06.html#perfect-models-vs.-reality",
+    "href": "lecs/w06/lec06.html#perfect-models-vs.-reality",
+    "title": "CSC477 Introduction to Mobile Robotics",
+    "section": "Perfect models vs. Reality",
+    "text": "Perfect models vs. Reality\n\n\n\n\n \n\n\n\\(x_{t+1} = f(x_t, u_t)\\)\n\n\n\\(x_{t+1} = f(x_t, u_t) + w_t\\)"
+  },
+  {
+    "objectID": "lecs/w06/lec06.html#perfect-models-vs.-reality-1",
+    "href": "lecs/w06/lec06.html#perfect-models-vs.-reality-1",
+    "title": "CSC477 Introduction to Mobile Robotics",
+    "section": "Perfect models vs. Reality",
+    "text": "Perfect models vs. Reality\n\n\n\nSensor\nMeasurements\n\n\n\\(z_t = h(x_t)\\)\n\n\n \n\n\n\n\n\ne.g. GPS (simplified)\n\n\\(z_t = x_t\\) \n\n\\(z_t = x_t + v_t, \\quad v_t \\sim \\mathcal{N}(0, \\sigma^2I)\\)"
+  },
+  {
+    "objectID": "lecs/w06/lec06.html#perfect-models-vs.-reality-2",
+    "href": "lecs/w06/lec06.html#perfect-models-vs.-reality-2",
+    "title": "CSC477 Introduction to Mobile Robotics",
+    "section": "Perfect models vs. Reality",
+    "text": "Perfect models vs. Reality\n\n\nDynamics\n\nSensor Measurements\n\ne.g. GPS (simplified)\n\n\\(x_{t+1} = f(x_t, u_t)\\)\n\n\n\\(z_t = h(x_t)\\)\n\n\\(z_t = x_t\\) \n\n\n\n\n\\(p(x_{t+1} | x_t, u_t)\\)\nprobabilistic dynamics model\n\n\\(p(z_t| x_t)\\)\nprobabilistic measurement model"
+  },
+  {
+    "objectID": "lecs/w06/lec06.html#why-is-mapping-a-problem",
+    "href": "lecs/w06/lec06.html#why-is-mapping-a-problem",
+    "title": "CSC477 Introduction to Mobile Robotics",
+    "section": "Why is mapping a problem?",
+    "text": "Why is mapping a problem?\nDon’t we have all the information we need to build a map?\n\nTwo main sources of uncertainty:\n\naccumulating uncertainty in the dynamics\n\n\n\n\n\n\\(p(x_{t+1} | x_t, u_t)\\)\n\n\n\n\n\n\n\n\nUncertainty in the dynamics compounds into increasing uncertainty in odometry, as time passes."
+  },
+  {
+    "objectID": "lecs/w06/lec06.html#why-is-mapping-a-problem-1",
+    "href": "lecs/w06/lec06.html#why-is-mapping-a-problem-1",
+    "title": "CSC477 Introduction to Mobile Robotics",
+    "section": "Why is mapping a problem?",
+    "text": "Why is mapping a problem?\nDon’t we have all the information we need to build a map?\n\nTwo main sources of uncertainty:\n\nuncertainty in the dynamics \\(p(x_{t+1} | x_t, u_t)\\)\nuncertainty in sensor measurements"
+  },
+  {
+    "objectID": "lecs/w06/lec06.html#why-is-mapping-a-problem-2",
+    "href": "lecs/w06/lec06.html#why-is-mapping-a-problem-2",
+    "title": "CSC477 Introduction to Mobile Robotics",
+    "section": "Why is mapping a problem?",
+    "text": "Why is mapping a problem?\nDon’t we have all the information we need to build a map?\n\nIf we had no uncertainty, i.e. \\(x_{t+1} = f(x_t, u_t)\\) and \\(z_t = h(x_t)\\) then mapping would be trivial.\nToday we will assume perfect dynamics and odometry, but noisy sensor measurements. \\(p(z_t | x_t)\\)\nWe are also going to assume a static map, no moving objects"
+  },
+  {
+    "objectID": "lecs/w06/lec06.html#defining-the-problem",
+    "href": "lecs/w06/lec06.html#defining-the-problem",
+    "title": "CSC477 Introduction to Mobile Robotics",
+    "section": "Defining the problem",
+    "text": "Defining the problem\n\nThe occupancy grid map is a binary random variable\n\n\\[\\mathbf{m} = \\{m_{ij}\\} \\in \\{0,1\\}^{W \\times H}\\]\n\nwidth = #columns\nheight = #rows\nof the occupancy grid\n\n\nThe path of the robot up to time t is a sequence of random variables \\(\\mathbf{x}_{1:t} = \\mathbf{x}_1, . . ., \\mathbf{x}_t\\) with \\(\\mathbf{x}_i = (x_i, y_i, \\theta_i)\\)\n\nOdometry coordinates\n\n\n\nAt each time step the robot makes a measurement (sonar/laser). Measurements up to time t are a sequence of random variables\n\\(\\mathbf{z}_{1:t} = \\mathbf{z}_1, . . ., \\mathbf{z}_t\\) with \\(\\mathbf{z}_i = {(r_i, \\psi_i)}^K\\)\n\n K = #beams, or   #points in the scan\n(range, angle) in\nthe laser’s local\ncoordinates"
+  },
+  {
+    "objectID": "lecs/w06/lec06.html#the-goal-of-mapping",
+    "href": "lecs/w06/lec06.html#the-goal-of-mapping",
+    "title": "CSC477 Introduction to Mobile Robotics",
+    "section": "The goal of mapping",
+    "text": "The goal of mapping\n\nTo estimate the probability of any map, given path and measurements\n\n\\[\nbelief_{t}(\\mathbf{m}) = p(\\mathbf{m}|\\mathbf{z}_{1:t}, \\mathbf{x}_{1:t})\n\\]\n\n\nSensor\nMeasurements\n\n\n\nOdometry / Robot Poses"
+  },
+  {
+    "objectID": "lecs/w06/lec06.html#the-goal-of-mapping-1",
+    "href": "lecs/w06/lec06.html#the-goal-of-mapping-1",
+    "title": "CSC477 Introduction to Mobile Robotics",
+    "section": "The goal of mapping",
+    "text": "The goal of mapping\n\nTo estimate the probability of any map, given path and measurements\n\n\\[\np(\\mathbf{m}|\\mathbf{z}_{1:t}, \\mathbf{x}_{1:t})\n\\]\n\nThis is intractable. E.g. for a 100 x 100 grid there are \\(2^{1000}\\) possible binary maps.\nWe can approximate \\[p(\\mathbf{m}|\\mathbf{z}_{1:t}, \\mathbf{x}_{1:t}) \\simeq \\prod_{i,j} p(m_{ij} | \\mathbf{z}_{1:t}, \\mathbf{x}_{1:t})\\]\n\nApproximation ignores all dependencies\nbetween map cells, given known info.\nAssumes (for tractability) that cells are\nindependent given path and measurements"
+  },
+  {
+    "objectID": "lecs/w06/lec06.html#why-is-it-an-approximation",
+    "href": "lecs/w06/lec06.html#why-is-it-an-approximation",
+    "title": "CSC477 Introduction to Mobile Robotics",
+    "section": "Why is it an approximation?",
+    "text": "Why is it an approximation?\n\n\n\n\n \n\n\nScenario\n\n\nNearby\nmeasurements\n\n\nResulting map when\nconsidering cells\nindependently\n\n\nResulting map when\nconsidering cells\njointly"
+  },
+  {
+    "objectID": "lecs/w06/lec06.html#evaluating-the-occupancy-of-a-map-cell",
+    "href": "lecs/w06/lec06.html#evaluating-the-occupancy-of-a-map-cell",
+    "title": "CSC477 Introduction to Mobile Robotics",
+    "section": "Evaluating the occupancy of a map cell",
+    "text": "Evaluating the occupancy of a map cell\n\nHow do we evaluate \\(p(m_{ij} = 1 | \\mathbf{z}_{1:t}, \\mathbf{x}_{1:t})\\) ?\n\n\n\n\n\n\nUsing conditional Bayes’ rule we get\n\n\\(p(m_{ij} = 1|\\mathbf{z}_{1:t}, \\mathbf{x}_{1:t}) = \\frac{p(\\mathbf{z}_t|\\mathbf{z}_{1:t-1}, \\mathbf{x}_{1:t}, m_{ij} = 1)p(m_{ij} = 1|\\mathbf{z}_{1:t-1}, \\mathbf{x}_{1:t})}{p(\\mathbf{z}_t|\\mathbf{z}_{1:t-1}, \\mathbf{x}_{1:t})}\\)\n\n\nBayes’ Rule\n\\(p(A|B) = \\frac{p(B|A)p(A)}{p(B)}\\)\nConditional Bayes’ Rule\n\\(p(A|B, C) = \\frac{p(B|A, C)p(A|C)}{p(B|C)}\\)"
+  },
+  {
+    "objectID": "lecs/w06/lec06.html#evaluating-the-occupancy-of-a-map-cell-1",
+    "href": "lecs/w06/lec06.html#evaluating-the-occupancy-of-a-map-cell-1",
+    "title": "CSC477 Introduction to Mobile Robotics",
+    "section": "Evaluating the occupancy of a map cell",
+    "text": "Evaluating the occupancy of a map cell\n\nHow do we evaluate \\(p(m_{ij} = 1 | z_{1:t}, x_{1:t})\\) ?\nUsing conditional Bayes’ rule we get\n\n\n\n\\(p(m_{ij} = 1|\\mathbf{z}_{1:t}, \\mathbf{x}_{1:t}) = \\frac{p(\\mathbf{z}_t|\\mathbf{z}_{1:t-1}, \\mathbf{x}_{1:t}, m_{ij} = 1)p(m_{ij} = 1|\\mathbf{z}_{1:t-1}, \\mathbf{x}_{1:t})}{p(\\mathbf{z}_t|\\mathbf{z}_{1:t-1}, \\mathbf{x}_{1:t})}\\)\n\n\nAnd we simplify\n\n\\(p(m_{ij} = 1|\\mathbf{z}_{1:t}, \\mathbf{x}_{1:t}) = \\frac{p(\\mathbf{z}_t|\\mathbf{x}_t, m_{ij} = 1)p(m_{ij} = 1|\\mathbf{z}_{1:t-1}, \\mathbf{x}_{1:t-1})}{p(\\mathbf{z}_t|\\mathbf{z}_{1:t-1}, \\mathbf{x}_{1:t})}\\)\n\n\nIf C is independent of A\ngiven B, then C provides\nno extra information\nabout A after we know B\n\\(p(A|B, C) = p(A | B)\\)"
+  },
+  {
+    "objectID": "lecs/w06/lec06.html#evaluating-the-occupancy-of-a-map-cell-2",
+    "href": "lecs/w06/lec06.html#evaluating-the-occupancy-of-a-map-cell-2",
+    "title": "CSC477 Introduction to Mobile Robotics",
+    "section": "Evaluating the occupancy of a map cell",
+    "text": "Evaluating the occupancy of a map cell\n\nHow do we evaluate \\(p(m_{ij} = 1 | z_{1:t}, x_{1:t})\\) ?\nUsing conditional Bayes’ rule we get\n\n\\(p(m_{ij} = 1|\\mathbf{z}_{1:t}, \\mathbf{x}_{1:t}) = \\frac{p(\\mathbf{z}_t|\\mathbf{z}_{1:t-1}, \\mathbf{x}_{1:t}, m_{ij} = 1)p(m_{ij} = 1|\\mathbf{z}_{1:t-1}, \\mathbf{x}_{1:t})}{p(\\mathbf{z}_t|\\mathbf{z}_{1:t-1}, \\mathbf{x}_{1:t})}\\)\n\n\nAnd we simplify\n\n\\(p(m_{ij} = 1|\\mathbf{z}_{1:t}, \\mathbf{x}_{1:t}) = \\frac{p(\\mathbf{z}_t|\\mathbf{x}_t, m_{ij} = 1)p(m_{ij} = 1|\\mathbf{z}_{1:t-1}, \\mathbf{x}_{1:t-1})}{p(\\mathbf{z}_t|\\mathbf{z}_{1:t-1}, \\mathbf{x}_{1:t})}\\)\n\nCurrent measurement\nonly depends on current\nstate and map cell\nCurrent state without\ncurrent measurement provides\nno additional information\nabout the occupancy of the map cell"
+  },
+  {
+    "objectID": "lecs/w06/lec06.html#evaluating-the-occupancy-of-a-map-cell-3",
+    "href": "lecs/w06/lec06.html#evaluating-the-occupancy-of-a-map-cell-3",
+    "title": "CSC477 Introduction to Mobile Robotics",
+    "section": "Evaluating the occupancy of a map cell",
+    "text": "Evaluating the occupancy of a map cell\n\nAnd we simplify:\n\n\\(p(m_{ij} = 1|\\mathbf{z}_{1:t}, \\mathbf{x}_{1:t}) = \\frac{p(\\mathbf{z}_t|\\mathbf{x}_t, m_{ij} = 1)p(m_{ij} = 1|\\mathbf{z}_{1:t-1}, \\mathbf{x}_{1:t-1})}{p(\\mathbf{z}_t|\\mathbf{z}_{1:t-1}, \\mathbf{x}_{1:t})}\\)\n\nAnother way to write this:\n\n\\(belief_t(m_{ij} = 1) = \\eta \\, p(\\mathbf{z}_t|\\mathbf{x}_t, m_{ij} = 1) \\, belief_{t-1}(m_{ij} = 1)\\)\n\nBelief at time t-1 was updated to belief at time t based on likelihood of measurement received at time t."
+  },
+  {
+    "objectID": "lecs/w06/lec06.html#evaluating-the-occupancy-of-a-map-cell-4",
+    "href": "lecs/w06/lec06.html#evaluating-the-occupancy-of-a-map-cell-4",
+    "title": "CSC477 Introduction to Mobile Robotics",
+    "section": "Evaluating the occupancy of a map cell",
+    "text": "Evaluating the occupancy of a map cell\n\nAnd we simplify:\n\n\\(p(m_{ij} = 1|\\mathbf{z}_{1:t}, \\mathbf{x}_{1:t}) = \\frac{p(\\mathbf{z}_t|\\mathbf{x}_t, m_{ij} = 1)p(m_{ij} = 1|\\mathbf{z}_{1:t-1}, \\mathbf{x}_{1:t-1})}{p(\\mathbf{z}_t|\\mathbf{z}_{1:t-1}, \\mathbf{x}_{1:t})}\\)\n\n\n\nAnother way to write this:\n\n\\(belief_t(m_{ij} = 1) = \\eta \\, p(\\mathbf{z}_t|\\mathbf{x}_t, m_{ij} = 1) \\, belief_{t-1}(m_{ij} = 1)\\)\n\nSo, as long as we can evaluate the measurement likelihood \\(\\color{black}p(\\mathbf{z}_t | \\mathbf{x}_t, m_{ij} = 1)\\)\nand the normalization factor \\(\\color{black}\\eta = 1/p(\\mathbf{z}_t | \\mathbf{z}_{1: t-1}, \\mathbf{x}_{1:t})\\)\nwe can do the belief update.\n\n\n\nProblem: this is hard to\ncompute. How can we avoid it?"
+  },
+  {
+    "objectID": "lecs/w06/lec06.html#the-log-odds-trick-for-binary-random-variables",
+    "href": "lecs/w06/lec06.html#the-log-odds-trick-for-binary-random-variables",
+    "title": "CSC477 Introduction to Mobile Robotics",
+    "section": "The log-odds trick for binary random variables",
+    "text": "The log-odds trick for binary random variables\n\nWe showed \\(belief_t(m_{ij} = 1) = \\eta p(\\mathbf{z_t}|\\mathbf{x_t}, m_{ij} = 1) belief_{t-1}(m_{ij} = 1)\\)\nDefine the log odds ratio \\(l_t^{(ij)} = \\log \\frac{p(m_{ij} = 1|\\mathbf{z}_{1:t}, \\mathbf{x}_{1:t})}{p(m_{ij} = 0|\\mathbf{z}_{1:t}, \\mathbf{x}_{1:t})} = \\log \\frac{belief_t(m_{ij} = 1)}{belief_t(m_{ij} = 0)}\\)"
+  },
+  {
+    "objectID": "lecs/w06/lec06.html#the-log-odds-trick-for-binary-random-variables-1",
+    "href": "lecs/w06/lec06.html#the-log-odds-trick-for-binary-random-variables-1",
+    "title": "CSC477 Introduction to Mobile Robotics",
+    "section": "The log-odds trick for binary random variables",
+    "text": "The log-odds trick for binary random variables\n\nWe showed \\(belief_t(m_{ij} = 1) = \\eta p(\\mathbf{z_t}|\\mathbf{x_t}, m_{ij} = 1) belief_{t-1}(m_{ij} = 1)\\) (1)\nDefine the log odds ratio \\(l_t^{(ij)} = \\log \\frac{p(m_{ij} = 1|\\mathbf{z}_{1:t}, \\mathbf{x}_{1:t})}{p(m_{ij} = 0|\\mathbf{z}_{1:t}, \\mathbf{x}_{1:t})} = \\log \\frac{belief_t(m_{ij} = 1)}{belief_t(m_{ij} = 0)}\\)\n\n\n\nThen (1) becomes \\(l_t^{(ij)} = \\log \\frac{p(\\mathbf{z}_t | \\mathbf{x}_t, m_{ij} = 1)}{p(\\mathbf{z}_t | \\mathbf{x}_t, m_{ij} = 0)} + l_{t-1}^{(ij)}\\)\n\n\n\n\nWe can recover the original belief as\n\n\\(belief_t(m_{ij} = 1) = 1 - \\frac{1}{1 + \\exp(l_t^{(ij)})}\\)"
+  },
+  {
+    "objectID": "lecs/w06/lec06.html#the-log-odds-trick-for-binary-random-variables-2",
+    "href": "lecs/w06/lec06.html#the-log-odds-trick-for-binary-random-variables-2",
+    "title": "CSC477 Introduction to Mobile Robotics",
+    "section": "The log-odds trick for binary random variables",
+    "text": "The log-odds trick for binary random variables\n\nWe showed \\(belief_t(m_{ij} = 1) = \\eta p(\\mathbf{z_t}|\\mathbf{x_t}, m_{ij} = 1) belief_{t-1}(m_{ij} = 1)\\) (1)\nDefine the log odds ratio \\(l_t^{(ij)} = \\log \\frac{p(m_{ij} = 1|\\mathbf{z}_{1:t}, \\mathbf{x}_{1:t})}{p(m_{ij} = 0|\\mathbf{z}_{1:t}, \\mathbf{x}_{1:t})} = \\log \\frac{belief_t(m_{ij} = 1)}{belief_t(m_{ij} = 0)}\\)\nThen (1) becomes \\(l_t^{(ij)} = \\log \\frac{p(\\mathbf{z}_t | \\mathbf{x}_t, m_{ij} = 1)}{p(\\mathbf{z}_t | \\mathbf{x}_t, m_{ij} = 0)} + l_{t-1}^{(ij)}\\)\n\n\nSo, as long as we can evaluate\nthe log odds ratio for the\nmeasurement likelihood:\n\\(\\color{black}\\log \\frac{p(\\mathbf{z}_t | \\mathbf{x}_t, m_{ij} = 1)}{p(\\mathbf{z}_t | \\mathbf{x}_t, m_{ij} = 0)}\\)\nwe can do the belief update."
+  },
+  {
+    "objectID": "lecs/w06/lec06.html#log-odds-ratio-for-the-measurement-likelihood",
+    "href": "lecs/w06/lec06.html#log-odds-ratio-for-the-measurement-likelihood",
+    "title": "CSC477 Introduction to Mobile Robotics",
+    "section": "Log-odds ratio for the measurement likelihood",
+    "text": "Log-odds ratio for the measurement likelihood\n\nWe want to compute \\(\\log \\frac{p(\\mathbf{z}_t | \\mathbf{x}_t, m_{ij} = 1)}{p(\\mathbf{z}_t | \\mathbf{x}_t, m_{ij} = 0)}\\) to do the belief update\nWe apply conditional Bayes’ rule again: \\(\\quad p(\\mathbf{z}_t | \\mathbf{x}_t, m_{ij} = 1) = \\frac{p(m_{ij} = 1 | \\mathbf{z}_t, \\mathbf{x}_t) p(\\mathbf{z}_t | \\mathbf{x}_t)}{p(m_{ij} = 1 | \\mathbf{x}_t)}\\)\n\n\n\nIf we take the log-odds ratio: \\(\\quad \\log \\frac{p(\\mathbf{z}_t | \\mathbf{x}_t, m_{ij} = 1)}{p(\\mathbf{z}_t | \\mathbf{x}_t, m_{ij} = 0)} = \\log\\frac{p(m_{ij}=1|\\mathbf{z}_{t},\\mathbf{x}_{t})}{p(m_{ij}=0|\\mathbf{z}_{t},\\mathbf{x}_{t})}+\\log\\frac{p(m_{ij}=0|\\mathbf{x}_{t})}{p(m_{ij}=1|\\mathbf{x}_{t})}\\)\n\n\n\n\n\nWe can simplify further: \\(\\quad\\quad \\log \\frac{p(\\mathbf{z}_t | \\mathbf{x}_t, m_{ij} = 1)}{p(\\mathbf{z}_t | \\mathbf{x}_t, m_{ij} = 0)} = \\log\\frac{p(m_{ij}=1|\\mathbf{z}_{t},\\mathbf{x}_{t})}{p(m_{ij}=0|\\mathbf{z}_{t},\\mathbf{x}_{t})}+\\log\\frac{p(m_{ij}=0)}{p(m_{ij}=1)}\\)\n\n\nKnowing the current state provides no\ninformation about whether cell is\noccupied, if there are no observations\n\n\n\nPrior probability of cell being occupied.\nCan choose uniform distribution, for example.\n\n\n\nInverse measurement model:\nwhat is the likelihood of the map\ncell being occupied given the current\nstate and current measurement?"
+  },
+  {
+    "objectID": "lecs/w06/lec06.html#summary-log-odds-ratio-for-the-measurement-likelihood",
+    "href": "lecs/w06/lec06.html#summary-log-odds-ratio-for-the-measurement-likelihood",
+    "title": "CSC477 Introduction to Mobile Robotics",
+    "section": "Summary: Log-odds ratio for the measurement likelihood",
+    "text": "Summary: Log-odds ratio for the measurement likelihood\n\nWe want to compute \\(\\log \\frac{p(\\mathbf{z}_t | \\mathbf{x}_t, m_{ij} = 1)}{p(\\mathbf{z}_t | \\mathbf{x}_t, m_{ij} = 0)}\\) but it’s hard\nInstead, we can compute the log-odds ratio of the measurement likelihood in terms of the inverse measurement model:\n\n\\[\\log \\frac{p(\\mathbf{z}_t | \\mathbf{x}_t, m_{ij} = 1)}{p(\\mathbf{z}_t | \\mathbf{x}_t, m_{ij} = 0)} = \\log\\frac{p(m_{ij}=1|\\mathbf{z}_{t},\\mathbf{x}_{t})}{p(m_{ij}=0|\\mathbf{z}_{t},\\mathbf{x}_{t})}+\\log\\frac{p(m_{ij}=0)}{p(m_{ij}=1)}\\]"
+  },
+  {
+    "objectID": "lecs/w06/lec06.html#inverse-sensor-measurement-model",
+    "href": "lecs/w06/lec06.html#inverse-sensor-measurement-model",
+    "title": "CSC477 Introduction to Mobile Robotics",
+    "section": "Inverse sensor measurement model",
+    "text": "Inverse sensor measurement model\n\n\n\n\n\n\\(p(m_{ij} = 1 | z_t, x_t)\\)\n\n\n\nGiven map cell \\((i, j)\\) , the robot’s state \\(\\mathbf{x} = (x, y, \\theta)\\), and beams \\(\\mathbf{z} = {(r_k, \\psi_k)}\\)\nFind index k of sensor beam that is closest in heading to the cell \\((i,j)\\)\n\n\nIf the cell \\((i, j)\\) is sufficiently farther than \\(r_k\\) or out of the field of view\n// We don’t have enough information to decide whether cell is occupied\nReturn prior occupation probability \\(p(m_{ij} = 1)\\)\n\n\n\nIf the cell \\((i, j)\\) is nearly as far as the measurement \\(r_k\\)\n// Cell is most likely occupied\nReturn \\(p_{\\text{occupied}}\\) that is well above 0.5\n\n\n\nIf the cell \\((i, j)\\) is sufficiently closer than \\(r_k\\)\n// Cell is most likely free\nReturn \\(p_{\\text{occupied}}\\) that is well below 0.5"
+  },
+  {
+    "objectID": "lecs/w06/lec06.html#inverse_sensor_measurement_modelij-mathbfx-x-y-theta-mathbfz-r_k-psi_k",
+    "href": "lecs/w06/lec06.html#inverse_sensor_measurement_modelij-mathbfx-x-y-theta-mathbfz-r_k-psi_k",
+    "title": "CSC477 Introduction to Mobile Robotics",
+    "section": "inverse_sensor_measurement_model(\\((i,j), \\mathbf{x} = (x, y, \\theta), \\mathbf{z} = \\{(r_k, \\psi_k)\\}\\))",
+    "text": "inverse_sensor_measurement_model(\\((i,j), \\mathbf{x} = (x, y, \\theta), \\mathbf{z} = \\{(r_k, \\psi_k)\\}\\))\nFrom Probabilistic Robotics, chapter 9.2\n\n\nLet \\((x_i, y_i)\\) be the center of the cell \\((i, j)\\)\nLet \\(r = \\|(x_i, y_i) - (x, y)\\|\\)\nLet \\(\\phi = \\operatorname{atan2}(y_i - y, x_i - x) - \\theta\\) // Might need to ensure this angle difference is in \\([-\\pi, \\pi]\\)\nThe index of the closest-in-heading beam to \\((x_i, y_i)\\) is \\(k^* = \\mathbf{\\operatorname*{argmin}_{k}\\left|\\phi - \\psi_{k}\\right|}\\)\nIf \\(r &gt; \\min\\{r_{\\max}, r_k + \\alpha/2\\}\\) or \\(|\\phi - \\psi_k| &gt; \\beta/2\\)\n\nReturn the log odds ratio of the prior occupancy \\(\\log \\frac{p(m_{ij}=1)}{p(m_{ij}=0)}\\)\n\nIf \\(r_k &lt; r_{\\max}\\) and \\(|r - r_k| &lt; \\alpha/2\\)\n\nReturn the log odds ratio of being occupied (corresponding to occupation probability &gt; 0.5)\n\nIf \\(r \\le r_k\\)\n\nReturn the log odds ratio of being free (corresponding to occupation probability &lt; 0.5)"
+  },
+  {
+    "objectID": "lecs/w06/lec06.html#recap",
+    "href": "lecs/w06/lec06.html#recap",
+    "title": "CSC477 Introduction to Mobile Robotics",
+    "section": "Recap",
+    "text": "Recap\n\n\nWe wanted to compute the likelihood of any map based on known states and observations\n\n\\[p(\\mathbf{m}|\\mathbf{z}_{1:t}, \\mathbf{x}_{1:t}) \\simeq \\prod_{i,j} p(m_{ij}|\\mathbf{z}_{1:t}, \\mathbf{x}_{1:t})\\]"
+  },
+  {
+    "objectID": "lecs/w06/lec06.html#recap-1",
+    "href": "lecs/w06/lec06.html#recap-1",
+    "title": "CSC477 Introduction to Mobile Robotics",
+    "section": "Recap",
+    "text": "Recap\n\n\nWe wanted to compute the likelihood of any map based on known path and observations\n\n\\[p(\\mathbf{m}|\\mathbf{z}_{1:t}, \\mathbf{x}_{1:t}) \\simeq \\prod_{i,j} p(m_{ij}|\\mathbf{z}_{1:t}, \\mathbf{x}_{1:t})\\]\n\nTo evaluate \\(p(m_{ij} = 1|\\mathbf{z}_{1:t}, \\mathbf{x}_{1:t}) = \\text{belief}_t(m_{ij} = 1)\\) we had to apply Bayes’ theorem, which revealed a way to recursively update the belief\n\n\\[belief_t(m_{ij} = 1) = \\eta p(\\mathbf{z}_t|\\mathbf{x}_t, m_{ij} = 1) belief_{t-1}(m_{ij} = 1)\\]\nVery frequent\nreasoning in\nprobabilistic\nrobotics\n\n\nTo avoid evaluating \\(\\eta\\) we used the log odds ratio\n\n\\[l_t^{(ij)} = \\log \\frac{p(\\mathbf{z}_t | \\mathbf{x}_t, m_{ij} = 1)}{p(\\mathbf{z}_t | \\mathbf{x}_t, m_{ij} = 0)} + l_{t-1}^{(ij)}\\]\nCan do this for binary\nrandom variables"
+  },
+  {
+    "objectID": "lecs/w06/lec06.html#recap-2",
+    "href": "lecs/w06/lec06.html#recap-2",
+    "title": "CSC477 Introduction to Mobile Robotics",
+    "section": "Recap",
+    "text": "Recap\n\n\nWe wanted to compute the likelihood of any map based on known path and observations\n\n\\[p(\\mathbf{m}|\\mathbf{z}_{1:t}, \\mathbf{x}_{1:t}) \\simeq \\prod_{i,j} p(m_{ij}|\\mathbf{z}_{1:t}, \\mathbf{x}_{1:t})\\]\n\nTo evaluate \\(p(m_{ij} = 1|\\mathbf{z}_{1:t}, \\mathbf{x}_{1:t}) = \\text{belief}_t(m_{ij} = 1)\\) we had to apply Bayes’ theorem, which revealed a way to recursively update the belief\n\n\\[belief_t(m_{ij} = 1) = \\eta p(\\mathbf{z}_t|\\mathbf{x}_t, m_{ij} = 1) belief_{t-1}(m_{ij} = 1)\\]\n\nTo avoid evaluating \\(\\eta\\) we used the log odds ratio\n\n\\[l_t^{(ij)} = \\log \\frac{p(\\mathbf{z}_t | \\mathbf{x}_t, m_{ij} = 1)}{p(\\mathbf{z}_t | \\mathbf{x}_t, m_{ij} = 0)} + l_{t-1}^{(ij)}\\]\n\nComputing the forward measurement model \\(p(\\mathbf{z}_{t}|\\mathbf{x}_{t}, m_{ij}=1)\\) was hard, so we applied Bayes’ rule again, to get an inverse measurement model \\(p(m_{ij}=1|\\mathbf{z}_t, \\mathbf{x}_t)\\) and an easier-to-compute log-odds ratio:\n\n\\[l_{t}^{(ij)}=l_{t-1}^{(ij)}+\\log\\frac{p(m_{ij}=1|\\mathbf{z}_{t},\\mathbf{x}_{t})}{p(m_{ij}=0|\\mathbf{z}_{t},\\mathbf{x}_{t})}-\\log\\frac{p(m_{ij}=1)}{p(m_{ij}=0)}\\]"
+  },
+  {
+    "objectID": "lecs/w06/lec06.html#occupancy-grid-algorithm",
+    "href": "lecs/w06/lec06.html#occupancy-grid-algorithm",
+    "title": "CSC477 Introduction to Mobile Robotics",
+    "section": "Occupancy Grid Algorithm",
+    "text": "Occupancy Grid Algorithm\n\n\nUpon reception of a new laser/sonar/scan measurement \\(\\mathbf{z}_t = \\{(r_k, \\psi_k)\\}\\)\nLet the robot’s current state be \\(\\mathbf{x}_t = (x_t, y_t, \\theta_t)\\)\nLet the previous log-odds ratio of the occupancy belief be the 2D array \\(l_{t}^{(ij)}\\) where i is a row, j is a column\nIn the beginning we set the prior \\(l_{0}^{(ij)}=\\log\\frac{p(m_{ij}=1)}{p(m_{ij}=0)}\\) where the occupancy probability is a design decision.\n\n\n\n\n\nFor all cells (i,j) in the grid\n\nIf the cell (i,j) is in the field of view of the robot’s sensor at state \\(\\qquad \\mathbf{x}_t\\) \\[l_t^{(ij)} = _{t-1}^{(ij)} + \\text{inverse-sensor-measurement-model}((i,j), \\mathbf{x}_t, \\mathbf{z}_t) - l_0^{(ij)}\\]\nElse \\(\\qquad l_{t}^{(ij)} = l_{t-1}^{(ij)}\\)\n\nIf asked, return the following 2D matrix of occupancy probabilities: \\(\\qquad \\text{belief}_t(m_{ij} = 1) = 1 - \\frac{1}{1 + \\exp(l_t^{(ij)})}\\)"
+  },
+  {
+    "objectID": "lecs/w06/lec06.html#results",
+    "href": "lecs/w06/lec06.html#results",
+    "title": "CSC477 Introduction to Mobile Robotics",
+    "section": "Results",
+    "text": "Results\n\nThe maximum likelihood map is obtained by clipping the occupancy grid map at a threshold of 0.5"
+  },
+  {
     "objectID": "lecs/w02/lec02.html#section",
     "href": "lecs/w02/lec02.html#section",
     "title": "CSC477 Introduction to Mobile Robotics",
@@ -726,118 +1216,6 @@
     "title": "CSC477 Introduction to Mobile Robotics",
     "section": "Passive Dynamics",
     "text": "Passive Dynamics\n\nDynamics of systems that operate without drawing (a lot of) energy from a power supply.\n\n\n\n\nUsually propelled by their own weight.\nInteresting because biological locomotion systems are more efficient than current robotic systems.\n\n\n\nSteve Collins & Andy Ruina, Cornell, 2001"
-  },
-  {
-    "objectID": "lecs/w05/Lecture4_full.html#visual-navigation-in-robotics",
-    "href": "lecs/w05/Lecture4_full.html#visual-navigation-in-robotics",
-    "title": "Lecture 4 — LQR: Trajectory Following & Nonlinear Variants",
-    "section": "Visual navigation in robotics",
-    "text": "Visual navigation in robotics\nThis lecture connects optimal control to robot motion and visual navigation. We focus on LQR and how to adapt it for trajectory following and nonlinear dynamics."
-  },
-  {
-    "objectID": "lecs/w05/Lecture4_full.html#lqr-example-2-trajectory-following-for-omnidirectional-vehicle",
-    "href": "lecs/w05/Lecture4_full.html#lqr-example-2-trajectory-following-for-omnidirectional-vehicle",
-    "title": "Lecture 4 — LQR: Trajectory Following & Nonlinear Variants",
-    "section": "LQR example #2: trajectory following for omnidirectional vehicle",
-    "text": "LQR example #2: trajectory following for omnidirectional vehicle\nGoal. Follow a reference trajectory ({x_t^, u_t^}_{t=0}^{T}) with an omnidirectional platform.\nLinear (affine) discrete-time model \\[\nx_{t+1} = A x_t + B u_t + c\n\\]\nQuadratic cost\n\\[\nJ = \\sum_{t=0}^{T-1} \\left[(x_t - x_t^\\star)^\\top Q (x_t - x_t^\\star) + (u_t - u_t^\\star)^\\top R (u_t - u_t^\\star)\\right] + (x_T - x_T^\\star)^\\top Q_f (x_T - x_T^\\star).\n\\]"
-  },
-  {
-    "objectID": "lecs/w05/Lecture4_full.html#lqr-example-2-trajectory-following-for-omnidirectional-vehicle-1",
-    "href": "lecs/w05/Lecture4_full.html#lqr-example-2-trajectory-following-for-omnidirectional-vehicle-1",
-    "title": "Lecture 4 — LQR: Trajectory Following & Nonlinear Variants",
-    "section": "LQR example #2: trajectory following for omnidirectional vehicle",
-    "text": "LQR example #2: trajectory following for omnidirectional vehicle\nDefine tracking errors\n\\[\ne_t := x_t - x_t^\\star, \\qquad \\delta u_t := u_t - u_t^\\star.\n\\]\nError dynamics (affine) \\[\n\\begin{aligned}\ne_{t+1}\n&= x_{t+1} - x_{t+1}^\\star \\\\\n&= A x_t + B u_t + c - x_{t+1}^\\star \\\\\n&= A (e_t + x_t^\\star) + B(\\delta u_t + u_t^\\star) + c - x_{t+1}^\\star \\\\\n&= A e_t + B \\, \\delta u_t + \\underbrace{(A x_t^\\star + B u_t^\\star + c - x_{t+1}^\\star)}_{\\text{additive term}}.\n\\end{aligned}\n\\]\nTo use standard LQR, we must remove the additive term."
-  },
-  {
-    "objectID": "lecs/w05/Lecture4_full.html#lqr-example-2-trajectory-following-for-omnidirectional-vehicle-2",
-    "href": "lecs/w05/Lecture4_full.html#lqr-example-2-trajectory-following-for-omnidirectional-vehicle-2",
-    "title": "Lecture 4 — LQR: Trajectory Following & Nonlinear Variants",
-    "section": "LQR example #2: trajectory following for omnidirectional vehicle",
-    "text": "LQR example #2: trajectory following for omnidirectional vehicle\nOption 1 — Feedforward cancellation. Choose the reference ((x_t^, u_t^)) so that it is dynamically consistent: \\[\nx_{t+1}^\\star = A x_t^\\star + B u_t^\\star + c.\n\\]\nThen\n\\[\ne_{t+1} = A e_t + B \\, \\delta u_t,\n\\]\nand the tracking problem reduces to a standard time-invariant LQR on ((A,B)) with state (e_t) and control (u_t)."
-  },
-  {
-    "objectID": "lecs/w05/Lecture4_full.html#lqr-example-2-trajectory-following-for-omnidirectional-vehicle-3",
-    "href": "lecs/w05/Lecture4_full.html#lqr-example-2-trajectory-following-for-omnidirectional-vehicle-3",
-    "title": "Lecture 4 — LQR: Trajectory Following & Nonlinear Variants",
-    "section": "LQR example #2: trajectory following for omnidirectional vehicle",
-    "text": "LQR example #2: trajectory following for omnidirectional vehicle\nOption 2 — State augmentation for affine dynamics.\nAugment the state with a constant (1):\n\\[\n\\tilde x_t := \\begin{bmatrix} x_t \\\\ 1 \\end{bmatrix}, \\quad\n\\tilde A := \\begin{bmatrix} A & c \\\\ 0 & 1 \\end{bmatrix}, \\quad\n\\tilde B := \\begin{bmatrix} B \\\\ 0 \\end{bmatrix}.\n\\]\nThen\n\\[\n\\tilde x_{t+1} = \\tilde A \\tilde x_t + \\tilde B u_t.\n\\]\nTracking error with augmentation:\n\\[\n\\tilde e_t := \\tilde x_t - \\tilde x_t^\\star, \\qquad \\tilde e_{t+1} = \\tilde A \\tilde e_t + \\tilde B \\, \\delta u_t.\n\\]\nThe additive constant is absorbed into (A)."
-  },
-  {
-    "objectID": "lecs/w05/Lecture4_full.html#lqr-example-2-trajectory-following-for-omnidirectional-vehicle-4",
-    "href": "lecs/w05/Lecture4_full.html#lqr-example-2-trajectory-following-for-omnidirectional-vehicle-4",
-    "title": "Lecture 4 — LQR: Trajectory Following & Nonlinear Variants",
-    "section": "LQR example #2: trajectory following for omnidirectional vehicle",
-    "text": "LQR example #2: trajectory following for omnidirectional vehicle\nCost in error coordinates \\[\nJ = \\sum_{t=0}^{T-1} \\left( e_t^\\top Q \\, e_t + \\delta u_t^\\top R \\, \\delta u_t \\right) + e_T^\\top Q_f \\, e_T.\n\\]\nFinite-horizon LQR (Riccati backward recursion) \\[\n\\begin{aligned}\nP_T &= Q_f, \\\\\nK_t &= \\big(R + B^\\top P_{t+1} B\\big)^{-1} B^\\top P_{t+1} A, \\\\\nP_t &= Q + A^\\top P_{t+1} A - A^\\top P_{t+1} B \\, K_t.\n\\end{aligned}\n\\]\nControl law \\[\n\\delta u_t = -K_t \\, e_t, \\qquad u_t = u_t^\\star - K_t (x_t - x_t^\\star).\n\\]"
-  },
-  {
-    "objectID": "lecs/w05/Lecture4_full.html#lqr-example-2-trajectory-following-for-omnidirectional-vehicle-5",
-    "href": "lecs/w05/Lecture4_full.html#lqr-example-2-trajectory-following-for-omnidirectional-vehicle-5",
-    "title": "Lecture 4 — LQR: Trajectory Following & Nonlinear Variants",
-    "section": "LQR example #2: trajectory following for omnidirectional vehicle",
-    "text": "LQR example #2: trajectory following for omnidirectional vehicle\nInitial condition. If the initial state is (x_0) and the reference starts at (x_0^), then \\[\ne_0 = x_0 - x_0^\\star.\n\\]\nInstantaneous cost \\[\n\\ell_t(e_t, \\delta u_t) = e_t^\\top Q \\, e_t + \\delta u_t^\\top R \\, \\delta u_t.\n\\]"
-  },
-  {
-    "objectID": "lecs/w05/Lecture4_full.html#lqr-extensions-trajectory-following",
-    "href": "lecs/w05/Lecture4_full.html#lqr-extensions-trajectory-following",
-    "title": "Lecture 4 — LQR: Trajectory Following & Nonlinear Variants",
-    "section": "LQR extensions: trajectory following",
-    "text": "LQR extensions: trajectory following\nYou are given a reference trajectory ({x_t^, u_t^}) (states and times, or states and controls) to approximate.\nTime-varying linearization (TVLQR) for nonlinear dynamics \\[\nx_{t+1} = f(x_t, u_t).\n\\]\nLinearize along the reference: \\[\n\\delta x_{t+1} \\approx A_t \\, \\delta x_t + B_t \\, \\delta u_t, \\qquad\nA_t := \\left.\\frac{\\partial f}{\\partial x}\\right|_{(x_t^\\star, u_t^\\star)}, \\quad\nB_t := \\left.\\frac{\\partial f}{\\partial u}\\right|_{(x_t^\\star, u_t^\\star)}.\n\\]\nThen apply finite-horizon TVLQR: \\[\n\\begin{aligned}\nP_T &= Q_f, \\\\\nK_t &= \\big(R + B_t^\\top P_{t+1} B_t\\big)^{-1} B_t^\\top P_{t+1} A_t, \\\\\nP_t &= Q + A_t^\\top P_{t+1} A_t - A_t^\\top P_{t+1} B_t \\, K_t.\n\\end{aligned}\n\\]"
-  },
-  {
-    "objectID": "lecs/w05/Lecture4_full.html#lqr-with-nonlinear-dynamics-quadratic-cost",
-    "href": "lecs/w05/Lecture4_full.html#lqr-with-nonlinear-dynamics-quadratic-cost",
-    "title": "Lecture 4 — LQR: Trajectory Following & Nonlinear Variants",
-    "section": "LQR with nonlinear dynamics, quadratic cost",
-    "text": "LQR with nonlinear dynamics, quadratic cost\nProblem. \\[\n\\min_{\\{u_t\\}} \\; \\sum_{t=0}^{T-1} \\big( (x_t - x_t^\\star)^\\top Q (x_t - x_t^\\star) + (u_t - u_t^\\star)^\\top R (u_t - u_t^\\star) \\big) + (x_T - x_T^\\star)^\\top Q_f (x_T - x_T^\\star)\n\\] subject to \\[\nx_{t+1} = f(x_t, u_t), \\qquad x_0 \\text{ given.}\n\\]\nWe aim to stabilize around a desired state/trajectory, but the dynamics are nonlinear."
-  },
-  {
-    "objectID": "lecs/w05/Lecture4_full.html#lqr-variants-nonlinear-dynamics-quadratic-cost",
-    "href": "lecs/w05/Lecture4_full.html#lqr-variants-nonlinear-dynamics-quadratic-cost",
-    "title": "Lecture 4 — LQR: Trajectory Following & Nonlinear Variants",
-    "section": "LQR variants: nonlinear dynamics, quadratic cost",
-    "text": "LQR variants: nonlinear dynamics, quadratic cost\nWe generally do not know a priori whether a constant input (u) keeps the system at the equilibrium/trajectory.\nCompute a steady pair ((x,u)) such that \\[\nx^\\ast = f(x^\\ast, u^\\ast) \\quad \\text{(discrete time)}, \\qquad\n\\text{or} \\quad 0 = f(x^\\ast,u^\\ast) \\; \\text{(continuous time)}.\n\\]\nThen define errors: \\[\n\\delta x_t := x_t - x_t^\\ast, \\qquad \\delta u_t := u_t - u_t^\\ast.\n\\]"
-  },
-  {
-    "objectID": "lecs/w05/Lecture4_full.html#lqr-variants-nonlinear-dynamics-quadratic-cost-1",
-    "href": "lecs/w05/Lecture4_full.html#lqr-variants-nonlinear-dynamics-quadratic-cost-1",
-    "title": "Lecture 4 — LQR: Trajectory Following & Nonlinear Variants",
-    "section": "LQR variants: nonlinear dynamics, quadratic cost",
-    "text": "LQR variants: nonlinear dynamics, quadratic cost\nFirst-order Taylor expansion around }(x,u): \\[\nf(x,u) \\approx f(x^\\ast,u^\\ast) + A \\, (x - x^\\ast) + B \\, (u - u^\\ast),\n\\] with \\[\nA := \\left.\\frac{\\partial f}{\\partial x}\\right|_{(x^\\ast,u^\\ast)}, \\qquad\nB := \\left.\\frac{\\partial f}{\\partial u}\\right|_{(x^\\ast,u^\\ast)}.\n\\]\nUsing the equilibrium condition, the error dynamics become \\[\n\\delta x_{t+1} \\approx A \\, \\delta x_t + B \\, \\delta u_t.\n\\]\nSolve via LQR/TVLQR on the linearized model."
-  },
-  {
-    "objectID": "lecs/w05/Lecture4_full.html#lqr-variants-trajectory-tracking-with-nonlinear-f",
-    "href": "lecs/w05/Lecture4_full.html#lqr-variants-trajectory-tracking-with-nonlinear-f",
-    "title": "Lecture 4 — LQR: Trajectory Following & Nonlinear Variants",
-    "section": "LQR variants: trajectory tracking with nonlinear f",
-    "text": "LQR variants: trajectory tracking with nonlinear f\nGiven a reference ({x_t^, u_t^}) that may not be exactly consistent with (f).\nError dynamics with defect \\[\n\\delta x_{t+1} = A_t \\, \\delta x_t + B_t \\, \\delta u_t + d_t, \\quad\nd_t := f(x_t^\\star,u_t^\\star) - x_{t+1}^\\star.\n\\]\nRemedies - Choose ((x_t^, u_t^)) via trajectory optimization so (d_t). - Or treat (d_t) as a known feedforward term; include it by state augmentation if needed."
-  },
-  {
-    "objectID": "lecs/w05/Lecture4_full.html#lqr-infinite-horizon-notes-time-invariant",
-    "href": "lecs/w05/Lecture4_full.html#lqr-infinite-horizon-notes-time-invariant",
-    "title": "Lecture 4 — LQR: Trajectory Following & Nonlinear Variants",
-    "section": "LQR — infinite-horizon notes (time-invariant)",
-    "text": "LQR — infinite-horizon notes (time-invariant)\nFor detectable ((A,Q^{1/2})) and stabilizable ((A,B)), the DARE \\[\nP = A^\\top P A - A^\\top P B (R + B^\\top P B)^{-1} B^\\top P A + Q\n\\] admits the stabilizing solution (P), yielding constant \\[\nK = (R + B^\\top P B)^{-1} B^\\top P A.\n\\]\nClosed-loop dynamics: (x_{t+1} = (A - B K) x_t)."
-  },
-  {
-    "objectID": "lecs/w05/Lecture4_full.html#lqr-practical-choices",
-    "href": "lecs/w05/Lecture4_full.html#lqr-practical-choices",
-    "title": "Lecture 4 — LQR: Trajectory Following & Nonlinear Variants",
-    "section": "LQR — practical choices",
-    "text": "LQR — practical choices\n\nWeights: pick (Q ), (R ). Penalize position/orientation errors more than velocities if tracking.\nReference shaping: ensure dynamic feasibility (trajectory optimization) to reduce additive terms.\nIntegral action: to reject biases, augment state with an integrator of error (z_{t+1}=z_t + e_t) and penalize (z_t)."
-  },
-  {
-    "objectID": "lecs/w05/Lecture4_full.html#lqr-examples-code-to-replicate-these-results",
-    "href": "lecs/w05/Lecture4_full.html#lqr-examples-code-to-replicate-these-results",
-    "title": "Lecture 4 — LQR: Trajectory Following & Nonlinear Variants",
-    "section": "LQR examples: code to replicate these results",
-    "text": "LQR examples: code to replicate these results\n\ncsc477_fall19 LQR examples (Python): https://github.com/florianshkurti/csc477_fall19\nCOMP 417 materials: https://github.com/florianshkurti/comp417"
-  },
-  {
-    "objectID": "lecs/w05/Lecture4_full.html#appendix-omnidirectional-vehicle-example-model",
-    "href": "lecs/w05/Lecture4_full.html#appendix-omnidirectional-vehicle-example-model",
-    "title": "Lecture 4 — LQR: Trajectory Following & Nonlinear Variants",
-    "section": "Appendix — Omnidirectional vehicle (example model)",
-    "text": "Appendix — Omnidirectional vehicle (example model)\nA simple 2D point-mass approximation with direct velocity inputs: \\[\nx_t = \\begin{bmatrix} p_{x,t} \\\\ p_{y,t} \\end{bmatrix}, \\quad\nu_t = \\begin{bmatrix} v_{x,t} \\\\ v_{y,t} \\end{bmatrix},\n\\] \\[\nx_{t+1} = x_t + \\Delta t \\, u_t.\n\\] Then (A = I), (B = t , I), (c=0). TVLQR readily extends to orientation and higher-order dynamics."
   },
   {
     "objectID": "lecs/w04/lec04.html#todays-agenda",
@@ -3012,97 +3390,6 @@
     "text": "LQR examples: code to replicate these results\n\nhttps://github.com/florianshkurti/csc477_fall19.git\nLook under csc477_fall19/lqr_examples/python"
   },
   {
-    "objectID": "lecs/w05/Lecture4.html#lqr-example-2-trajectory-following-for-omnidirectional-vehicle",
-    "href": "lecs/w05/Lecture4.html#lqr-example-2-trajectory-following-for-omnidirectional-vehicle",
-    "title": "Lecture 4",
-    "section": "LQR example #2: trajectory following for omnidirectional vehicle",
-    "text": "LQR example #2: trajectory following for omnidirectional vehicle\nAB\nDefine\nWe want"
-  },
-  {
-    "objectID": "lecs/w05/Lecture4.html#lqr-example-2-trajectory-following-for-omnidirectional-vehicle-1",
-    "href": "lecs/w05/Lecture4.html#lqr-example-2-trajectory-following-for-omnidirectional-vehicle-1",
-    "title": "Lecture 4",
-    "section": "LQR example #2: trajectory following for omnidirectional vehicle",
-    "text": "LQR example #2: trajectory following for omnidirectional vehicle\nAB\nDefine\nNeed to get rid of this additive termWe want"
-  },
-  {
-    "objectID": "lecs/w05/Lecture4.html#lqr-example-2-trajectory-following-for-omnidirectional-vehicle-2",
-    "href": "lecs/w05/Lecture4.html#lqr-example-2-trajectory-following-for-omnidirectional-vehicle-2",
-    "title": "Lecture 4",
-    "section": "LQR example #2: trajectory following for omnidirectional vehicle",
-    "text": "LQR example #2: trajectory following for omnidirectional vehicle\nAB\nDefine\nNeed to get rid of this additive termRedefine state:\ncWe want"
-  },
-  {
-    "objectID": "lecs/w05/Lecture4.html#lqr-example-2-trajectory-following-for-omnidirectional-vehicle-3",
-    "href": "lecs/w05/Lecture4.html#lqr-example-2-trajectory-following-for-omnidirectional-vehicle-3",
-    "title": "Lecture 4",
-    "section": "LQR example #2: trajectory following for omnidirectional vehicle",
-    "text": "LQR example #2: trajectory following for omnidirectional vehicle\nAB\nDefine\nNeed to get rid of this additive termIdea: augment the stateRedefine state:\nc\nRedefine cost function: We want"
-  },
-  {
-    "objectID": "lecs/w05/Lecture4.html#lqr-example-2-trajectory-following-for-omnidirectional-vehicle-4",
-    "href": "lecs/w05/Lecture4.html#lqr-example-2-trajectory-following-for-omnidirectional-vehicle-4",
-    "title": "Lecture 4",
-    "section": "LQR example #2: trajectory following for omnidirectional vehicle",
-    "text": "LQR example #2: trajectory following for omnidirectional vehicle\nWith initial state\nInstantaneous cost function"
-  },
-  {
-    "objectID": "lecs/w05/Lecture4.html#lqr-example-2-trajectory-following-for-omnidirectional-vehiclewith-initial-state",
-    "href": "lecs/w05/Lecture4.html#lqr-example-2-trajectory-following-for-omnidirectional-vehiclewith-initial-state",
-    "title": "Lecture 4",
-    "section": "LQR example #2: trajectory following for omnidirectional vehicleWith initial state",
-    "text": "LQR example #2: trajectory following for omnidirectional vehicleWith initial state\nInstantaneous cost function"
-  },
-  {
-    "objectID": "lecs/w05/Lecture4.html#lqr-extensions-trajectory-followingy-ou-are-given-a-reference-trajectory-not-just-path-but-states-and-timesor-states-and-controls-that-needs-to-be-approximated",
-    "href": "lecs/w05/Lecture4.html#lqr-extensions-trajectory-followingy-ou-are-given-a-reference-trajectory-not-just-path-but-states-and-timesor-states-and-controls-that-needs-to-be-approximated",
-    "title": "Lecture 4",
-    "section": "LQR extensions: trajectory following•Y ou are given a reference trajectory (not just path, but states and times,or states and controls) that needs to be approximated",
-    "text": "LQR extensions: trajectory following•Y ou are given a reference trajectory (not just path, but states and times,or states and controls) that needs to be approximated\nLinearize the nonlinear dynamics around the reference point\nwhere\nTrajectory following can be implemented asa time-varying LQR approximation. Not always clear if this is the best way though."
-  },
-  {
-    "objectID": "lecs/w05/Lecture4.html#lqr-with-nonlinear-dynamics-quadratic-cost",
-    "href": "lecs/w05/Lecture4.html#lqr-with-nonlinear-dynamics-quadratic-cost",
-    "title": "Lecture 4",
-    "section": "LQR with nonlinear dynamics, quadratic cost",
-    "text": "LQR with nonlinear dynamics, quadratic cost"
-  },
-  {
-    "objectID": "lecs/w05/Lecture4.html#lqr-variants-nonlinear-dynamics-quadratic-costwhat-can-we-do-when-but-the-cost-is-quadratic",
-    "href": "lecs/w05/Lecture4.html#lqr-variants-nonlinear-dynamics-quadratic-costwhat-can-we-do-when-but-the-cost-is-quadratic",
-    "title": "Lecture 4",
-    "section": "LQR variants: nonlinear dynamics, quadratic costWhat can we do when but the cost is quadratic ?",
-    "text": "LQR variants: nonlinear dynamics, quadratic costWhat can we do when but the cost is quadratic ?\nWe want to stabilize the system around stateBut with nonlinear dynamics we do not know if will keep the system at the zero state."
-  },
-  {
-    "objectID": "lecs/w05/Lecture4.html#lqr-variants-nonlinear-dynamics-quadratic-costwhat-can-we-do-when-but-the-cost-is-quadratic-1",
-    "href": "lecs/w05/Lecture4.html#lqr-variants-nonlinear-dynamics-quadratic-costwhat-can-we-do-when-but-the-cost-is-quadratic-1",
-    "title": "Lecture 4",
-    "section": "LQR variants: nonlinear dynamics, quadratic costWhat can we do when but the cost is quadratic ?",
-    "text": "LQR variants: nonlinear dynamics, quadratic costWhat can we do when but the cost is quadratic ?\nWe want to stabilize the system around stateBut with nonlinear dynamics we do not know if will keep the system at the zero state.\n→Need to compute such that"
-  },
-  {
-    "objectID": "lecs/w05/Lecture4.html#lqr-variants-nonlinear-dynamics-quadratic-costwhat-can-we-do-when-but-the-cost-is-quadratic-2",
-    "href": "lecs/w05/Lecture4.html#lqr-variants-nonlinear-dynamics-quadratic-costwhat-can-we-do-when-but-the-cost-is-quadratic-2",
-    "title": "Lecture 4",
-    "section": "LQR variants: nonlinear dynamics, quadratic costWhat can we do when but the cost is quadratic ?",
-    "text": "LQR variants: nonlinear dynamics, quadratic costWhat can we do when but the cost is quadratic ?\nWe want to stabilize the system around stateBut with nonlinear dynamics we do not know if will keep the system at the zero state.\n→Need to compute such that\nTaylor expansion: linearize the nonlinear dynamics around the point\nAB"
-  },
-  {
-    "objectID": "lecs/w05/Lecture4.html#lqr-variants-nonlinear-dynamics-quadratic-costwhat-can-we-do-when-but-the-cost-is-quadratic-3",
-    "href": "lecs/w05/Lecture4.html#lqr-variants-nonlinear-dynamics-quadratic-costwhat-can-we-do-when-but-the-cost-is-quadratic-3",
-    "title": "Lecture 4",
-    "section": "LQR variants: nonlinear dynamics, quadratic costWhat can we do when but the cost is quadratic ?",
-    "text": "LQR variants: nonlinear dynamics, quadratic costWhat can we do when but the cost is quadratic ?\nWe want to stabilize the system around stateBut with nonlinear dynamics we do not know if will keep the system at the zero state.\n→Need to compute such that\nTaylor expansion: linearize the nonlinear dynamics around the point\nSolve this via LQR"
-  },
-  {
-    "objectID": "lecs/w05/Lecture4.html#lqr-examples-code-to-replicate-these-resultshttpsgithub.comflorianshkurticsc477_fall19.gitlook-under-csc477_fall19lqr_examplespython",
-    "href": "lecs/w05/Lecture4.html#lqr-examples-code-to-replicate-these-resultshttpsgithub.comflorianshkurticsc477_fall19.gitlook-under-csc477_fall19lqr_examplespython",
-    "title": "Lecture 4",
-    "section": "LQR examples: code to replicate these results•https://github.com/florianshkurti/csc477_fall19.git•Look under csc477_fall19/lqr_examples/python",
-    "text": "LQR examples: code to replicate these results•https://github.com/florianshkurti/csc477_fall19.git•Look under csc477_fall19/lqr_examples/python"
-  },
-  {
     "objectID": "lecs/w01/lec01.html#todays-agenda",
     "href": "lecs/w01/lec01.html#todays-agenda",
     "title": "CSC477 / CSC2630 Introduction to Mobile Robotics",
@@ -3696,5 +3983,12 @@
     "title": "CSC477 / CSC2630 Introduction to Mobile Robotics",
     "section": "Today’s agenda",
     "text": "Today’s agenda\n\n\nIntroduction\nAdministrivia\n\nOffice hours\nTutorials\nAssignment descriptions\nPrerequisites\n\nTopics covered by the course\nSensors and Actuators\n\n\n\nQuiz about background and interests"
+  },
+  {
+    "objectID": "lecs/w06/lec6.html",
+    "href": "lecs/w06/lec6.html",
+    "title": "CSC477 - Fall 2024",
+    "section": "",
+    "text": "CSC477 Introduction to Mobile Robotics\nFlorian Shkurti\nWeek #6: Mapping\n\fToday’s agenda\n• How to represent maps • Probabilistic occupancy grid mapping\n\fCategories of maps\n• Metric\n• Map accurately represents lengths and angles\n• Topological\n• Map is reduced to a graph representation of the structure of free space\n• Topometric\n• Atlas: a combination of local metric maps (nodes) connected via edges\n• Sequence of raw time-series observations (e.g. video)\n• No metric or topological information directly represented by the map\n\fTypical operations on maps\n• Distance and direction to closest obstacle\n• Collision detection: is a given robot configuration in free space?\n• Map merging / alignment\n• Occupancy updates\n• Raytracing\n\fTypical operations on maps\n• Distance and direction to closest obstacle\n• Collision detection: is a given robot configuration in free space?\n• Map merging / alignment\n• Occupancy updates\nCommon operations in computer graphics\n• Raytracing\n\fMetric Maps\n\fOccupancy Grids\nEach cell contains either: • unknown/unexplored (grey) • probability of occupation\n\fOccupancy Grids\nAdvantages: • O(1) occupancy lookup and update • Supports image operations\nDisadvantages: • Doesn’t scale well in higher dimensions\nEach cell contains either: • unknown/unexplored (grey) • probability of occupation\n\fQuadtrees\nEach node represents a square. If the node is fully empty or fully occupied it has no children.\nIf it is partially occupied it has four children. Subdivision stops after some minimal square size.\n\fOctrees\nEach node represents a cube. If the node is fully empty or fully occupied it has no children.\nIf it is partially occupied it has eight children. Subdivision stops after some minimal cube size.\n\fOctrees\nProblem 1: quadtrees and octrees are not balanced trees. So, in the worst case an occupancy query could be O(n) in the number of nodes.\nEach node represents a cube. If the node is fully empty or fully occupied it has no children.\nIf it is partially occupied it has eight children. Subdivision stops after some minimal cube size.\n\fOctrees\nProblem 1: quadtrees and octrees are not balanced trees. So, in the worst case an occupancy query could be O(n) in the number of nodes.\nProblem 2: quadtrees and octrees are sensitive to small changes in the location of obstacles.\nEach node represents a cube. If the node is fully empty or fully occupied it has no children.\nIf it is partially occupied it has eight children. Subdivision stops after some minimal cube size.\n\fOctree Example: Octomap\nOpen source as a ROS package\n\fImplicit Surface Definitions: Signed Distance Function\nThis distance function is defined over any point in 3D space.\n\fSDF Example\n\fPointclouds\n\fPointclouds\nAdvantages: •\ncan make local changes to the map without affecting the pointcloud globally can align pointclouds\n• • nearest neighbor queries are\neasy with kd-trees or locality-sensitive hashing\nDisadvantages: • need to segment objects in the map •\nraytracing is approximate and nontrivial\n\fTopological Maps\nTopology: study of spatial properties that are preserved under continuous deformations of the space.\n\fGeneralized Voronoi Graph (GVG)\n\fGVG nodes: points that are equidistant to 3 or more obstacle points\nRetractions are also called roadmaps.\n\f\fGeneralized Voronoi Graphs (GVG)\nTurns comparison between pixels to comparison between graphs.\n\fGVG: sensitivity\n\fGVG: advantages\nCan specify whether we pass on the “left” or “right” of each obstacle on our way to the goal.\n\fGVG: advantages\n\fHow a curve winds around an obstacle\n\fHow a curve winds around an obstacle\nNote: winding angle of a path can be more than 360 degrees\n\fHomotopy classes\nTwo paths with the same endpoints are homotopic or belong to the same homotopy class iff one can be deformed continuously (without hitting obstacles) into the other. Formally, the paths:\nwith\nare homotopic iff there exists a continuous function\nsuch that for any time t:\n\fHomotopy functions for deformations\nTwo paths with the same endpoints are homotopic or belong to the same homotopy class iff one can be deformed continuously (without hitting obstacles) into the other. Formally, the paths:\nwith\nare homotopic iff there exists a continuous function\nsuch that for any time t:\ngoal\nstart\n\fTopometric Maps\n\fTopometric maps\nOccupancy grid\nTopological map\nTopometric map\n\fTopometric maps\nEdges: rotations and translations between local maps, but also topological connectivity\nLocal, metric map\nMain advantage: allows us combine accurate local maps into a global, typically inconsistent map that nevertheless provides sufficient navigation information.\n\fMaps of Raw Observations\n\fMain Idea\n• Map = entire (unprocessed) sequence of observations, e.g. video.\n• Do not try to support distance, collision, and raytracing queries.\n• Instead, provide only a similarity/nearest neighbors query\n• “Find the image in the video that is most similar to the one I’m seeing now.”\n• History of observations determines a (set of) location(s) in the map\n\fMetric Map Alignment\na.k.a. scan matching, a.k.a. iterative closest point (ICP), a.k.a. registration\n\fProblem definition\n• Given\n• two pointclouds or • a (local) laser scan and a pointcloud (global map) or • two maps find the rotation and translation that aligns them\n\fProblem definition\n• Given\n• two pointclouds or • a (local) laser scan and a pointcloud (global map) or • two maps find the rotation and translation that aligns them\n• Assumption: We are assuming in these slides for simplicity that that rigid-body transformations are sufficient to align the scans. They might not be. We might need to also model scaling, non-uniform stretching and other nonlinear transformations.\n\fScan alignment with known correspondences\n\fScan alignment with known correspondences\nWhen correct correspondences are known we say that data association is known/unambiguous.\nIn general, data association is a real and hairy problem in robotics.\n\fScan alignment with known correspondences\nFind the 3D rotation matrix R and the 3D translation vector t that will best align the corresponding points\n\fScan alignment with known correspondences\nFind the 3D rotation matrix R and the 3D translation vector t that will best align the corresponding points\nQ: How do we minimize this error? A: Turns out it has a closed-form solution.\n\fClosed form solution of scan alignment with known correspondences\nNOT EXAMINABLE\nFind the 3D rotation matrix R and the 3D translation vector t that will best align the corresponding points\nStep 1: compute the means of the two scans\nStep 2: subtract the means from the scans\nStep 3: form the matrix\n\fClosed form solution of scan alignment with known correspondences\nNOT EXAMINABLE\nFind the 3D rotation matrix R and the 3D translation vector t that will best align the corresponding points\nStep 1: compute the means of the two scans\nStep 2: subtract the means from the scans\nStep 3: form the matrix\nStep 4: compute the SVD of the matrix W\nStep 5: if rank(W)=3, optimal solution is unique:\n\fClosed form solution of scan alignment with known correspondences\nFind the 3D rotation matrix R and the 3D translation vector t that will best align the corresponding points\nIf you’re interested, the proof of the closed-form solution can be found in: K. S. Arun, T. S. Huang, and S. D. Blostein. Least square fitting of two 3-d point sets. IEEE Transactions on Pattern Analysis and Machine Intelligence, 9(5):698 – 700, 1987\n\fScan alignment with unknown correspondences\n\fScan alignment with unknown correspondences\nMain idea for data association: •\nassociate each point in the source scan to its nearest neighbor in the target scan\nFind optimal rotation and translation for this correspondence.\nRepeat until no significant drop in error.\n\flibpointmatcher\n\fToday’s agenda\n• How to represent maps • Probabilistic occupancy grid mapping\n\fWhat we want to do\n\fTerminology\n• Pose: the rotation and translation of a robot\n• Odometry: the transformation of the body frame with respect to its initial pose\n(fixed frame of reference).\n• Dynamics model: what is the next state given current state and control?\n• Sensor measurement model: what is the expected measurement given the\nrobot’s current state?\n\fPerfect models vs. Reality\nDynamics\nNoise as a random variable\n\fPerfect models vs. Reality\nSensor Measurements\ne.g. GPS (simplified)\n\fPerfect models vs. Reality\nDynamics\nSensor Measurements\ne.g. GPS (simplified)\nprobabilistic dynamics model\nprobabilistic measurement model\n\fWhy is mapping a problem?\nDon’t we have all the information we need to build a map?\n• Two main sources of uncertainty:\n• accumulating uncertainty in the dynamics\nUncertainty in the dynamics compounds into increasing uncertainty in odometry, as time passes.\nStart\n\fWhy is mapping a problem?\nDon’t we have all the information we need to build a map?\n• Two main sources of uncertainty:\n• uncertainty in the dynamics\n• uncertainty in sensor measurements\n\fWhy is mapping a problem?\nDon’t we have all the information we need to build a map?\n• Two main sources of uncertainty:\n• uncertainty in the dynamics\n• uncertainty in sensor measurements\nTrue value: 300cm\nbut measurements have noise\nSonar\nLaser\n\fWhy is mapping a problem?\nDon’t we have all the information we need to build a map?\n• If we had no uncertainty, i.e. and\nthen mapping would be trivial.\n• Today we will assume perfect dynamics and odometry, but noisy sensor\nmeasurements.\n• We are also going to assume a static map, no moving objects\n\fDefining the problem\n• The occupancy grid map is a binary random variable\nwidth = #columns height = #rows of the occupancy grid\n\fDefining the problem\n• The occupancy grid map is a binary random variable\nwidth = #columns height = #rows of the occupancy grid\n• The path of the robot up to time t is a sequence of random variables\nwith\nOdometry coordinates\n\fDefining the problem\n• The occupancy grid map is a binary random variable\nwidth = #columns height = #rows of the occupancy grid\n• The path of the robot up to time t is a sequence of random variables\nwith\nOdometry coordinates\n• At each time step the robot makes a measurement (sonar/laser).\nMeasurements up to time t are a sequence of random variables\nwith\n(range, angle) in the laser’s local coordinates\nK = #beams, or #points in the scan\n\fThe goal of mapping\n• To estimate the probability of any map, given path and measurements\nSensor Measurements\nOdometry / Robot Poses\n\fThe goal of mapping\n• To estimate the probability of any map, given path and measurements\n• This is intractable. E.g. for a 100 x 100 grid there are possible\nbinary maps.\n\fThe goal of mapping\n• To estimate the probability of any map, given path and measurements\n• This is intractable. E.g. for a 100 x 100 grid there are possible\nbinary maps.\n• We can approximate\nApproximation ignores all dependencies between map cells, given known info. Assumes (for tractability) that cells are independent given path and measurements\n\fWhy is it an approximation?\nScenario\nNearby measurements\nResulting map when considering cells independently\nResulting map when considering cells jointly\n\fEvaluating the occupancy of a map cell\n• How do we evaluate ?\n\fEvaluating the occupancy of a map cell\n• How do we evaluate ?\nBayes’ Rule\nConditional Bayes’ Rule\n\fEvaluating the occupancy of a map cell\n• How do we evaluate ? • Using conditional Bayes’ rule we get\nBayes’ Rule\nConditional Bayes’ Rule\n\fEvaluating the occupancy of a map cell\n• How do we evaluate ? • Using conditional Bayes’ rule we get\n• And we simplify\nIf C is independent of A given B, then C provides no extra information about A after we know B\n\fEvaluating the occupancy of a map cell\n• How do we evaluate ? • Using conditional Bayes’ rule we get\n• And we simplify\nCurrent measurement only depends on current state and map cell\nCurrent state without current measurement provides no additional information about the occupancy of the map cell\n\fEvaluating the occupancy of a map cell\n• And we simplify:\n• Another way to write this:\n• Belief at time t-1 was updated to belief at time t based on likelihood\nof measurement received at time t.\n\fEvaluating the occupancy of a map cell\n• And we simplify:\n• Another way to write this:\nSo, as long as we can evaluate the measurement likelihood\nand the normalization factor\nwe can do the belief update.\n\fEvaluating the occupancy of a map cell\n• And we simplify:\n• Another way to write this:\nSo, as long as we can evaluate the measurement likelihood\nand the normalization factor\nwe can do the belief update.\nProblem: this is hard to compute. How can we avoid it?\n\fThe log-odds trick for binary random variables\n• We showed\n• Define the log odds ratio\n\fThe log-odds trick for binary random variables\n• We showed (1)\n• Define the log odds ratio\n\fThe log-odds trick for binary random variables\n• We showed (1)\n• Define the log odds ratio\n• Then (1) becomes\n\fThe log-odds trick for binary random variables\n• We showed (1)\n• Define the log odds ratio\n• Then (1) becomes\n• We can recover the original belief as\n\fThe log-odds trick for binary random variables\n• We showed (1)\n• Define the log odds ratio\n• Then (1) becomes\nSo, as long as we can evaluate the log odds ratio for the measurement likelihood:\nwe can do the belief update.\n\fLog-odds ratio for the measurement likelihood\n• We want to compute to do the belief update\n• We apply conditional Bayes’ rule again:\n\fLog-odds ratio for the measurement likelihood\n• We want to compute to do the belief update\n• We apply conditional Bayes’ rule again:\n• If we take the log-odds ratio:\n\fLog-odds ratio for the measurement likelihood\n• We want to compute to do the belief update\n• We apply conditional Bayes’ rule again:\n• If we take the log-odds ratio:\n• We can simplify further:\nKnowing the current state provides no information about whether cell is occupied, if there are no observations\n\fLog-odds ratio for the measurement likelihood\n• We want to compute to do the belief update\n• We apply conditional Bayes’ rule again:\n• If we take the log-odds ratio:\n• We can simplify further:\nPrior probability of cell being occupied. Can choose uniform distribution, for example.\n\fLog-odds ratio for the measurement likelihood\n• We want to compute to do the belief update\n• We apply conditional Bayes’ rule again:\n• If we take the log-odds ratio:\n• We can simplify further:\nInverse measurement model: what is the likelihood of the map cell being occupied given the current state and current measurement?\n\fSummary: Log-odds ratio for the measurement likelihood\n• We want to compute but it’s hard\n• Instead, we can compute the log-odds ratio of the measurement\nlikelihood in terms of the inverse measurement model:\nInverse measurement model: what is the likelihood of the map cell being occupied given the current state and current measurement?\n\fInverse sensor measurement model\nGiven map cell , the robot’s state , and beams\nFind index k of sensor beam that is closest in heading to the cell\n\fInverse sensor measurement model\nGiven map cell , the robot’s state , and beams\nFind index k of sensor beam that is closest in heading to the cell\nIf the cell is sufficiently closer than\n// Cell is most likely free Return that is well below 0.5\n\fInverse sensor measurement model\nGiven map cell , the robot’s state , and beams\nFind index k of sensor beam that is closest in heading to the cell\nIf the cell is sufficiently farther than or out of the field of view\n// We don’t have enough information to decide whether cell is occupied Return prior occupation probability\nIf the cell is sufficiently closer than\n// Cell is most likely free Return that is well below 0.5\n\fInverse sensor measurement model\nGiven map cell , the robot’s state , and beams\nFind index k of sensor beam that is closest in heading to the cell\nIf the cell is sufficiently farther than or out of the field of view\n// We don’t have enough information to decide whether cell is occupied Return prior occupation probability\nIf the cell is nearly as far as the measurement\n// Cell is most likely occupied Return that is well above 0.5\nIf the cell is sufficiently closer than\n// Cell is most likely free Return that is well below 0.5\n\finverse_sensor_measurement_model( , , ) From Probabilistic Robotics, chapter 9.2\n• Let be the center of the cell\n• Let\n• Let // Might need to ensure this angle difference is in\n• The index of the closest-in-heading beam to is\n• If or\n• Return the log odds ratio of the prior occupancy\n• If and\n• Return the log odds ratio of being occupied (corresponding to occupation probability &gt; 0.5)\n• If\n• Return the log odds ratio of being free (corresponding to occupation probability &lt; 0.5)\n\f• We wanted to compute the likelihood of any map based on known states and observations\nRecap\n\f• We wanted to compute the likelihood of any map based on known path and observations\nRecap\n• To evaluate we had to apply Bayes’ theorem, which\nrevealed a way to recursively update the belief\nVery frequent reasoning in probabilistic robotics\n\f• We wanted to compute the likelihood of any map based on known path and observations\nRecap\n• To evaluate we had to apply Bayes’ theorem, which\nrevealed a way to recursively update the belief\n• To avoid evaluating we used the log odds ratio\nCan do this for binary random variables\n\f• We wanted to compute the likelihood of any map based on known path and observations\nRecap\n• To evaluate we had to apply Bayes’ theorem, which\nrevealed a way to recursively update the belief\n• To avoid evaluating we used the log odds ratio\n• Computing the forward measurement model was hard, so we applied Bayes’ rule again, to get an inverse measurement model and an easier-to-compute log-odds ratio:\n\fOccupancy Grid Algorithm\n• Upon reception of a new laser/sonar/scan measurement\n• Let the robot’s current state be\n• Let the previous log-odds ratio of the occupancy belief be the 2D array where i is a row, j is a column\nIn the beginning we set the prior where the occupancy probability is a design decision.\n\fOccupancy Grid Algorithm\n• Upon reception of a new laser/sonar/scan measurement\n• Let the robot’s current state be\n• Let the previous log-odds ratio of the occupancy belief be the 2D array where i is a row, j is a column\nIn the beginning we set the prior where the occupancy probability is a design decision.\n• For all cells (i,j) in the grid\n•\nIf the cell (i,j) is in the field of view of the robot’s sensor at state\n•\nElse\n•\nIf asked, return the following 2D matrix of occupancy probabilities:\n\fResults\nThe maximum likelihood map is obtained by clipping the occupancy grid map at a threshold of 0.5"
   }
 ]

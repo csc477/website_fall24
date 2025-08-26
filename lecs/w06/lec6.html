@@ -1,0 +1,1091 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.7.31">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>lec6 – CSC477 - Fall 2024</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+</style>
+
+
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<script src="../../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-e1a5c8363afafaef2c763b6775fbf3ca.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-dark-8ef56b68f8fa1e9d2ba328e99e439f80.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-e1a5c8363afafaef2c763b6775fbf3ca.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap-3610b36fc08898c07d6e0ffcd4000319.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-dark-69b08db278f499bc7d235ce342f73d67.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="../../site_libs/bootstrap/bootstrap-3610b36fc08898c07d6e0ffcd4000319.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+
+<meta property="og:title" content="CSC477 - Fall 2024">
+<meta property="og:description" content="Homepage for CSC477/CSC2630: Introduction to Mobile Robotics, Fall 2024">
+<meta property="og:site_name" content="CSC477 - Fall 2024">
+<meta name="twitter:title" content="CSC477 - Fall 2024">
+<meta name="twitter:description" content="Homepage for CSC477/CSC2630: Introduction to Mobile Robotics, Fall 2024">
+<meta name="twitter:card" content="summary">
+</head>
+
+<body class="quarto-light"><script id="quarto-html-before-body" type="application/javascript">
+    const toggleBodyColorMode = (bsSheetEl) => {
+      const mode = bsSheetEl.getAttribute("data-mode");
+      const bodyEl = window.document.querySelector("body");
+      if (mode === "dark") {
+        bodyEl.classList.add("quarto-dark");
+        bodyEl.classList.remove("quarto-light");
+      } else {
+        bodyEl.classList.add("quarto-light");
+        bodyEl.classList.remove("quarto-dark");
+      }
+    }
+    const toggleBodyColorPrimary = () => {
+      const bsSheetEl = window.document.querySelector("link#quarto-bootstrap:not([rel=disabled-stylesheet])");
+      if (bsSheetEl) {
+        toggleBodyColorMode(bsSheetEl);
+      }
+    }
+    const setColorSchemeToggle = (alternate) => {
+      const toggles = window.document.querySelectorAll('.quarto-color-scheme-toggle');
+      for (let i=0; i < toggles.length; i++) {
+        const toggle = toggles[i];
+        if (toggle) {
+          if (alternate) {
+            toggle.classList.add("alternate");
+          } else {
+            toggle.classList.remove("alternate");
+          }
+        }
+      }
+    };
+    const toggleColorMode = (alternate) => {
+      // Switch the stylesheets
+      const primaryStylesheets = window.document.querySelectorAll('link.quarto-color-scheme:not(.quarto-color-alternate)');
+      const alternateStylesheets = window.document.querySelectorAll('link.quarto-color-scheme.quarto-color-alternate');
+      manageTransitions('#quarto-margin-sidebar .nav-link', false);
+      if (alternate) {
+        // note: dark is layered on light, we don't disable primary!
+        enableStylesheet(alternateStylesheets);
+        for (const sheetNode of alternateStylesheets) {
+          if (sheetNode.id === "quarto-bootstrap") {
+            toggleBodyColorMode(sheetNode);
+          }
+        }
+      } else {
+        disableStylesheet(alternateStylesheets);
+        enableStylesheet(primaryStylesheets)
+        toggleBodyColorPrimary();
+      }
+      manageTransitions('#quarto-margin-sidebar .nav-link', true);
+      // Switch the toggles
+      setColorSchemeToggle(alternate)
+      // Hack to workaround the fact that safari doesn't
+      // properly recolor the scrollbar when toggling (#1455)
+      if (navigator.userAgent.indexOf('Safari') > 0 && navigator.userAgent.indexOf('Chrome') == -1) {
+        manageTransitions("body", false);
+        window.scrollTo(0, 1);
+        setTimeout(() => {
+          window.scrollTo(0, 0);
+          manageTransitions("body", true);
+        }, 40);
+      }
+    }
+    const disableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        stylesheet.rel = 'disabled-stylesheet';
+      }
+    }
+    const enableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        if(stylesheet.rel !== 'stylesheet') { // for Chrome, which will still FOUC without this check
+          stylesheet.rel = 'stylesheet';
+        }
+      }
+    }
+    const manageTransitions = (selector, allowTransitions) => {
+      const els = window.document.querySelectorAll(selector);
+      for (let i=0; i < els.length; i++) {
+        const el = els[i];
+        if (allowTransitions) {
+          el.classList.remove('notransition');
+        } else {
+          el.classList.add('notransition');
+        }
+      }
+    }
+    const isFileUrl = () => {
+      return window.location.protocol === 'file:';
+    }
+    const hasAlternateSentinel = () => {
+      let styleSentinel = getColorSchemeSentinel();
+      if (styleSentinel !== null) {
+        return styleSentinel === "alternate";
+      } else {
+        return false;
+      }
+    }
+    const setStyleSentinel = (alternate) => {
+      const value = alternate ? "alternate" : "default";
+      if (!isFileUrl()) {
+        window.localStorage.setItem("quarto-color-scheme", value);
+      } else {
+        localAlternateSentinel = value;
+      }
+    }
+    const getColorSchemeSentinel = () => {
+      if (!isFileUrl()) {
+        const storageValue = window.localStorage.getItem("quarto-color-scheme");
+        return storageValue != null ? storageValue : localAlternateSentinel;
+      } else {
+        return localAlternateSentinel;
+      }
+    }
+    const toggleGiscusIfUsed = (isAlternate, darkModeDefault) => {
+      const baseTheme = document.querySelector('#giscus-base-theme')?.value ?? 'light';
+      const alternateTheme = document.querySelector('#giscus-alt-theme')?.value ?? 'dark';
+      let newTheme = '';
+      if(authorPrefersDark) {
+        newTheme = isAlternate ? baseTheme : alternateTheme;
+      } else {
+        newTheme = isAlternate ? alternateTheme : baseTheme;
+      }
+      const changeGiscusTheme = () => {
+        // From: https://github.com/giscus/giscus/issues/336
+        const sendMessage = (message) => {
+          const iframe = document.querySelector('iframe.giscus-frame');
+          if (!iframe) return;
+          iframe.contentWindow.postMessage({ giscus: message }, 'https://giscus.app');
+        }
+        sendMessage({
+          setConfig: {
+            theme: newTheme
+          }
+        });
+      }
+      const isGiscussLoaded = window.document.querySelector('iframe.giscus-frame') !== null;
+      if (isGiscussLoaded) {
+        changeGiscusTheme();
+      }
+    };
+    const authorPrefersDark = false;
+    const darkModeDefault = authorPrefersDark;
+      document.querySelector('link#quarto-text-highlighting-styles.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+      document.querySelector('link#quarto-bootstrap.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+    let localAlternateSentinel = darkModeDefault ? 'alternate' : 'default';
+    // Dark / light mode switch
+    window.quartoToggleColorScheme = () => {
+      // Read the current dark / light value
+      let toAlternate = !hasAlternateSentinel();
+      toggleColorMode(toAlternate);
+      setStyleSentinel(toAlternate);
+      toggleGiscusIfUsed(toAlternate, darkModeDefault);
+      window.dispatchEvent(new Event('resize'));
+    };
+    // Switch to dark mode if need be
+    if (hasAlternateSentinel()) {
+      toggleColorMode(true);
+    } else {
+      toggleColorMode(false);
+    }
+  </script>
+
+<div id="quarto-search-results"></div>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
+        
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block"></header>
+
+
+
+
+
+<p>CSC477 Introduction to Mobile Robotics</p>
+<p>Florian Shkurti</p>
+<p>Week #6: Mapping</p>
+<p>Today’s agenda</p>
+<p>• How to represent maps • Probabilistic occupancy grid mapping</p>
+<p>Categories of maps</p>
+<p>• Metric</p>
+<p>• Map accurately represents lengths and angles</p>
+<p>• Topological</p>
+<p>• Map is reduced to a graph representation of the structure of free space</p>
+<p>• Topometric</p>
+<p>• Atlas: a combination of local metric maps (nodes) connected via edges</p>
+<p>• Sequence of raw time-series observations (e.g.&nbsp;video)</p>
+<p>• No metric or topological information directly represented by the map</p>
+<p>Typical operations on maps</p>
+<p>• Distance and direction to closest obstacle</p>
+<p>• Collision detection: is a given robot configuration in free space?</p>
+<p>• Map merging / alignment</p>
+<p>• Occupancy updates</p>
+<p>• Raytracing</p>
+<p>Typical operations on maps</p>
+<p>• Distance and direction to closest obstacle</p>
+<p>• Collision detection: is a given robot configuration in free space?</p>
+<p>• Map merging / alignment</p>
+<p>• Occupancy updates</p>
+<p>Common operations in computer graphics</p>
+<p>• Raytracing</p>
+<p>Metric Maps</p>
+<p>Occupancy Grids</p>
+<p>Each cell contains either: • unknown/unexplored (grey) • probability of occupation</p>
+<p>Occupancy Grids</p>
+<p>Advantages: • O(1) occupancy lookup and update • Supports image operations</p>
+<p>Disadvantages: • Doesn’t scale well in higher dimensions</p>
+<p>Each cell contains either: • unknown/unexplored (grey) • probability of occupation</p>
+<p>Quadtrees</p>
+<p>Each node represents a square. If the node is fully empty or fully occupied it has no children.</p>
+<p>If it is partially occupied it has four children. Subdivision stops after some minimal square size.</p>
+<p>Octrees</p>
+<p>Each node represents a cube. If the node is fully empty or fully occupied it has no children.</p>
+<p>If it is partially occupied it has eight children. Subdivision stops after some minimal cube size.</p>
+<p>Octrees</p>
+<p>Problem 1: quadtrees and octrees are not balanced trees. So, in the worst case an occupancy query could be O(n) in the number of nodes.</p>
+<p>Each node represents a cube. If the node is fully empty or fully occupied it has no children.</p>
+<p>If it is partially occupied it has eight children. Subdivision stops after some minimal cube size.</p>
+<p>Octrees</p>
+<p>Problem 1: quadtrees and octrees are not balanced trees. So, in the worst case an occupancy query could be O(n) in the number of nodes.</p>
+<p>Problem 2: quadtrees and octrees are sensitive to small changes in the location of obstacles.</p>
+<p>Each node represents a cube. If the node is fully empty or fully occupied it has no children.</p>
+<p>If it is partially occupied it has eight children. Subdivision stops after some minimal cube size.</p>
+<p>Octree Example: Octomap</p>
+<p>Open source as a ROS package</p>
+<p>Implicit Surface Definitions: Signed Distance Function</p>
+<p>This distance function is defined over any point in 3D space.</p>
+<p>SDF Example</p>
+<p>Pointclouds</p>
+<p>Pointclouds</p>
+<p>Advantages: •</p>
+<p>can make local changes to the map without affecting the pointcloud globally can align pointclouds</p>
+<p>• • nearest neighbor queries are</p>
+<p>easy with kd-trees or locality-sensitive hashing</p>
+<p>Disadvantages: • need to segment objects in the map •</p>
+<p>raytracing is approximate and nontrivial</p>
+<p>Topological Maps</p>
+<p>Topology: study of spatial properties that are preserved under continuous deformations of the space.</p>
+<p>Generalized Voronoi Graph (GVG)</p>
+<p>GVG nodes: points that are equidistant to 3 or more obstacle points</p>
+<p>Retractions are also called roadmaps.</p>
+<p>Generalized Voronoi Graphs (GVG)</p>
+<p>Turns comparison between pixels to comparison between graphs.</p>
+<p>GVG: sensitivity</p>
+<p>GVG: advantages</p>
+<p>Can specify whether we pass on the “left” or “right” of each obstacle on our way to the goal.</p>
+<p>GVG: advantages</p>
+<p>How a curve winds around an obstacle</p>
+<p>How a curve winds around an obstacle</p>
+<p>Note: winding angle of a path can be more than 360 degrees</p>
+<p>Homotopy classes</p>
+<p>Two paths with the same endpoints are homotopic or belong to the same homotopy class iff one can be deformed continuously (without hitting obstacles) into the other. Formally, the paths:</p>
+<p>with</p>
+<p>are homotopic iff there exists a continuous function</p>
+<p>such that for any time t:</p>
+<p>Homotopy functions for deformations</p>
+<p>Two paths with the same endpoints are homotopic or belong to the same homotopy class iff one can be deformed continuously (without hitting obstacles) into the other. Formally, the paths:</p>
+<p>with</p>
+<p>are homotopic iff there exists a continuous function</p>
+<p>such that for any time t:</p>
+<p>goal</p>
+<p>start</p>
+<p>Topometric Maps</p>
+<p>Topometric maps</p>
+<p>Occupancy grid</p>
+<p>Topological map</p>
+<p>Topometric map</p>
+<p>Topometric maps</p>
+<p>Edges: rotations and translations between local maps, but also topological connectivity</p>
+<p>Local, metric map</p>
+<p>Main advantage: allows us combine accurate local maps into a global, typically inconsistent map that nevertheless provides sufficient navigation information.</p>
+<p>Maps of Raw Observations</p>
+<p>Main Idea</p>
+<p>• Map = entire (unprocessed) sequence of observations, e.g.&nbsp;video.</p>
+<p>• Do not try to support distance, collision, and raytracing queries.</p>
+<p>• Instead, provide only a similarity/nearest neighbors query</p>
+<p>• “Find the image in the video that is most similar to the one I’m seeing now.”</p>
+<p>• History of observations determines a (set of) location(s) in the map</p>
+<p>Metric Map Alignment</p>
+<p>a.k.a. scan matching, a.k.a. iterative closest point (ICP), a.k.a. registration</p>
+<p>Problem definition</p>
+<p>• Given</p>
+<p>• two pointclouds or • a (local) laser scan and a pointcloud (global map) or • two maps find the rotation and translation that aligns them</p>
+<p>Problem definition</p>
+<p>• Given</p>
+<p>• two pointclouds or • a (local) laser scan and a pointcloud (global map) or • two maps find the rotation and translation that aligns them</p>
+<p>• Assumption: We are assuming in these slides for simplicity that that rigid-body transformations are sufficient to align the scans. They might not be. We might need to also model scaling, non-uniform stretching and other nonlinear transformations.</p>
+<p>Scan alignment with known correspondences</p>
+<p>Scan alignment with known correspondences</p>
+<p>When correct correspondences are known we say that data association is known/unambiguous.</p>
+<p>In general, data association is a real and hairy problem in robotics.</p>
+<p>Scan alignment with known correspondences</p>
+<p>Find the 3D rotation matrix R and the 3D translation vector t that will best align the corresponding points</p>
+<p>Scan alignment with known correspondences</p>
+<p>Find the 3D rotation matrix R and the 3D translation vector t that will best align the corresponding points</p>
+<p>Q: How do we minimize this error? A: Turns out it has a closed-form solution.</p>
+<p>Closed form solution of scan alignment with known correspondences</p>
+<p>NOT EXAMINABLE</p>
+<p>Find the 3D rotation matrix R and the 3D translation vector t that will best align the corresponding points</p>
+<p>Step 1: compute the means of the two scans</p>
+<p>Step 2: subtract the means from the scans</p>
+<p>Step 3: form the matrix</p>
+<p>Closed form solution of scan alignment with known correspondences</p>
+<p>NOT EXAMINABLE</p>
+<p>Find the 3D rotation matrix R and the 3D translation vector t that will best align the corresponding points</p>
+<p>Step 1: compute the means of the two scans</p>
+<p>Step 2: subtract the means from the scans</p>
+<p>Step 3: form the matrix</p>
+<p>Step 4: compute the SVD of the matrix W</p>
+<p>Step 5: if rank(W)=3, optimal solution is unique:</p>
+<p>Closed form solution of scan alignment with known correspondences</p>
+<p>Find the 3D rotation matrix R and the 3D translation vector t that will best align the corresponding points</p>
+<p>If you’re interested, the proof of the closed-form solution can be found in: K. S. Arun, T. S. Huang, and S. D. Blostein. Least square fitting of two 3-d point sets. IEEE Transactions on Pattern Analysis and Machine Intelligence, 9(5):698 – 700, 1987</p>
+<p>Scan alignment with unknown correspondences</p>
+<p>Scan alignment with unknown correspondences</p>
+<p>Main idea for data association: •</p>
+<p>associate each point in the source scan to its nearest neighbor in the target scan</p>
+<p>Find optimal rotation and translation for this correspondence.</p>
+<p>Repeat until no significant drop in error.</p>
+<p>libpointmatcher</p>
+<p>Today’s agenda</p>
+<p>• How to represent maps • Probabilistic occupancy grid mapping</p>
+<p>What we want to do</p>
+<p>Terminology</p>
+<p>• Pose: the rotation and translation of a robot</p>
+<p>• Odometry: the transformation of the body frame with respect to its initial pose</p>
+<p>(fixed frame of reference).</p>
+<p>• Dynamics model: what is the next state given current state and control?</p>
+<p>• Sensor measurement model: what is the expected measurement given the</p>
+<p>robot’s current state?</p>
+<p>Perfect models vs.&nbsp;Reality</p>
+<p>Dynamics</p>
+<p>Noise as a random variable</p>
+<p>Perfect models vs.&nbsp;Reality</p>
+<p>Sensor Measurements</p>
+<p>e.g.&nbsp;GPS (simplified)</p>
+<p>Perfect models vs.&nbsp;Reality</p>
+<p>Dynamics</p>
+<p>Sensor Measurements</p>
+<p>e.g.&nbsp;GPS (simplified)</p>
+<p>probabilistic dynamics model</p>
+<p>probabilistic measurement model</p>
+<p>Why is mapping a problem?</p>
+<p>Don’t we have all the information we need to build a map?</p>
+<p>• Two main sources of uncertainty:</p>
+<p>• accumulating uncertainty in the dynamics</p>
+<p>Uncertainty in the dynamics compounds into increasing uncertainty in odometry, as time passes.</p>
+<p>Start</p>
+<p>Why is mapping a problem?</p>
+<p>Don’t we have all the information we need to build a map?</p>
+<p>• Two main sources of uncertainty:</p>
+<p>• uncertainty in the dynamics</p>
+<p>• uncertainty in sensor measurements</p>
+<p>Why is mapping a problem?</p>
+<p>Don’t we have all the information we need to build a map?</p>
+<p>• Two main sources of uncertainty:</p>
+<p>• uncertainty in the dynamics</p>
+<p>• uncertainty in sensor measurements</p>
+<p>True value: 300cm</p>
+<p>but measurements have noise</p>
+<p>Sonar</p>
+<p>Laser</p>
+<p>Why is mapping a problem?</p>
+<p>Don’t we have all the information we need to build a map?</p>
+<p>• If we had no uncertainty, i.e.&nbsp;and</p>
+<p>then mapping would be trivial.</p>
+<p>• Today we will assume perfect dynamics and odometry, but noisy sensor</p>
+<p>measurements.</p>
+<p>• We are also going to assume a static map, no moving objects</p>
+<p>Defining the problem</p>
+<p>• The occupancy grid map is a binary random variable</p>
+<p>width = #columns height = #rows of the occupancy grid</p>
+<p>Defining the problem</p>
+<p>• The occupancy grid map is a binary random variable</p>
+<p>width = #columns height = #rows of the occupancy grid</p>
+<p>• The path of the robot up to time t is a sequence of random variables</p>
+<p>with</p>
+<p>Odometry coordinates</p>
+<p>Defining the problem</p>
+<p>• The occupancy grid map is a binary random variable</p>
+<p>width = #columns height = #rows of the occupancy grid</p>
+<p>• The path of the robot up to time t is a sequence of random variables</p>
+<p>with</p>
+<p>Odometry coordinates</p>
+<p>• At each time step the robot makes a measurement (sonar/laser).</p>
+<p>Measurements up to time t are a sequence of random variables</p>
+<p>with</p>
+<p>(range, angle) in the laser’s local coordinates</p>
+<p>K = #beams, or #points in the scan</p>
+<p>The goal of mapping</p>
+<p>• To estimate the probability of any map, given path and measurements</p>
+<p>Sensor Measurements</p>
+<p>Odometry / Robot Poses</p>
+<p>The goal of mapping</p>
+<p>• To estimate the probability of any map, given path and measurements</p>
+<p>• This is intractable. E.g. for a 100 x 100 grid there are possible</p>
+<p>binary maps.</p>
+<p>The goal of mapping</p>
+<p>• To estimate the probability of any map, given path and measurements</p>
+<p>• This is intractable. E.g. for a 100 x 100 grid there are possible</p>
+<p>binary maps.</p>
+<p>• We can approximate</p>
+<p>Approximation ignores all dependencies between map cells, given known info. Assumes (for tractability) that cells are independent given path and measurements</p>
+<p>Why is it an approximation?</p>
+<p>Scenario</p>
+<p>Nearby measurements</p>
+<p>Resulting map when considering cells independently</p>
+<p>Resulting map when considering cells jointly</p>
+<p>Evaluating the occupancy of a map cell</p>
+<p>• How do we evaluate ?</p>
+<p>Evaluating the occupancy of a map cell</p>
+<p>• How do we evaluate ?</p>
+<p>Bayes’ Rule</p>
+<p>Conditional Bayes’ Rule</p>
+<p>Evaluating the occupancy of a map cell</p>
+<p>• How do we evaluate ? • Using conditional Bayes’ rule we get</p>
+<p>Bayes’ Rule</p>
+<p>Conditional Bayes’ Rule</p>
+<p>Evaluating the occupancy of a map cell</p>
+<p>• How do we evaluate ? • Using conditional Bayes’ rule we get</p>
+<p>• And we simplify</p>
+<p>If C is independent of A given B, then C provides no extra information about A after we know B</p>
+<p>Evaluating the occupancy of a map cell</p>
+<p>• How do we evaluate ? • Using conditional Bayes’ rule we get</p>
+<p>• And we simplify</p>
+<p>Current measurement only depends on current state and map cell</p>
+<p>Current state without current measurement provides no additional information about the occupancy of the map cell</p>
+<p>Evaluating the occupancy of a map cell</p>
+<p>• And we simplify:</p>
+<p>• Another way to write this:</p>
+<p>• Belief at time t-1 was updated to belief at time t based on likelihood</p>
+<p>of measurement received at time t.</p>
+<p>Evaluating the occupancy of a map cell</p>
+<p>• And we simplify:</p>
+<p>• Another way to write this:</p>
+<p>So, as long as we can evaluate the measurement likelihood</p>
+<p>and the normalization factor</p>
+<p>we can do the belief update.</p>
+<p>Evaluating the occupancy of a map cell</p>
+<p>• And we simplify:</p>
+<p>• Another way to write this:</p>
+<p>So, as long as we can evaluate the measurement likelihood</p>
+<p>and the normalization factor</p>
+<p>we can do the belief update.</p>
+<p>Problem: this is hard to compute. How can we avoid it?</p>
+<p>The log-odds trick for binary random variables</p>
+<p>• We showed</p>
+<p>• Define the log odds ratio</p>
+<p>The log-odds trick for binary random variables</p>
+<p>• We showed (1)</p>
+<p>• Define the log odds ratio</p>
+<p>The log-odds trick for binary random variables</p>
+<p>• We showed (1)</p>
+<p>• Define the log odds ratio</p>
+<p>• Then (1) becomes</p>
+<p>The log-odds trick for binary random variables</p>
+<p>• We showed (1)</p>
+<p>• Define the log odds ratio</p>
+<p>• Then (1) becomes</p>
+<p>• We can recover the original belief as</p>
+<p>The log-odds trick for binary random variables</p>
+<p>• We showed (1)</p>
+<p>• Define the log odds ratio</p>
+<p>• Then (1) becomes</p>
+<p>So, as long as we can evaluate the log odds ratio for the measurement likelihood:</p>
+<p>we can do the belief update.</p>
+<p>Log-odds ratio for the measurement likelihood</p>
+<p>• We want to compute to do the belief update</p>
+<p>• We apply conditional Bayes’ rule again:</p>
+<p>Log-odds ratio for the measurement likelihood</p>
+<p>• We want to compute to do the belief update</p>
+<p>• We apply conditional Bayes’ rule again:</p>
+<p>• If we take the log-odds ratio:</p>
+<p>Log-odds ratio for the measurement likelihood</p>
+<p>• We want to compute to do the belief update</p>
+<p>• We apply conditional Bayes’ rule again:</p>
+<p>• If we take the log-odds ratio:</p>
+<p>• We can simplify further:</p>
+<p>Knowing the current state provides no information about whether cell is occupied, if there are no observations</p>
+<p>Log-odds ratio for the measurement likelihood</p>
+<p>• We want to compute to do the belief update</p>
+<p>• We apply conditional Bayes’ rule again:</p>
+<p>• If we take the log-odds ratio:</p>
+<p>• We can simplify further:</p>
+<p>Prior probability of cell being occupied. Can choose uniform distribution, for example.</p>
+<p>Log-odds ratio for the measurement likelihood</p>
+<p>• We want to compute to do the belief update</p>
+<p>• We apply conditional Bayes’ rule again:</p>
+<p>• If we take the log-odds ratio:</p>
+<p>• We can simplify further:</p>
+<p>Inverse measurement model: what is the likelihood of the map cell being occupied given the current state and current measurement?</p>
+<p>Summary: Log-odds ratio for the measurement likelihood</p>
+<p>• We want to compute but it’s hard</p>
+<p>• Instead, we can compute the log-odds ratio of the measurement</p>
+<p>likelihood in terms of the inverse measurement model:</p>
+<p>Inverse measurement model: what is the likelihood of the map cell being occupied given the current state and current measurement?</p>
+<p>Inverse sensor measurement model</p>
+<p>Given map cell , the robot’s state , and beams</p>
+<p>Find index k of sensor beam that is closest in heading to the cell</p>
+<p>Inverse sensor measurement model</p>
+<p>Given map cell , the robot’s state , and beams</p>
+<p>Find index k of sensor beam that is closest in heading to the cell</p>
+<p>If the cell is sufficiently closer than</p>
+<p>// Cell is most likely free Return that is well below 0.5</p>
+<p>Inverse sensor measurement model</p>
+<p>Given map cell , the robot’s state , and beams</p>
+<p>Find index k of sensor beam that is closest in heading to the cell</p>
+<p>If the cell is sufficiently farther than or out of the field of view</p>
+<p>// We don’t have enough information to decide whether cell is occupied Return prior occupation probability</p>
+<p>If the cell is sufficiently closer than</p>
+<p>// Cell is most likely free Return that is well below 0.5</p>
+<p>Inverse sensor measurement model</p>
+<p>Given map cell , the robot’s state , and beams</p>
+<p>Find index k of sensor beam that is closest in heading to the cell</p>
+<p>If the cell is sufficiently farther than or out of the field of view</p>
+<p>// We don’t have enough information to decide whether cell is occupied Return prior occupation probability</p>
+<p>If the cell is nearly as far as the measurement</p>
+<p>// Cell is most likely occupied Return that is well above 0.5</p>
+<p>If the cell is sufficiently closer than</p>
+<p>// Cell is most likely free Return that is well below 0.5</p>
+<p>inverse_sensor_measurement_model( , , ) From Probabilistic Robotics, chapter 9.2</p>
+<p>• Let be the center of the cell</p>
+<p>• Let</p>
+<p>• Let // Might need to ensure this angle difference is in</p>
+<p>• The index of the closest-in-heading beam to is</p>
+<p>• If or</p>
+<p>• Return the log odds ratio of the prior occupancy</p>
+<p>• If and</p>
+<p>• Return the log odds ratio of being occupied (corresponding to occupation probability &gt; 0.5)</p>
+<p>• If</p>
+<p>• Return the log odds ratio of being free (corresponding to occupation probability &lt; 0.5)</p>
+<p>• We wanted to compute the likelihood of any map based on known states and observations</p>
+<p>Recap</p>
+<p>• We wanted to compute the likelihood of any map based on known path and observations</p>
+<p>Recap</p>
+<p>• To evaluate we had to apply Bayes’ theorem, which</p>
+<p>revealed a way to recursively update the belief</p>
+<p>Very frequent reasoning in probabilistic robotics</p>
+<p>• We wanted to compute the likelihood of any map based on known path and observations</p>
+<p>Recap</p>
+<p>• To evaluate we had to apply Bayes’ theorem, which</p>
+<p>revealed a way to recursively update the belief</p>
+<p>• To avoid evaluating we used the log odds ratio</p>
+<p>Can do this for binary random variables</p>
+<p>• We wanted to compute the likelihood of any map based on known path and observations</p>
+<p>Recap</p>
+<p>• To evaluate we had to apply Bayes’ theorem, which</p>
+<p>revealed a way to recursively update the belief</p>
+<p>• To avoid evaluating we used the log odds ratio</p>
+<p>• Computing the forward measurement model was hard, so we applied Bayes’ rule again, to get an inverse measurement model and an easier-to-compute log-odds ratio:</p>
+<p>Occupancy Grid Algorithm</p>
+<p>• Upon reception of a new laser/sonar/scan measurement</p>
+<p>• Let the robot’s current state be</p>
+<p>• Let the previous log-odds ratio of the occupancy belief be the 2D array where i is a row, j is a column</p>
+<p>In the beginning we set the prior where the occupancy probability is a design decision.</p>
+<p>Occupancy Grid Algorithm</p>
+<p>• Upon reception of a new laser/sonar/scan measurement</p>
+<p>• Let the robot’s current state be</p>
+<p>• Let the previous log-odds ratio of the occupancy belief be the 2D array where i is a row, j is a column</p>
+<p>In the beginning we set the prior where the occupancy probability is a design decision.</p>
+<p>• For all cells (i,j) in the grid</p>
+<p>•</p>
+<p>If the cell (i,j) is in the field of view of the robot’s sensor at state</p>
+<p>•</p>
+<p>Else</p>
+<p>•</p>
+<p>If asked, return the following 2D matrix of occupancy probabilities:</p>
+<p>Results</p>
+<p>The maximum likelihood map is obtained by clipping the occupancy grid map at a threshold of 0.5</p>
+
+
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    // Ensure there is a toggle, if there isn't float one in the top right
+    if (window.document.querySelector('.quarto-color-scheme-toggle') === null) {
+      const a = window.document.createElement('a');
+      a.classList.add('top-right');
+      a.classList.add('quarto-color-scheme-toggle');
+      a.href = "";
+      a.onclick = function() { try { window.quartoToggleColorScheme(); } catch {} return false; };
+      const i = window.document.createElement("i");
+      i.classList.add('bi');
+      a.appendChild(i);
+      window.document.body.appendChild(a);
+    }
+    setColorSchemeToggle(hasAlternateSentinel())
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+        const codeEl = trigger.previousElementSibling.cloneNode(true);
+        for (const childEl of codeEl.children) {
+          if (isCodeAnnotation(childEl)) {
+            childEl.remove();
+          }
+        }
+        return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp("https:\/\/csc477\.github\.io\/website_fall24");
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+<p>© Copyright 2024, Florian Shkurti</p>
+</div>   
+    <div class="nav-footer-center">
+      &nbsp;
+    <div class="toc-actions"><ul><li><a href="https://github.com/csc477/website_fall24/issues/new" class="toc-action"><i class="bi bi-github"></i>Report an issue</a></li></ul></div></div>
+    <div class="nav-footer-right">
+<p>This page is built with ❤️, <a href="https://quarto.org/">Quarto</a> and inspiration from <a href="https://sta210-s22.github.io/website/">STA210</a>.</p>
+</div>
+  </div>
+</footer>
+
+
+
+
+</body></html>
