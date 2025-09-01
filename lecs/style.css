@@ -29,6 +29,14 @@ font-size: 0.5em;
     font-size: var(--r-heading3-size);
 }
 
+.horizontal-layout {
+  display: flex;
+}
+
+
+.horizontal-layout > * {
+  flex: 1;
+}
 
 .horizontal-align {
   display: flex;
@@ -87,8 +95,12 @@ font-size: 0.5em;
   z-index: -1;
 }
 
-/* 
-.reveal .slides {
+.img-front {
+  z-index: 1;
+}
+
+
+/* .reveal .slides {
   background-image: url("layout.png");
   background-size: cover;  
   background-position: center;
