@@ -1,0 +1,811 @@
+---
+title: "CSC477 Introduction to Mobile Robotics"
+subtitle: "Week #10: Particle Filters"
+author: "Florian Shkurti"
+format: 
+  revealjs:
+    slide-number: true
+    smaller: true
+    footer: '<a href="https://csc477.github.io/website_fall24" target="_blank" style="font-size:0.8em; bottom: -5px;">↩ Back to Course Website</a>'
+    css: ../style.css
+    chalkboard:
+      buttons: true
+      boardmarker-width: 2
+      chalk-width: 2
+      chalk-effect: 1.0
+html-math-method:
+  method: mathjax
+  url: "https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"
+---
+
+## Recommended reading
+
+-   Lesson 3 in <https://www.udacity.com/course/artificial-intelligence-for-robotics--cs373>
+
+-   Chapters 4.3 and 8.3 in the Probabilistic Robotics textbook
+
+## KF vs EKF vs PF
+
+|                |    Kalman Filter    | Extended Kalman Filter | Particle Filter |
+|:--------------:|:-------------------:|:----------------------:|:---------------:|
+| Dynamics model |       Linear        |       Nonlinear        |    Nonlinear    |
+|  Sensor model  |       Linear        |       Nonlinear        |    Nonlinear    |
+|     Noise      | Gaussian (Unimodal) |  Gaussian (Unimodal)   |   Multimodal    |
+
+:::{layout="[-30, 50, 20]"}
+![](img/one-peak.png){width="300"}
+
+![](img/multiple-peak.png){width="200"}
+:::
+
+## [How can we represent multimodal distributions?]{.small-font}
+
+![](img/purple-arrow.png){.absolute width=210 left=210 top=110 .img-front}
+
+::: {.columns}
+::: {.column width="40%"}
+![[https://www.opsclarity.com]{.small-font}](img/Lecture10_1.png)
+:::
+
+::: {.column width="60%" .medium-font}
+**Idea #1: Histograms**
+
+Advantages: the higher the number of bars the better the approximation is
+
+Disadvantages: exponential dependence on number of dimensions
+
+Note: this approach is called the Histogram Filter. It is useful for low-dimensional systems but we will not study it in this class.
+
+:::{.fragment}
+![](img/red-arrow.png){width="60" height="100" .absolute bottom="290" right="625"}
+
+<br>
+
+**Idea #2: Function Approximation**
+:::
+
+:::
+:::
+
+## [How can we represent multimodal distributions?]{.small-font}
+
+::: {.columns}
+::: {.column width="40%"}
+![[https://www.opsclarity.com]{.small-font}](img/multimodal-diagram.png)
+:::
+
+::: {.column width="60%" .medium-font}
+**Idea #1: Histograms**
+
+Advantages: the higher the number of bars the better the approximation is
+
+Disadvantages: exponential dependence on number of dimensions
+
+Note: this approach is called the Histogram Filter. It is useful for low-dimensional systems but we will not study it in this class.
+
+<br>
+
+**Idea #2: Function Approximation**
+
+<br>
+
+**Idea #3: Weighted Particles** $\{(x^{[1]},w^{[1]}),...,(x^{[M]},w^{[M]})\}$
+
+Advantages: easy to predict/update by treating each particle as a separate hypothesis whose weight is updated.
+
+Disadvantages: need enough particles to “cover” the distribution
+
+:::
+:::
+
+![](img/black-arrow.png){width="240" .absolute bottom="190" right="625"}
+
+
+## [How can we represent multimodal distributions?]{.small-font}
+
+::: {.columns}
+::: {.column width="40%" .small-font}
+![[https://www.opsclarity.com]{.small-font}](img/multimodal-diagram.png)
+
+<br><br><br><br><br>
+
+$$\begin{align}
+bel(x_t) &= p(x_t|z_{0:t}, u_{0:t-1}) \\
+&= \sum_{m=1}^{M} \begin{cases} w^{[m]}/W & \text{if } x_t=x_t^{[m]} \\ 0 & \text{o.w.} \end{cases}
+\end{align}$$
+
+:::
+
+::: {.column width="60%" .medium-font}
+**Idea #1: Histograms**
+
+Advantages: the higher the number of bars the better the approximation is
+
+Disadvantages: exponential dependence on number of dimensions
+
+Note: this approach is called the Histogram Filter. It is useful for low-dimensional systems but we will not study it in this class.
+
+<br>
+
+**Idea #2: Function Approximation**
+
+<br>
+
+**Idea #3: Weighted Particles** $\{(x^{[1]},w^{[1]}),...,(x^{[M]},w^{[M]})\}$
+
+Advantages: easy to predict/update by treating each particle as a separate hypothesis whose weight is updated.
+
+Disadvantages: need enough particles to “cover” the distribution
+
+:::
+:::
+
+![](img/black-arrow.png){width="240" .absolute bottom="190" right="625"}
+
+
+[Higher density of \
+particles means \
+higher probability \
+mass]{.semi-tiny-font .absolute bottom=200 left=200}
+
+## [How can we represent multimodal distributions?]{.small-font}
+
+::: {.columns}
+::: {.column width="40%" .small-font}
+![[https://www.opsclarity.com]{.small-font}](img/multimodal-diagram.png)
+
+<br><br><br><br><br>
+
+Want particles to be drawn from the belief at time t: \
+$$x_{t}^{[m]}\sim p(x_{t}|z_{0:t},u_{0:t-1})$$
+
+:::
+
+::: {.column width="60%" .medium-font}
+**Idea #1: Histograms**
+
+Advantages: the higher the number of bars the better the approximation is
+
+Disadvantages: exponential dependence on number of dimensions
+
+Note: this approach is called the Histogram Filter. It is useful for low-dimensional systems but we will not study it in this class.
+
+<br>
+
+**Idea #2: Function Approximation**
+
+<br>
+
+**Idea #3: Weighted Particles** $\{(x^{[1]},w^{[1]}),...,(x^{[M]},w^{[M]})\}$
+
+Advantages: easy to predict/update by treating each particle as a separate hypothesis whose weight is updated.
+
+Disadvantages: need enough particles to “cover” the distribution
+
+:::
+:::
+
+![](img/black-arrow.png){width="240" .absolute bottom="190" right="625"}
+
+
+[Higher density of \
+particles means \
+higher probability \
+mass]{.semi-tiny-font .absolute bottom=200 left=200}
+
+
+
+## Particle propagation/prediction
+
+::: {.columns}
+::: {.column}
+![](img/particle-propagation.png)
+:::
+
+::: {.column}
+
+Simulate what is going to happen to the particle
+at the next time step by drawing a sample from
+the next state specified in the dynamics (a.k.a.
+one-step simulator)
+
+$$x_t^{[m]} \sim p(x_t | x_{t-1}^{[m]}, u_{t-1})$$
+
+Usually 
+
+$$\begin{aligned}
+x_{t}^{[m]}=f(x_{t-1}^{[m]},u_{t-1})+w_{t-1}\\
+w_{t-1}\sim\mathcal{N}(0,Q)
+\end{aligned}$$
+
+:::
+::: 
+
+
+
+## Particle Update{.center}
+
+## How to update particle weights after an observation
+![](img/particle-update-1.png){height="400" width="750" fig-align="center"}
+
+:::{.semi-tiny-font .absolute bottom="30" left=200}
+Measurement model $z_t = h(x_t) + n_t = [r_1, r_2, r_3, r_4] + n_t$
+
+with $r_i = \sqrt{(p_x - l_x^{(i)})^2 + (p_y - l_y^{(i)})^2}$ and $n_i \sim \mathcal{N}(0, \sigma^2)$
+:::
+
+:::{.semi-tiny-font .absolute bottom="30" right=150}
+$$\left. \rule{0pt}{1cm} \right\} p(z_t|x_t) = \mathcal{N}(z_t; r_{1:4}, \sigma^2 \mathbb{I}_4)$$
+:::
+
+## How to update particle weights after an observation
+![](img/update-particle-2.png){height="400" width="750" fig-align="center"}
+
+:::{.semi-tiny-font .absolute bottom="30" right=100}
+Actual measurement received: ${\bar{z}_t = [\bar{r}_1, \bar{r}_2, \bar{r}_3, \bar{r}_4]}$
+:::
+
+
+
+## How to update particle weights after an observation
+![](img/update-particle-3.png){height="400" width="850" fig-align="center"}
+
+:::{.semi-tiny-font .absolute bottom="30" left=150}
+Measurement model $z_{t}=h(x_{t}^{[m]})+n_{t}=[d_{1},d_{2},d_{3},d_{4}]+n_{t}$
+
+with $d_{i}=\sqrt{(p_{x}^{[m]}-l_{x}^{(i)})^{2}+(p_{y}^{[m]}-l_{y}^{(i)})^{2}}$ and $n_i \sim \mathcal{N}(0, \sigma^2)$
+:::
+
+:::{.semi-tiny-font .absolute bottom="30" right=150}
+$$\left. \rule{0pt}{1cm} \right\} p(z_t|x_t^{[m]}) = \mathcal{N}(z_t; d_{1:4}, \sigma^2 \mathbb{I}_4)$$
+:::
+
+## How to update particle weights after an observation
+![](img/update-particle-3.png){height="400" width="850" fig-align="center"}
+
+:::{.semi-tiny-font .absolute bottom="30" left=200}
+Q: What is the probability of the actual measurement given the state hypothesized by the particle?
+
+A: $p(\bar{z}_t | x_t^{[m]}) = \mathcal{N}(\bar{z}_t; d_{1:4}, \sigma^2 \mathbb{I}_4) = \eta \exp(-\|\bar{z}_t - d_{1:4}\|^2 / \sigma^2)$
+:::
+
+## How to update particle weights after an observation
+![](img/update-particle-3.png){height="400" width="850" fig-align="center"}
+
+:::{.semi-tiny-font .absolute bottom="30" left=200}
+Q: What is the probability of the actual measurement given the state hypothesized by the particle?
+
+A: $p(\bar{z}_{t}|x_{t}^{[m]}) = \prod_{i=1}^{4} p(\bar{r}_{i}|x_{t}^{[m]}) = \prod_{i=1}^{4} \mathcal{N}(\bar{r}_{i}; d_{i}, \sigma^{2}) = \prod_{i=1}^{4} \eta \exp(-(\bar{r}_{i}-d_{i})/\sigma^{2})$
+:::
+
+:::{.semi-tiny-font .red .absolute bottom="30" left=-50}
+Assuming range measurements \
+are conditionally independent \
+given state 
+:::
+
+## How to update particle weights after an observation
+![](img/update-particle-3.png){height="400" width="850" fig-align="center"}
+
+:::{.semi-tiny-font .absolute bottom="30" left=200}
+Q: What is the probability of the actual measurement given the state hypothesized by the particle?
+
+A: $p(\bar{z}_{t}|x_{t}^{[m]}) = \prod_{i=1}^{4} p(\bar{r}_{i}|x_{t}^{[m]}) = \prod_{i=1}^{4} \mathcal{N}(\bar{r}_{i}; d_{i}, \sigma^{2})$
+:::
+
+:::{.semi-tiny-font .red .absolute bottom="15" right=50}
+In the figure above this probability would be low \
+and this particle would be unlikely.
+:::
+
+## How to update particle weights after an observation
+![](img/update-particle-3.png){height="400" width="850" fig-align="center"}
+
+:::{.semi-tiny-font .absolute bottom="70" left=200}
+Particle’s (unnormalized) weight $\quad w_t^{[m]} \propto p(\bar{z}_t | x_t^{[m]})$
+:::
+
+:::{.semi-tiny-font .red .absolute bottom="15" right=50}
+See Appendix 1 for why \
+this choice was made \
+for the weight \
+:::
+
+
+## The distribution of the particles has not been updated yet. We only updated their weights. To update the distribution of particles we need to do [resampling]{.underline} {.center}
+
+<br><br><br>
+
+:::{.small-font .right-align .absolute bottom=0 left=300 .fragment}
+![](img/red-arrow.png){width="150"}
+[Sample particles with repetition/replacement,]{style="color:#ff0000"} \
+[according to their updated weights.]{style="color:#ff0000"}
+:::
+
+## Resampling Particles
+
+- [Main goal]{.underline} : Get rid of unlikely particles (with too low weights) and focus on most likely particles (a.k.a. survival of the fittest).
+
+- [Main mechanism]{.underline} : Sample new set of particles from existing set, with replacement(repetition), so that same particle can be sampled more than once. Sample old particle i with probability $\propto \text{weight}_i$
+
+- Many possible ways to implement it. Here we present two algorithms.
+
+## Resampling Particles: Algorithm #1
+
+::: {.columns}
+::: {.column width="30%" .medium-font}
+
+new_particles = \[\] \
+sample u \~ Uniform\[0,1\] \
+idx = int( u \* (N-1) ) \
+beta = 0 \
+max_w = max(weights)
+
+<br>
+
+for each of the N particles: \
+$\qquad$ sample v \~ Uniform\[0,1\] \
+$\qquad$ beta += v \* 2\* max_w
+
+<br>
+
+$\qquad$ while beta \> weights\[idx\]: \
+    $\qquad\qquad$ beta -= weights\[idx\] \
+    $\qquad\qquad$ idx = (idx + 1) % N
+
+<br>
+
+$\qquad$ p = particles\[idx\].copy()
+$\qquad$ new_particles.append(p)
+
+:::
+::: {.column width="70%"}
+:::
+::: 
+
+
+
+## Resampling Particles: Algorithm #2
+
+::: {.columns}
+::: {.column width="60%" .medium-font}
+
+new_particles = \[\] \
+sample r \~ Uniform\[0, 1/N\] \
+c = weights\[0\] \
+idx = 0
+
+<br>
+
+for n = 1…N: \
+$\qquad$ u = r + (n-1)/N
+
+<br>
+
+$\qquad$ while u \> c: \
+$\qquad\qquad$ idx = idx + 1 \
+$\qquad\qquad$ c = c + weights\[idx\]
+
+<br>
+
+$\qquad$ p = particles\[idx\].copy() \
+$\qquad$ new_particles.append(p)
+
+:::
+
+::: {.column width="40%" .medium-font}
+![](img/resampling-algo2.png){height="350"}
+
+- Stochastic universal sampling
+- Systematic resampling
+- Linear time complexity
+:::
+::: 
+
+
+## Resampling Particles: Example
+
+• Suppose we only have 5 particles:
+
+:::: {.columns}
+::: {.column width="50%"}
+
+| Particle index | Normalized weight |
+|:--------------:|:-----------------:|
+|       1        |        0.1        |
+|       2        |        0.2        |
+|       3        |        0.4        |
+|       4        |        0.1        |
+|       5        |        0.2        |
+:::
+
+::: {.column width="50%"}
+
+Q: What is the probability that after a round of resampling the highest probability particle (#3) is not sampled?
+
+A: $0.6^5 \simeq 0.077$
+
+<br>
+
+[i.e. there is nonzero probability that we will lose the ]{style="color:#ff0000"}
+[highest-probability particle ]{style="color:#ff0000"} [$\rightarrow$]{style="color:#ff0000"} [ it will happen eventually]{style="color:#ff0000"}
+:::
+
+::::
+
+## Resampling Particles: Example
+
+• Suppose we only have 5 particles:
+
+:::: {.columns}
+::: {.column width="50%"}
+
+| Particle index | Normalized weight |
+|:--------------:|:-----------------:|
+|       1        |        0.1        |
+|       2        |        0.2        |
+|       3        |        0.4        |
+|       4        |        0.1        |
+|       5        |        0.2        |
+:::
+
+::: {.column width="50%"}
+
+Q: What is the probability that after a round of resampling the highest probability particle (#3) is not sampled?
+
+A: $0.6^5 \simeq 0.077$
+
+<br>
+
+Q: What is the probability that after a round of resampling one of the lowest-probability particles (#1) is not sampled?
+
+A: $0.9^5 \simeq 0.59$
+
+:::
+::::
+
+
+## Resampling Particles: Consequences
+
+- Weak particles very likely do not survive.
+
+:::{.center-align}
+$\mathbf{\Downarrow}$
+:::
+
+- Variance among the set of particles **decreases** , due to mostly sampling strong particles (i.e. loss of particle diversity).
+
+:::{.center-align}
+$\mathbf{\Downarrow}$
+:::
+
+- Loss of particle diversity implies **increased variance** of the approximation error between the particles and the true distribution **.**
+
+:::{.center-align}
+$\mathbf{\Downarrow}$
+:::
+
+- Particle deprivation: there are no particles in the vicinity of the correct state
+
+## How to address particle deprivation
+
+- Idea #1: don’t resample when only a few particles contribute
+
+- Idea #2: inject random particles during resampling
+
+- Idea #3: increase the number of particles (may be impractical depending on the computational complexity of the system)
+
+## How to address particle deprivation
+
+-   Idea #1: don’t resample when only a few particles contribute
+    -   Effective sample size: $N_{\text{eff}} = \frac{1}{\sum_{i=1}^{N}w_{i}^{2}}$
+    -   When all particles have equal, normalized weights (1/N) then $N_{\text{eff}} = N$
+    -   When a single particle carries the entire weight then $N_{\text{eff}} = 1/N$
+    -   and we have loss of particle diversity.
+    -   Resample only when $N_{\text{eff}} > N_{\text{thresh}}$
+-   Idea #2: inject random particles during resampling
+-   Idea #3: increase the number of particles (may be impractical depending on the computational complexity of the system)
+
+## How to address particle deprivation
+
+-   Idea #1: don’t resample when only a few particles contribute
+-   Idea #2: inject random particles during resampling
+    -   A small percentage of the particles’ states should be set randomly
+        -   Pro: simple to code, reduces (but does not fix) particle deprivation
+        -   Con: incorrect posterior estimation even when there are infinitely many particles
+-   Idea #3: increase the number of particles (may be impractical depending on the computational complexity of the system) 
+
+## Particle Filter Algorithm
+
+:::{layout="[50, -50]" .medium-font}
+$$\begin{aligned}
+&\text{ParticleFilter}(\bar{z}_t, u_{t-1}) \\
+&\qquad\bar{S}_t = \{\} \quad \bar{W}_t = \{\} \\
+&\qquad\text{for particle index } m = 1...M \\
+&\qquad\qquad \text{sample } x_t^{[m]} \sim p(x_t|x_{t-1}^{[m]}, u_{t-1}) \\
+&\qquad\qquad w_t^{[m]} = p(\bar{z}_t|x_t^{[m]}) \\
+&\qquad\qquad \bar{S}_t.\text{append}(x_t^{[m]}) \\
+&\qquad\qquad \bar{W}_t.\text{append}(w_t^{[m]}) \\
+\\
+&\qquad S_t = \{\} \\
+&\qquad\text{for particle index } m = 1...M \\
+&\qquad\qquad \text{sample particle i from } \bar{S}_t \text{ with probability } \propto w_i^{[i]} \\
+&\qquad\qquad S_t.\text{append}(x_t^{[m]}) \\
+\\
+&\quad\text{return } S_t
+\end{aligned}$$
+
+:::
+
+:::{.absolute left=220 top="85" .red .semi-tiny-font .fragment .fade-out}
+![](img/red-long-arrow.png){width=170} Actual observation and control received
+:::
+
+:::{.absolute top=190 right="140" .semi-tiny-font .right-align .fragment .fade-in-then-out}
+[Particle propagation/prediction: ]{style="color:#ff0000"} \
+![](img/red-long-arrow.png){width=170} [noise needs to be added in order to make]{style="color:#ff0000"} \
+[particles differentiate from each other. ]{style="color:#ff0000"}
+
+[If propagation is deterministic then particles ]{style="color:#ff0000"} \
+[are going to collapse to a single particle after a]{style="color:#ff0000"} \
+[few resampling steps. ]{style="color:#ff0000"}
+:::
+
+:::{.absolute top=250 right="240" .semi-tiny-font .right-align .fragment .fade-in-then-out}
+![](img/red-long-arrow.png){width=170} [Weight computation as measurement likelihood.]{style="color:#ff0000"} \
+[For each particle we compute the probability of the ]{style="color:#ff0000"} \
+[actual observation given the state is at that particle.]{style="color:#ff0000"}
+:::
+
+
+:::{.absolute bottom=113 right="120" .semi-tiny-font .right-align .fragment .fade-in-then-out}
+![](img/red-long-arrow.png){width=170} [Resampling step]{style="color:#ff0000"} \
+[Note: particle deprivation heuristics are not]{style="color:#ff0000"} \
+[shown here ]{style="color:#ff0000"}
+:::
+
+
+:::{.fragment}
+![](img/downward-arrow.png){.absolute width="200" bottom="230" left="350"}
+
+:::{.semi-tiny-font .red .horizontal-layout .absolute bottom=250 right=50}
+Note: here we work with a fixed number of particles \
+but in many applications, such as localization, you could work \
+with a reduced number of particles after the particles have \
+converged to the true estimate.   
+
+Such implementations of particle filters are called adaptive. An \
+example is the KLD-sampling adaptive particle filter, which is \
+not going to be covered here.  
+:::
+
+:::
+
+
+## Examples: 1D Localization
+
+![](img/Lecture10_159.png){fig-align="center"}
+
+![](img/Lecture10_162.png){fig-align="center" width="740"}
+
+:::{.absolute bottom=150 left=0 .medium-font}
+$p(x)$
+
+<br><br><br>
+
+$p(z = \text{door} | x)$
+
+<br><br>
+
+$p(x|z_0 = \text{door})$
+:::
+
+## Examples: 1D Localization
+
+
+![](img/Lecture10_167.png){fig-align="center"}
+
+![](img/Lecture10_170.png){fig-align="center" width="740"}
+
+:::{.absolute bottom=150 left=-100 .tiny-font .right-align}
+$p(x|z_0 = \text{door}, u_0 = \text{right})$
+
+<br><br><br><br><br><br><br><br>
+
+$p(z = \text{door} | x)$
+
+<br><br><br><br><br>
+
+$p(x|z_0 = \text{door}, u_0 = \text{right}, z_1 = \text{door})$
+
+<br>
+
+:::
+
+
+## Examples: Monte Carlo Localization
+
+![](img/Lecture10_175.png)
+
+## Examples: Monte Carlo Localization
+
+![After incorporating 10 ultrasound scans](img/Lecture10_176.png)
+
+## Examples: Monte Carlo Localization
+![After incorporating 65 ultrasound scans](img/Lecture10_177.png)
+
+## Using Ceiling Maps for Localization
+
+![](img/ceiling-maps.png)
+
+
+## Vision-based Localization
+
+![](img/vision-based-localization.png)
+
+## Under a Light
+
+::: {.columns}
+::: {.column width="25%"}
+Measurement z:
+
+![](img/Lecture10_183.png)
+:::
+
+::: {.column width="75%"}
+P(z|x): 
+
+![](img/Lecture10_182.png)
+:::
+::: 
+
+
+## Next to a Light
+
+::: {.columns}
+::: {.column width="25%"}
+Measurement z:
+
+![](img/Lecture10_185.png)
+:::
+
+::: {.column width="75%"}
+P(z|x): 
+
+![](img/Lecture10_184.png)
+:::
+::: 
+
+
+## Elsewhere
+
+::: {.columns}
+::: {.column width="25%"}
+Measurement z:
+
+![](img/Lecture10_186.png)
+:::
+
+::: {.column width="75%"}
+P(z|x): 
+
+![](img/Lecture10_187.png)
+:::
+::: 
+
+## Global Localization Using Vision
+
+![](img/global-localization.png)
+
+
+## Appendix 1
+
+:::{.medium-font}
+- Why did we choose $w_t^{[m]} \propto p(z_t|x_t^{[m]})$ as the importance weight for particle m?
+
+- Main trick: **importance sampling** , i.e. how to estimate properties/statistics of one distribution (f) given samples from another distribution (g)
+:::
+
+::: {.columns .medium-font}
+::: {.column}
+![](img/Lecture10_189.png)
+:::
+
+::: {.column}
+For example, suppose we want to estimate the expected value of f given only samples from g.
+
+:::{.fragment}
+$$\begin{align*}
+\mathbb{E}_{x\sim f(x)}[x] &= \int xf(x)dx \qquad\qquad\quad \\
+&= \int \frac{g(x)}{g(x)}xf(x)dx \qquad\qquad\quad \\
+&= \int x\frac{f(x)}{g(x)}g(x)dx \qquad\qquad\quad \\
+&= \mathbb{E}_{x\sim g(x)}\left[x\frac{f(x)}{g(x)}\right] \qquad\qquad\quad \\
+&= \mathbb{E}_{x\sim g(x)}[x w(x)] \qquad\qquad\quad
+\end{align*}$$
+:::
+
+:::
+:::
+
+:::{.red .tiny-font .absolute right="-20" bottom="100" .fragment}
+Weights describe the mismatch \
+between the two distributions, \
+i.e. how to reweigh samples to \
+obtain statistics of f  from \
+samples of  g
+:::
+
+## Appendix 1
+
+:::{.medium-font}
+- Why did we choose $w_t^{[m]} \propto p(z_t|x_t^{[m]})$ as the importance weight for particle m?
+
+- Main trick: **importance sampling** , i.e. how to estimate properties/statistics of one distribution (f) given samples from another distribution (g)
+:::
+
+::: {.columns}
+::: {.column .small-font}
+![](img/Lecture10_189.png)
+
+In the case of particle filters
+
+$f(x_t) = p(x_t | z_{0:t}, u_{0:t-1}) = bel(x_t) \qquad g(x_t) = p(x_t | z_{0:t-1}, u_{0:t-1}) = \overline{bel}(x_t)$
+:::
+
+::: {.column .small-font}
+For example, suppose we want to estimate the expected value of f given only samples from g.
+
+$$\begin{align*}
+\mathbb{E}_{x\sim f(x)}[x] &= \int xf(x)dx \qquad\qquad\quad \\
+&= \int \frac{g(x)}{g(x)}xf(x)dx \qquad\qquad\quad \\
+&= \int x\frac{f(x)}{g(x)}g(x)dx \qquad\qquad\quad \\
+&= \mathbb{E}_{x\sim g(x)}\left[x\frac{f(x)}{g(x)}\right] \qquad\qquad\quad \\
+&= \mathbb{E}_{x\sim g(x)}[x w(x)] \qquad\qquad\quad
+\end{align*}$$
+
+:::
+:::
+
+:::{.red .tiny-font .absolute right="-20" bottom="150"}
+Weights describe the mismatch \
+between the two distributions, \
+i.e. how to reweigh samples to \
+obtain statistics of f  from \
+samples of  g
+:::
+
+[Posterior belief after update $\qquad\qquad\qquad$ Belief after propagation, before update]{.red .small-font}
+
+
+
+## Appendix 1
+
+:::{.medium-font}
+- Why did we choose $w_t^{[m]} \propto p(z_t|x_t^{[m]})$ as the importance weight for particle m?
+
+- Main trick: **importance sampling** , i.e. how to estimate properties/statistics of one distribution (f) given samples from another distribution (g)
+:::
+
+::: {.columns}
+::: {.column .small-font}
+![](img/Lecture10_189.png)
+
+In the case of particle filters
+
+$f(x_t) = p(x_t | z_{0:t}, u_{0:t-1}) = bel(x_t) \qquad g(x_t) = p(x_t | z_{0:t-1}, u_{0:t-1}) = \overline{bel}(x_t)$
+:::
+
+::: {.column .small-font}
+For example, suppose we want to estimate the expected value of f given only samples from g.
+
+$$\begin{align*}
+w(x_t^{[m]}) & = \frac{f(x_t^{[m]})}{g(x_t^{[m]})} \\
+& \propto \frac{p(z_t|x_t^{[m]}) p(x_t^{[m]}|x_{t-1}^{[m]}, u_{t-1}) bel(x_{t-1}^{[m]})}{p(x_t^{[m]}|x_{t-1}^{[m]}, u_{t-1}) bel(x_t^{[m]})} \\
+& \propto p(z_t|x_t^{[m]})
+\end{align*}$$
+
+:::
+:::
+
+
+[Posterior belief after update $\qquad\qquad\qquad$ Belief after propagation, before update]{.red .small-font}
