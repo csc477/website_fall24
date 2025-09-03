@@ -57,14 +57,19 @@ Computer Science, UofT\
 :::
 ::::::
 
-## My lab: Robot Vision and Learning (RVL)
+## [My lab: Robot Vision and Learning (RVL)]{.medium-font}
 
 ::: {layout="[1,1,1]"}
-![](img/rvl-lab1.png)
 
-![](img/rvl-lab2.png)
+{{< video https://www.youtube.com/watch?v=p9eVZSMHtV4 start="189" height=200 >}}
 
-![](img/rvl-lab3.png)
+{{< video vid/100_0023.mp4 height=200 >}}
+
+{{< video vid/SLCommander_SelfDriving.mp4 height=200 >}}
+:::
+
+:::{layout="[-33, 33, -33]"}
+{{< video vid/00072.mp4 height=200 >}}
 :::
 
 Mission: create algorithms that enable robots to learn to act intelligently in outdoor environments and alongside humans
@@ -74,12 +79,16 @@ Mission: create algorithms that enable robots to learn to act intelligently in o
 ::: {layout="[40, -20, 40]"}
 ![Mars Exploration Rover](img/mars-rover.png)
 
-![RoboCup, small-sized league](img/robocup.png)
+
+{{< video https://youtu.be/dUnpACRI3fM?si=3BeoRq5eo57NUnS2 height=300 width=500 >}}
 :::
+
+[RoboCup, small-sized league]{.small-font .absolute bottom=270 right=50}
 
 ## How I became interested in robotics
 
-![](img/robotics.png)
+{{< video https://www.youtube.com/watch?v=2k6Sx3tPUc4 start="241" height=500 width=800 >}}
+
 
 ## How I became interested in robotics
 
@@ -91,16 +100,20 @@ Mission: create algorithms that enable robots to learn to act intelligently in o
 ::: {.column width="45%"}
 ![](img/tdy-robot1.png){height="250"}
 
-![](img/tdy-robot3.png){height="250"}
+{{< video https://www.youtube.com/watch?v=qAeNxpxsaJo start="32" height=250 width=450 >}}
+
+
+
 :::
 
 ::: {.column width="5%"}
 :::
 
 ::: {.column width="45%"}
-![](img/tdy-robot2.png){height="250"}
+{{< video https://youtu.be/CoGYkk4h_dk?si=1ymBfq3oEvLdsYkF height=250 width=350 >}}
 
-![](img/tdy-robot4.png)
+{{< video https://www.youtube.com/watch?v=uCezICQNgJU start="34" height=300 width=450 >}}
+
 :::
 ::::::
 
@@ -122,7 +135,9 @@ Mission: create algorithms that enable robots to learn to act intelligently in o
 
 ## Nuclear Disaster Cleanup
 
-![Remote-controlled cleaning robot at Fukushima Daiichi, 2011](img/nuclear-cleanup.png)
+{{< video vid/nuclear.mp4 height="500" width="800" >}}
+
+[Remote-controlled cleaning robot at Fukushima Daiichi, 2011]{.small-font}
 
 ## Nuclear Disaster Cleanup
 
@@ -134,6 +149,10 @@ Mission: create algorithms that enable robots to learn to act intelligently in o
 
 ## Aerial Package Delivery
 
+{{< video https://youtu.be/cZP0byX9zng?si=PFNDtzt-ZEjPhEAy height=500 width=800 >}}
+
+
+
 ## Aerial First-Aid Delivery
 
 ![](img/first-aid-delivery.png)
@@ -144,11 +163,15 @@ Mission: create algorithms that enable robots to learn to act intelligently in o
 
 ## Robot Surgery
 
+{{< video https://youtu.be/0XdC1HUp-rU height=500 width=800 >}}
+
 daVinci robot-assisted surgery
 
 ## Precision Agriculture
 
-![farmbot.io](img/farmbot.png)
+{{< video https://youtu.be/uNkADHZStDE height=500 width=800 >}}
+
+farmbot.io
 
 ## Self-driving Trucks
 
@@ -159,8 +182,9 @@ daVinci robot-assisted surgery
 ![](img/mining-operation.png)
 
 ## Oil Spill Containment
+{{< video https://www.youtube.com/watch?v=9rrANH49sH0 start="48"  height=500 width=800 >}}
 
-![BP Deepwater Horizon Spill, Gulf of Mexico, 2010](img/deepwater-horizon.png)
+BP Deepwater Horizon Spill, Gulf of Mexico, 2010
 
 ## Autonomy vs. Remote Control
 
@@ -201,7 +225,7 @@ daVinci robot-assisted surgery
     -   Maximum likelihood estimation
 :::
 
-##  Prerequisites
+## Prerequisites
 
 Currently
 
@@ -227,7 +251,8 @@ Recommended: MAT224H5; CSC384H5; CSC311H5;
 
 ## ROS + Gazebo simulation
 
-![](img/gazebo-simulation.png)
+{{< video https://www.youtube.com/watch?v=BH5XzmVVo1M start="120"  height=500 width=800 >}}
+
 
 ## 7 Quizzes
 
@@ -364,7 +389,7 @@ CSC2630
 
 ## Not covered in CSC477, but related: learning for control
 
-![](img/learning-to-control.png)
+{{< video https://www.youtube.com/watch?v=XiigTGKZfks width=700 height=500 >}}
 
 ## Not covered in CSC477, but related: learning for control
 
@@ -411,9 +436,10 @@ CSC2630
 :::
 :::::
 
-## orb slam video
+## 
 
-https://www.youtube.com/watch?v=\_9VcvGybsDA
+{{< video https://www.youtube.com/watch?v=_9VcvGybsDA width=800 height=600 >}}
+
 
 ## Lecture topics $\qquad \qquad$ Tutorials
 
@@ -760,7 +786,8 @@ Unlike the pinhole camera, this is able to model blur.
 
 ## Beyond the visible spectrum: infrared cameras
 
-![](img/infrared-camera3.png)
+{{< video https://www.youtube.com/watch?v=tqMuxfHd9Vg start="152" width=800 height=500 >}}
+
 
 ## Beyond the visible spectrum: RGBD cameras
 
@@ -795,7 +822,10 @@ Advantages:
 :::
 
 ::: {.column width="50%"}
-![](img/rgbd-camera2.png)
+
+{{< video https://www.youtube.com/watch?v=dTKlNGSH9Po width=600 height=400 >}}
+
+
 :::
 :::::
 
@@ -807,7 +837,9 @@ Enabled a wave of research, applications, and video games, based on real-time sk
 :::
 
 ::: {.column width="50%"}
-![](img/rgbd-camera3.png)
+
+{{< video https://www.youtube.com/watch?v=-8S576_ML4U start="6" width=600 height=400 >}}
+
 :::
 :::::
 
@@ -819,7 +851,7 @@ Despite their drawbacks RGBD sensors have been extensively used in robotics.
 :::
 
 ::: {.column width="60%"}
-{{< video https://www.youtube.com/watch?v=7vq-1TiXi3g width="100%" height=450 >}}
+{{< video https://www.youtube.com/watch?v=7vq-1TiXi3g start="8" width="100%" height=450 >}}
 :::
 :::::
 
@@ -842,7 +874,10 @@ Used in most self-driving cars today for obstacle detection. Range \< 100m.
 :::
 
 ::: {.column width="50%"}
-![Usually around 1million points in a single pointcloud](img/3d-lidar.png)
+
+{{< video https://www.youtube.com/watch?v=nXlqv_k4P8Q width="100%" height=380 >}}
+
+[Usually around 1million points in a single pointcloud]{.small-font}
 :::
 :::::
 
@@ -885,7 +920,8 @@ Usually around 1024 points in a single scan.
 
 ## 
 
-![](img/inertial-sensor.png)
+{{< video vid/vectornav.mp4 height="550" width="800" >}}
+
 
 ## Gyroscopes
 
@@ -994,16 +1030,18 @@ Advantages:
 
 ## Example: flippers on the Aqua robot
 
-![](img/aqua-robot.png)
+{{< video vid/3D_L5351.mp4 height="450" width=800 >}}
 
 ## Actuators
 
 ::: {layout="[[1,1,1], [1,1,1]]"}
-![**DC (direct current) motor**](img/dc-motor.png)
 
-![**Servo motor**](img/servo-motor.png)
 
-![**Stepper motor**](img/stepper-motor.png)
+{{< video https://www.youtube.com/watch?v=RBYQgcGuwWE start="513" width="100%" height=250 >}}
+
+{{< video https://www.youtube.com/watch?v=ZySGP4AwGCY start="520" width="100%" height=250 >}}
+
+{{< video https://www.youtube.com/watch?v=RakXequOrSY width="100%" height=250 >}}
 
 [They turn continuously at high RPM (revolutions per minute) when voltage is applied. Used in quadrotors and planes, model cars etc.]{.small-font}
 
