@@ -5606,14 +5606,14 @@
     "href": "lecs/w01/lec01.html#my-lab-robot-vision-and-learning-rvl",
     "title": "CSC477 / CSC2630 Introduction to Mobile Robotics",
     "section": "My lab: Robot Vision and Learning (RVL)",
-    "text": "My lab: Robot Vision and Learning (RVL)\n\n\n\n\n\n\n\n\n\n\n\n\n\nMission: create algorithms that enable robots to learn to act intelligently in outdoor environments and alongside humans"
+    "text": "My lab: Robot Vision and Learning (RVL)\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n \n\n\n\n\n\n \n\n\n\nMission: create algorithms that enable robots to learn to act intelligently in outdoor environments and alongside humans"
   },
   {
     "objectID": "lecs/w01/lec01.html#how-i-became-interested-in-robotics",
     "href": "lecs/w01/lec01.html#how-i-became-interested-in-robotics",
     "title": "CSC477 / CSC2630 Introduction to Mobile Robotics",
     "section": "How I became interested in robotics",
-    "text": "How I became interested in robotics\n\n\n\n\n\n\nMars Exploration Rover\n\n\n\n\n \n\n\n\n\n\nRoboCup, small-sized league"
+    "text": "How I became interested in robotics\n\n\n\n\n\n\nMars Exploration Rover\n\n\n\n\n \n\n\n\n\n\n\nRoboCup, small-sized league"
   },
   {
     "objectID": "lecs/w01/lec01.html#how-i-became-interested-in-robotics-1",
@@ -5697,7 +5697,7 @@
     "href": "lecs/w01/lec01.html#robot-surgery",
     "title": "CSC477 / CSC2630 Introduction to Mobile Robotics",
     "section": "Robot Surgery",
-    "text": "Robot Surgery\ndaVinci robot-assisted surgery"
+    "text": "Robot Surgery\n\ndaVinci robot-assisted surgery"
   },
   {
     "objectID": "lecs/w01/lec01.html#precision-agriculture",
@@ -5880,13 +5880,6 @@
     "title": "CSC477 / CSC2630 Introduction to Mobile Robotics",
     "section": "Main topics to be covered",
     "text": "Main topics to be covered"
-  },
-  {
-    "objectID": "lecs/w01/lec01.html#orb-slam-video",
-    "href": "lecs/w01/lec01.html#orb-slam-video",
-    "title": "CSC477 / CSC2630 Introduction to Mobile Robotics",
-    "section": "orb slam video",
-    "text": "orb slam video\nhttps://www.youtube.com/watch?v=_9VcvGybsDA"
   },
   {
     "objectID": "lecs/w01/lec01.html#lecture-topics-qquad-qquad-tutorials",
@@ -6075,7 +6068,7 @@
     "href": "lecs/w01/lec01.html#d-lidar-light-detection-and-ranging",
     "title": "CSC477 / CSC2630 Introduction to Mobile Robotics",
     "section": "3D LIDAR (Light detection and ranging)",
-    "text": "3D LIDAR (Light detection and ranging)\n\n\nProduces a pointcloud of 3D points and intensities\n\n(x,y,z) in the laser’s frame of reference\nIntensity is related to the material of the object that reflects the light\n\nWorks based on time-of-flight for each beam to return back to the scanner\n\nNot very robust to adverse weather conditions: rain, snow, smoke, fog etc.\nUsed in most self-driving cars today for obstacle detection. Range &lt; 100m.\n\n\n\n\nUsually around 1million points in a single pointcloud"
+    "text": "3D LIDAR (Light detection and ranging)\n\n\nProduces a pointcloud of 3D points and intensities\n\n(x,y,z) in the laser’s frame of reference\nIntensity is related to the material of the object that reflects the light\n\nWorks based on time-of-flight for each beam to return back to the scanner\n\nNot very robust to adverse weather conditions: rain, snow, smoke, fog etc.\nUsed in most self-driving cars today for obstacle detection. Range &lt; 100m.\n\n\nUsually around 1million points in a single pointcloud"
   },
   {
     "objectID": "lecs/w01/lec01.html#d-lidar-light-detection-and-ranging-1",
@@ -6166,7 +6159,7 @@
     "href": "lecs/w01/lec01.html#actuators",
     "title": "CSC477 / CSC2630 Introduction to Mobile Robotics",
     "section": "Actuators",
-    "text": "Actuators\n\n\n\n\n\n\nDC (direct current) motor\n\n\n\n\n\n\n\nServo motor\n\n\n\n\n\n\n\nStepper motor\n\n\n\n\n\n\nThey turn continuously at high RPM (revolutions per minute) when voltage is applied. Used in quadrotors and planes, model cars etc.\n\n\nUsually includes: DC motor, gears, control circuit, position feedback\nPrecise control without free rotation (e.g. robot arms, boat rudders) Limited turning range: 180 degrees\n\n\nPositioning feedback and no positioning errors.\nRotates by a predefined step angle.\nRequires external control circuit.\nPrecise control without free rotation.\nConstant holding torque without powering the motor (good for robot arms or weight-carrying systems)."
+    "text": "Actuators\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nThey turn continuously at high RPM (revolutions per minute) when voltage is applied. Used in quadrotors and planes, model cars etc.\n\n\nUsually includes: DC motor, gears, control circuit, position feedback\nPrecise control without free rotation (e.g. robot arms, boat rudders) Limited turning range: 180 degrees\n\n\nPositioning feedback and no positioning errors.\nRotates by a predefined step angle.\nRequires external control circuit.\nPrecise control without free rotation.\nConstant holding torque without powering the motor (good for robot arms or weight-carrying systems)."
   },
   {
     "objectID": "lecs/w01/lec01.html#pulse-width-modulation",
