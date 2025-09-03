@@ -1880,21 +1880,21 @@
     "href": "lecs/w11/lec11.html#triangulation-as-a-least-squares-problem-3",
     "title": "CSC477 Introduction to Mobile Robotics",
     "section": "Triangulation as a least squares problem",
-    "text": "Triangulation as a least squares problem\n\\[^wX^*, ^wY^*, ^wZ^* = \\underset{^wp=[^wX, ^wY, ^wZ]}{\\operatorname{argmin}} \\sum_{k=1}^{K} \\color{red}\\boxed{\\color{black} \\left\\|\\bar{z}^{(k)} - \\mathbb{E}\\left[h_\\text{pinhole}\\left(_{w}^kR^w p + ^kt_w\\right)\\right]\\right\\|^2 }\\]\n\n\\(\\qquad\\qquad \\Big\\uparrow\\)\nReprojection error of point\n\\(\\color{black}^{k}p = {}^{k}_{w}R^{w}p + {}^{k}t_{kw}\\)\ninto camera k’s frame\n\n\n\\(h_{\\text{pinhole}}(X, Y, Z) = \\begin{bmatrix} \\frac{f m_x X}{Z} + c_x \\\\ \\frac{f m_y Y}{Z} + c_y \\end{bmatrix} + n, \\quad n \\sim \\mathcal{N}(0, R) \\quad \\text{noise (in pixels)}\\)"
+    "text": "Triangulation as a least squares problem\n\\[^wX^*, ^wY^*, ^wZ^* = \\underset{^wp=[^wX, ^wY, ^wZ]}{\\operatorname{argmin}} \\sum_{k=1}^{K} \\color{red}\\boxed{\\color{black} \\left\\|\\bar{z}^{(k)} - \\mathbb{E}\\left[h_\\text{pinhole}\\left(_{w}^kR^w p + ^kt_{kw}\\right)\\right]\\right\\|^2 }\\]\n\n\\(\\qquad\\qquad \\Big\\uparrow\\)\nReprojection error of point\n\\(\\color{black}^{k}p = {}^{k}_{w}R^{w}p + {}^{k}t_{kw}\\)\ninto camera k’s frame\n\n\n\\(h_{\\text{pinhole}}(X, Y, Z) = \\begin{bmatrix} \\frac{f m_x X}{Z} + c_x \\\\ \\frac{f m_y Y}{Z} + c_y \\end{bmatrix} + n, \\quad n \\sim \\mathcal{N}(0, R) \\quad \\text{noise (in pixels)}\\)"
   },
   {
     "objectID": "lecs/w11/lec11.html#triangulation-as-a-least-squares-problem-4",
     "href": "lecs/w11/lec11.html#triangulation-as-a-least-squares-problem-4",
     "title": "CSC477 Introduction to Mobile Robotics",
     "section": "Triangulation as a least squares problem",
-    "text": "Triangulation as a least squares problem\n\\(\\begin{align}\n{}^w X^*, {}^w Y^*, {}^w Z^* &= \\underset{{}^w p = [{}^w X, {}^w Y, {}^w Z]}{\\text{argmin}} \\sum_{k=1}^{K} \\|\\tilde{z}^{(k)} - \\mathbb{E}[h_{\\text{pinhole}}({}^k_w R {}^w p + {}^k t_{kw})] \\|^2 \\\\\n&= \\underset{{}^w p = [{}^w X, {}^w Y, {}^w Z]}{\\text{argmin}} \\sum_{k=1, {}^w p \\to {}^k p}^{K} \\|\\tilde{z}^{(k)} - \\mathbb{E}[h_{\\text{pinhole}}({}^k p)] \\|^2 \\\\\n\\end{align}\\)\n\n\\(h_{\\text{pinhole}}(X, Y, Z) = \\begin{bmatrix} \\frac{f m_x X}{Z} + c_x \\\\ \\frac{f m_y Y}{Z} + c_y \\end{bmatrix} + n, \\quad n \\sim \\mathcal{N}(0, R) \\quad \\text{noise (in pixels)}\\)"
+    "text": "Triangulation as a least squares problem\n\\(\\begin{align}\n{}^w X^*, {}^w Y^*, {}^w Z^* &= \\underset{{}^w p = [{}^w X, {}^w Y, {}^w Z]}{\\text{argmin}} \\sum_{k=1}^{K} \\|\\bar{z}^{(k)} - \\mathbb{E}[h_{\\text{pinhole}}({}^k_w R {}^w p + {}^k t_{kw})] \\|^2 \\\\\n&= \\underset{{}^w p = [{}^w X, {}^w Y, {}^w Z]}{\\text{argmin}} \\sum_{k=1, {}^w p \\to {}^k p}^{K} \\|\\bar{z}^{(k)} - \\mathbb{E}[h_{\\text{pinhole}}({}^k p)] \\|^2 \\\\\n\\end{align}\\)\n\n\\(h_{\\text{pinhole}}(X, Y, Z) = \\begin{bmatrix} \\frac{f m_x X}{Z} + c_x \\\\ \\frac{f m_y Y}{Z} + c_y \\end{bmatrix} + n, \\quad n \\sim \\mathcal{N}(0, R) \\quad \\text{noise (in pixels)}\\)"
   },
   {
     "objectID": "lecs/w11/lec11.html#triangulation-as-a-least-squares-problem-5",
     "href": "lecs/w11/lec11.html#triangulation-as-a-least-squares-problem-5",
     "title": "CSC477 Introduction to Mobile Robotics",
     "section": "Triangulation as a least squares problem",
-    "text": "Triangulation as a least squares problem\n\\(\\begin{align}\n{}^w X^*, {}^w Y^*, {}^w Z^* &= \\underset{{}^w p = [{}^w X, {}^w Y, {}^w Z]}{\\text{argmin}} \\sum_{k=1}^{K} \\|\\tilde{z}^{(k)} - \\mathbb{E}[h_{\\text{pinhole}}({}^k_w R {}^w p + {}^k t_{kw})] \\|^2 \\\\\n&= \\underset{{}^w p = [{}^w X, {}^w Y, {}^w Z]}{\\text{argmin}} \\sum_{k=1, {}^w p \\to {}^k p}^{K} \\|\\tilde{z}^{(k)} - \\mathbb{E}[h_{\\text{pinhole}}({}^k p)] \\|^2 \\\\\n&= \\underset{{}^w p = [{}^w X, {}^w Y, {}^w Z]}{\\text{argmin}} \\sum_{k=1, {}^w p \\to {}^k p}^{K} \\left\\| \\begin{bmatrix} \\tilde{u}^{(k)} \\\\ \\tilde{v}^{(k)} \\end{bmatrix} - \\begin{bmatrix} \\frac{f m_x {}^k X}{{}^k Z} + c_x \\\\ \\frac{f m_y {}^k Y}{{}^k Z} + c_y \\end{bmatrix} \\right\\|^2\n\\end{align}\\)\n\n\\(h_{\\text{pinhole}}(X, Y, Z) = \\begin{bmatrix} \\frac{f m_x X}{Z} + c_x \\\\ \\frac{f m_y Y}{Z} + c_y \\end{bmatrix} + n, \\quad n \\sim \\mathcal{N}(0, R) \\quad \\text{noise (in pixels)}\\)\n\n\n\nNote: unconstrained optimization\ndoes not guarantee that the solution\nwill be in the camera’s field of view.\nFor example, it could happen that\nit returns \\(\\color{black}^kZ &lt; 0\\) which is an invalid\nsolution (i.e. behind the camera)"
+    "text": "Triangulation as a least squares problem\n\\(\\begin{align}\n{}^w X^*, {}^w Y^*, {}^w Z^* &= \\underset{{}^w p = [{}^w X, {}^w Y, {}^w Z]}{\\text{argmin}} \\sum_{k=1}^{K} \\|\\bar{z}^{(k)} - \\mathbb{E}[h_{\\text{pinhole}}({}^k_w R {}^w p + {}^k t_{kw})] \\|^2 \\\\\n&= \\underset{{}^w p = [{}^w X, {}^w Y, {}^w Z]}{\\text{argmin}} \\sum_{k=1, {}^w p \\to {}^k p}^{K} \\|\\bar{z}^{(k)} - \\mathbb{E}[h_{\\text{pinhole}}({}^k p)] \\|^2 \\\\\n&= \\underset{{}^w p = [{}^w X, {}^w Y, {}^w Z]}{\\text{argmin}} \\sum_{k=1, {}^w p \\to {}^k p}^{K} \\left\\| \\begin{bmatrix} \\bar{u}^{(k)} \\\\ \\bar{v}^{(k)} \\end{bmatrix} - \\begin{bmatrix} \\frac{f m_x {}^k X}{{}^k Z} + c_x \\\\ \\frac{f m_y {}^k Y}{{}^k Z} + c_y \\end{bmatrix} \\right\\|^2\n\\end{align}\\)\n\n\\(h_{\\text{pinhole}}(X, Y, Z) = \\begin{bmatrix} \\frac{f m_x X}{Z} + c_x \\\\ \\frac{f m_y Y}{Z} + c_y \\end{bmatrix} + n, \\quad n \\sim \\mathcal{N}(0, R) \\quad \\text{noise (in pixels)}\\)\n\n\n\nNote: unconstrained optimization\ndoes not guarantee that the solution\nwill be in the camera’s field of view.\nFor example, it could happen that\nit returns \\(\\color{black}^kZ &lt; 0\\) which is an invalid\nsolution (i.e. behind the camera)"
   },
   {
     "objectID": "lecs/w11/lec11.html#potential-pitfalls-with-triangulationnear-parallel-rays",
@@ -1922,7 +1922,7 @@
     "href": "lecs/w11/lec11.html#camera-localization-as-a-least-squares-problem",
     "title": "CSC477 Introduction to Mobile Robotics",
     "section": "Camera localization as a least squares problem?",
-    "text": "Camera localization as a least squares problem?\n\\[^wX^*, ^wY^*, ^wZ^* = \\underset{^wp=[^wX, ^wY, ^wZ]}{\\operatorname{argmin}} \\sum_{k=1}^{K} \\left\\|\\bar{z}^{(k)} - \\mathbb{E}\\left[h_\\text{pinhole}\\left(\\color{red}\\boxed{\\color{black}_{w}^kR}\\color{black}^w p + \\color{red}\\boxed{\\color{black}^kt_w}\\color{black}\\right)\\right]\\right\\|^2\\]\n\n\nBut, 3D position is unknown!\nSo, we cannot solve the problem\nusing the reprojection error\nunless we know the 3D position\ncorresponding to the keypoint.\n\n\nThe only terms to be\noptimized.\n\n\n\\(h_{\\text{pinhole}}(X, Y, Z) = \\begin{bmatrix} \\frac{f m_x X}{Z} + c_x \\\\ \\frac{f m_y Y}{Z} + c_y \\end{bmatrix} + n, \\quad n \\sim \\mathcal{N}(0, R) \\quad \\text{noise (in pixels)}\\)"
+    "text": "Camera localization as a least squares problem?\n\\[_{w}^{k}R^{*}, {}^{k}t^{*}_{kw} = \\underset{_{w}^{k}R, ^{k}t_{kw}}{\\operatorname{argmin}} \\sum_{k=1}^{K} \\left\\|\\bar{z}^{(k)} - \\mathbb{E}\\left[h_\\text{pinhole}\\left(\\color{red}\\boxed{\\color{black}_{w}^kR}\\color{black}^w p + \\color{red}\\boxed{\\color{black}^kt_{kw}}\\color{black}\\right)\\right]\\right\\|^2\\]\n\n\nBut, 3D position is unknown!\nSo, we cannot solve the problem\nusing the reprojection error\nunless we know the 3D position\ncorresponding to the keypoint.\n\n\nThe only terms to be\noptimized.\n\n\n\\(h_{\\text{pinhole}}(X, Y, Z) = \\begin{bmatrix} \\frac{f m_x X}{Z} + c_x \\\\ \\frac{f m_y Y}{Z} + c_y \\end{bmatrix} + n, \\quad n \\sim \\mathcal{N}(0, R) \\quad \\text{noise (in pixels)}\\)"
   },
   {
     "objectID": "lecs/w11/lec11.html#working-principle",
@@ -1936,7 +1936,7 @@
     "href": "lecs/w11/lec11.html#key-idea-epipolar-constraint",
     "title": "CSC477 Introduction to Mobile Robotics",
     "section": "Key idea: Epipolar constraint",
-    "text": "Key idea: Epipolar constraint\n\n\n\n\nPotential matches for x’ have to lie on the corresponding line l.\n\n\n \n\n\nPotential matches for x have to lie on the corresponding line P."
+    "text": "Key idea: Epipolar constraint\n\n\n\n\nPotential matches for x’ have to lie on the corresponding line l.\n\n\n \n\n\nPotential matches for x have to lie on the corresponding line l’."
   },
   {
     "objectID": "lecs/w11/lec11.html#epipolar-geometry-notation",
@@ -1950,14 +1950,14 @@
     "href": "lecs/w11/lec11.html#epipolar-constraint-calibrated-case",
     "title": "CSC477 Introduction to Mobile Robotics",
     "section": "Epipolar constraint: Calibrated case",
-    "text": "Epipolar constraint: Calibrated case\n\n\\(\\hat{x} \\cdot [t \\times (R\\hat{x}')] = 0\\) (because \\(\\hat{x}\\), \\(R\\hat{x}'\\), and \\(t\\) are co-planar)"
+    "text": "Epipolar constraint: Calibrated case\n\n\\(\\hat{x} \\cdot [t \\times (R\\hat{x}')] = 0\\)\n(because \\(\\hat{x}\\), \\(R\\hat{x}'\\), and \\(t\\) are co-planar)"
   },
   {
     "objectID": "lecs/w11/lec11.html#essential-matrix",
     "href": "lecs/w11/lec11.html#essential-matrix",
     "title": "CSC477 Introduction to Mobile Robotics",
     "section": "Essential matrix",
-    "text": "Essential matrix\n\n\n\n\n\nE is a 3x3 matrix which relates corresponding pairs of normalized homogeneous image points across pairs of images - for K calibrated cameras.\nEstimates relative position/orientation.\n\nEssential Matrix\n(Longuet-Higgins, 1981)\nNote: [t], is matrix representation of cross product\n\n\n\n\n“5-point algorithm” by\nDavid Nister computes\nessential matrix and then\ndecomposes it into rotation\nand translation.\n\n\nAfter estimating the\nessential matrix, we\nextract t, R.\nHowever, the\ntranslation t, is only\nestimated up to a\nmultiplicative scale.\n\\(\\rightarrow\\) Translation is not\nfully observable with a\nsingle camera.\n\\(\\rightarrow\\) To make it observable\nwe need stereo"
+    "text": "Essential matrix\n\n\n\n\n\nE is a 3x3 matrix which relates corresponding pairs of normalized homogeneous image points across pairs of images - for K calibrated cameras.\nEstimates relative position/orientation.\n\nEssential Matrix\n(Longuet-Higgins, 1981)\nNote: \\([t]_x\\) is matrix representation of cross product\n\n\n\n\n“5-point algorithm” by\nDavid Nister computes\nessential matrix and then\ndecomposes it into rotation\nand translation.\n\n\nAfter estimating the\nessential matrix, we\nextract t, R.\nHowever, the\ntranslation t, is only\nestimated up to a\nmultiplicative scale.\n\\(\\rightarrow\\) Translation is not\nfully observable with a\nsingle camera.\n\\(\\rightarrow\\) To make it observable\nwe need stereo\n\n\n\\([t]_{\\times}=\\begin{bmatrix}0&-t_{2}&t_{1}\\\\ t_{2}&0&-t_{0}\\\\ -t_{1}&t_{0}&0\\end{bmatrix}\\)"
   },
   {
     "objectID": "lecs/w11/lec11.html#visual-odometry-with-a-single-camera-translation-is-recovered-only-up-to-a-scale",
@@ -1985,14 +1985,14 @@
     "href": "lecs/w11/lec11.html#d-to-2d-algorithm",
     "title": "CSC477 Introduction to Mobile Robotics",
     "section": "2D-to-2D Algorithm",
-    "text": "2D-to-2D Algorithm\n\nHow do we compute the relative scale between \\(I_{k-2}, I_{k-1}\\), and \\(I_k\\) ?"
+    "text": "2D-to-2D Algorithm"
   },
   {
     "objectID": "lecs/w11/lec11.html#vo-drift",
     "href": "lecs/w11/lec11.html#vo-drift",
     "title": "CSC477 Introduction to Mobile Robotics",
     "section": "VO Drift",
-    "text": "VO Drift\n\n\n\nThe errors introduced by each new frame-to-frame motion accumulate over time\nThis generates a drift of the estimated trajectory from the real path\n\n\n\nThe uncertainty of the camera pose at Cr is a combination of the uncertainty at Ck-1 (black solid ellipse) and the uncertainty of the transformation Tk.k-1 (gray dashed ellipse)\n\nCopyright of Davide Scaramuzza - davide.scaramuzza@ieee.org - https://sites.google.com/site/scarabotix/"
+    "text": "VO Drift\n\n\n\nThe errors introduced by each new frame-to-frame motion accumulate over time\nThis generates a drift of the estimated trajectory from the real path\n\n\n\nThe uncertainty of the camera pose at \\(C_k\\) is a combination of the uncertainty at \\(C_{k-1}\\) (black solid ellipse) and the uncertainty of the transformation \\(T_{k,k-1}\\) (gray dashed ellipse)\n\nCopyright of Davide Scaramuzza - davide.scaramuzza@ieee.org - https://sites.google.com/site/scarabotix/"
   },
   {
     "objectID": "lecs/w11/lec11.html#influence-of-outliers-on-motion-estimation",
@@ -2055,7 +2055,7 @@
     "href": "lecs/w11/lec11.html#structure-from-motion-as-least-squares-1",
     "title": "CSC477 Introduction to Mobile Robotics",
     "section": "Structure from Motion as Least Squares",
-    "text": "Structure from Motion as Least Squares\n\n\\[\\color{black}_w^k R^*, ^kt_{kw}^{*}, \\color{black}^wX^*, ^wY^*, ^wZ^* \\color{black} = \\underset{^wp=[^wX, ^wY, ^wZ], _w^k R, ^kt_{kw}\\quad}{\\operatorname{argmin}} \\sum_{k=1}^{K} \\left\\|\\color{blue}\\boxed{\\color{black}\\bar{z}^{(k)}} \\color{black}- \\color{red}\\boxed{\\color{black}\\mathbb{E}\\left[h_\\text{pinhole}\\left(_{w}^kR^w p + ^kt_{kw}\\right)\\right]}\\color{black}\\right\\|^2\\]\n\n\n\n\n\nExpected pixel projection of\n3D point \\(^wp\\) onto camera k\n\n\nActual pixel measurement of\n3D point \\(^wp\\) from camera k\n\n\n\\(h_{\\text{pinhole}}(X, Y, Z) = \\begin{bmatrix} \\frac{f m_x X}{Z} + c_x \\\\ \\frac{f m_y Y}{Z} + c_y \\end{bmatrix} + n, \\quad n \\sim \\mathcal{N}(0, R) \\quad \\text{noise (in pixels)}\\)"
+    "text": "Structure from Motion as Least Squares\n\n\\[\\color{black}_w^k R^*, ^kt_{kw}^{*}, \\color{black}^wX^*, ^wY^*, ^wZ^* \\color{black} = \\underset{^wp=[^wX, ^wY, ^wZ], _w^k R, ^kt_{kw}\\quad}{\\operatorname{argmin}} \\sum_{k=1}^{K} \\left\\|\\color{blue}\\boxed{\\color{black}\\bar{z}^{(k)}} \\color{black}- \\color{red}\\boxed{\\color{black}\\mathbb{E}\\left[h_\\text{pinhole}\\left(_{w}^kR^w p + ^kt_{kw}\\right)\\right]}\\color{black}\\right\\|^2\\]\n\n\n\n\n\nExpected pixel projection of\n3D point \\(\\color{black}^wp\\) onto camera k\n\n\nActual pixel measurement of\n3D point \\(\\color{black}^wp\\) from camera k\n\n\n\\(h_{\\text{pinhole}}(X, Y, Z) = \\begin{bmatrix} \\frac{f m_x X}{Z} + c_x \\\\ \\frac{f m_y Y}{Z} + c_y \\end{bmatrix} + n, \\quad n \\sim \\mathcal{N}(0, R) \\quad \\text{noise (in pixels)}\\)"
   },
   {
     "objectID": "lecs/w11/lec11.html#structure-from-motion-as-least-squares-2",
@@ -2160,7 +2160,7 @@
     "href": "lecs/w11/lec11.html#optical-flow-constraints-grayscale-images",
     "title": "CSC477 Introduction to Mobile Robotics",
     "section": "Optical flow constraints (grayscale images)",
-    "text": "Optical flow constraints (grayscale images)\n\n\nLet’s look at these constraints more closely\n\nBrightness constancy constraint (equation) \\(I(x,y,t) = I(x+u,y+v,t+1)\\)\nSmall motion: (u and v are less than 1 pixel, or smooth)\n\n\nFrom Taylor expansion of I\n\\(I(x+u,y+v,t+1)=I(x,y,t+1)+\\frac{\\partial I}{\\partial x}u+\\frac{\\partial I}{\\partial y}v+\\text{ higher order terms}\\)"
+    "text": "Optical flow constraints (grayscale images)\n\n\nLet’s look at these constraints more closely\n\nBrightness constancy constraint (equation)\n\\(I(x,y,t) = I(x+u,y+v,t+1)\\)\nSmall motion: (u and v are less than 1 pixel, or smooth)\n\n\nFrom Taylor expansion of I\n\\(I(x+u,y+v,t+1)=I(x,y,t+1)+\\frac{\\partial I}{\\partial x}u+\\frac{\\partial I}{\\partial y}v+\\text{ higher order terms}\\)"
   },
   {
     "objectID": "lecs/w11/lec11.html#optical-flow-equation",
@@ -2188,7 +2188,7 @@
     "href": "lecs/w11/lec11.html#the-brightness-constancy-constraint",
     "title": "CSC477 Introduction to Mobile Robotics",
     "section": "The brightness constancy constraint",
-    "text": "The brightness constancy constraint\nCan we use this equation to recover image motion (u,v) at each pixel?\n\\(0 = I_t + \\nabla I \\cdot \\langle u,v \\rangle \\quad \\text{or} \\quad I_x u + I_y v + I_t = 0\\)\n\nHow many equations and unknowns per pixel?\n\nOne equation (this is a scalar equation!), two unknowns (u,v)\n\n\nThe component of the motion perpendicular to the gradient (i.e., parallel to the edge) cannot be measured\n\n\nIf (u, v) satisfies the equation, so does (utu’, v+v’) if\n\\(\\nabla I \\cdot [u' v']^T = 0\\)"
+    "text": "The brightness constancy constraint\nCan we use this equation to recover image motion (u,v) at each pixel?\n\\(0 = I_t + \\nabla I \\cdot \\langle u,v \\rangle \\quad \\text{or} \\quad I_x u + I_y v + I_t = 0\\)\n\nHow many equations and unknowns per pixel?\n\nOne equation (this is a scalar equation!), two unknowns (u,v)\n\n\nThe component of the motion perpendicular to the gradient (i.e., parallel to the edge) cannot be measured\n\n\nIf (u, v) satisfies the equation, so does (u+u’, v+v’) if\n\\(\\nabla I \\cdot [u' v']^T = 0\\)"
   },
   {
     "objectID": "lecs/w11/lec11.html#aperture-problem",

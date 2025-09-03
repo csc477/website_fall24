@@ -1022,7 +1022,7 @@ of camera k</p>
 </section>
 <section id="triangulation-as-a-least-squares-problem-3" class="slide level2">
 <h2>Triangulation as a least squares problem</h2>
-<p><span class="math display">\[^wX^*, ^wY^*, ^wZ^* = \underset{^wp=[^wX, ^wY, ^wZ]}{\operatorname{argmin}} \sum_{k=1}^{K} \color{red}\boxed{\color{black} \left\|\bar{z}^{(k)} - \mathbb{E}\left[h_\text{pinhole}\left(_{w}^kR^w p + ^kt_w\right)\right]\right\|^2 }\]</span></p>
+<p><span class="math display">\[^wX^*, ^wY^*, ^wZ^* = \underset{^wp=[^wX, ^wY, ^wZ]}{\operatorname{argmin}} \sum_{k=1}^{K} \color{red}\boxed{\color{black} \left\|\bar{z}^{(k)} - \mathbb{E}\left[h_\text{pinhole}\left(_{w}^kR^w p + ^kt_{kw}\right)\right]\right\|^2 }\]</span></p>
 <div class="red small-font absolute" style="bottom: 300px; right: 100px; ">
 <p><span class="math inline">\(\qquad\qquad \Big\uparrow\)</span><br>
 Reprojection error of point<br>
@@ -1036,8 +1036,8 @@ Reprojection error of point<br>
 <section id="triangulation-as-a-least-squares-problem-4" class="slide level2">
 <h2>Triangulation as a least squares problem</h2>
 <p><span class="math inline">\(\begin{align}
-{}^w X^*, {}^w Y^*, {}^w Z^* &amp;= \underset{{}^w p = [{}^w X, {}^w Y, {}^w Z]}{\text{argmin}} \sum_{k=1}^{K} \|\tilde{z}^{(k)} - \mathbb{E}[h_{\text{pinhole}}({}^k_w R {}^w p + {}^k t_{kw})] \|^2 \\
-&amp;= \underset{{}^w p = [{}^w X, {}^w Y, {}^w Z]}{\text{argmin}} \sum_{k=1, {}^w p \to {}^k p}^{K} \|\tilde{z}^{(k)} - \mathbb{E}[h_{\text{pinhole}}({}^k p)] \|^2 \\
+{}^w X^*, {}^w Y^*, {}^w Z^* &amp;= \underset{{}^w p = [{}^w X, {}^w Y, {}^w Z]}{\text{argmin}} \sum_{k=1}^{K} \|\bar{z}^{(k)} - \mathbb{E}[h_{\text{pinhole}}({}^k_w R {}^w p + {}^k t_{kw})] \|^2 \\
+&amp;= \underset{{}^w p = [{}^w X, {}^w Y, {}^w Z]}{\text{argmin}} \sum_{k=1, {}^w p \to {}^k p}^{K} \|\bar{z}^{(k)} - \mathbb{E}[h_{\text{pinhole}}({}^k p)] \|^2 \\
 \end{align}\)</span></p>
 <div class="absolute" style="bottom: 0px; right: 0px; ">
 <p><span class="math inline">\(h_{\text{pinhole}}(X, Y, Z) = \begin{bmatrix} \frac{f m_x X}{Z} + c_x \\ \frac{f m_y Y}{Z} + c_y \end{bmatrix} + n, \quad n \sim \mathcal{N}(0, R) \quad \text{noise (in pixels)}\)</span></p>
@@ -1046,9 +1046,9 @@ Reprojection error of point<br>
 <section id="triangulation-as-a-least-squares-problem-5" class="slide level2">
 <h2>Triangulation as a least squares problem</h2>
 <p><span class="math inline">\(\begin{align}
-{}^w X^*, {}^w Y^*, {}^w Z^* &amp;= \underset{{}^w p = [{}^w X, {}^w Y, {}^w Z]}{\text{argmin}} \sum_{k=1}^{K} \|\tilde{z}^{(k)} - \mathbb{E}[h_{\text{pinhole}}({}^k_w R {}^w p + {}^k t_{kw})] \|^2 \\
-&amp;= \underset{{}^w p = [{}^w X, {}^w Y, {}^w Z]}{\text{argmin}} \sum_{k=1, {}^w p \to {}^k p}^{K} \|\tilde{z}^{(k)} - \mathbb{E}[h_{\text{pinhole}}({}^k p)] \|^2 \\
-&amp;= \underset{{}^w p = [{}^w X, {}^w Y, {}^w Z]}{\text{argmin}} \sum_{k=1, {}^w p \to {}^k p}^{K} \left\| \begin{bmatrix} \tilde{u}^{(k)} \\ \tilde{v}^{(k)} \end{bmatrix} - \begin{bmatrix} \frac{f m_x {}^k X}{{}^k Z} + c_x \\ \frac{f m_y {}^k Y}{{}^k Z} + c_y \end{bmatrix} \right\|^2
+{}^w X^*, {}^w Y^*, {}^w Z^* &amp;= \underset{{}^w p = [{}^w X, {}^w Y, {}^w Z]}{\text{argmin}} \sum_{k=1}^{K} \|\bar{z}^{(k)} - \mathbb{E}[h_{\text{pinhole}}({}^k_w R {}^w p + {}^k t_{kw})] \|^2 \\
+&amp;= \underset{{}^w p = [{}^w X, {}^w Y, {}^w Z]}{\text{argmin}} \sum_{k=1, {}^w p \to {}^k p}^{K} \|\bar{z}^{(k)} - \mathbb{E}[h_{\text{pinhole}}({}^k p)] \|^2 \\
+&amp;= \underset{{}^w p = [{}^w X, {}^w Y, {}^w Z]}{\text{argmin}} \sum_{k=1, {}^w p \to {}^k p}^{K} \left\| \begin{bmatrix} \bar{u}^{(k)} \\ \bar{v}^{(k)} \end{bmatrix} - \begin{bmatrix} \frac{f m_x {}^k X}{{}^k Z} + c_x \\ \frac{f m_y {}^k Y}{{}^k Z} + c_y \end{bmatrix} \right\|^2
 \end{align}\)</span></p>
 <div class="absolute" style="bottom: 0px; right: 0px; ">
 <p><span class="math inline">\(h_{\text{pinhole}}(X, Y, Z) = \begin{bmatrix} \frac{f m_x X}{Z} + c_x \\ \frac{f m_y Y}{Z} + c_y \end{bmatrix} + n, \quad n \sim \mathcal{N}(0, R) \quad \text{noise (in pixels)}\)</span></p>
@@ -1099,16 +1099,16 @@ solution (i.e.&nbsp;behind the camera)</p>
 </section>
 <section id="camera-localization-as-a-least-squares-problem" class="slide level2">
 <h2>Camera localization as a least squares problem?</h2>
-<p><span class="math display">\[^wX^*, ^wY^*, ^wZ^* = \underset{^wp=[^wX, ^wY, ^wZ]}{\operatorname{argmin}} \sum_{k=1}^{K} \left\|\bar{z}^{(k)} - \mathbb{E}\left[h_\text{pinhole}\left(\color{red}\boxed{\color{black}_{w}^kR}\color{black}^w p + \color{red}\boxed{\color{black}^kt_w}\color{black}\right)\right]\right\|^2\]</span></p>
-<p><img data-src="img/3arrows.png" class="absolute" style="top: 220px; right: 0px; width: 250px; "></p>
-<div class="red semi-tiny-font absolute" style="top: 400px; right: 120px; ">
+<p><span class="math display">\[_{w}^{k}R^{*}, {}^{k}t^{*}_{kw} = \underset{_{w}^{k}R, ^{k}t_{kw}}{\operatorname{argmin}} \sum_{k=1}^{K} \left\|\bar{z}^{(k)} - \mathbb{E}\left[h_\text{pinhole}\left(\color{red}\boxed{\color{black}_{w}^kR}\color{black}^w p + \color{red}\boxed{\color{black}^kt_{kw}}\color{black}\right)\right]\right\|^2\]</span></p>
+<p><img data-src="img/3arrows.png" class="absolute" style="top: 220px; right: 60px; width: 250px; "></p>
+<div class="red semi-tiny-font absolute" style="top: 400px; right: 170px; ">
 <p>But, 3D position is unknown!</p>
 <p>So, we cannot solve the problem<br>
 using the reprojection error<br>
 unless we know the 3D position<br>
 corresponding to the keypoint.</p>
 </div>
-<div class="red semi-tiny-font absolute" style="top: 300px; right: -120px; ">
+<div class="red semi-tiny-font absolute" style="top: 300px; right: -70px; ">
 <p>The only terms to be<br>
 optimized.</p>
 </div>
@@ -1136,7 +1136,7 @@ optimized.</p>
 <p>&nbsp;</p>
 </div>
 <div class="quarto-layout-cell" style="flex-basis: 47.0%;justify-content: flex-start;">
-<p>Potential matches for x have to lie on the corresponding line P.</p>
+<p>Potential matches for x have to lie on the corresponding line <em>l’</em>.</p>
 </div>
 </div>
 </div>
@@ -1156,7 +1156,8 @@ optimized.</p>
 <section id="epipolar-constraint-calibrated-case" class="slide level2">
 <h2>Epipolar constraint: Calibrated case</h2>
 
-<img data-src="img/Lecture11_122.png" class="r-stretch"><p><span class="math inline">\(\hat{x} \cdot [t \times (R\hat{x}')] = 0\)</span> (because <span class="math inline">\(\hat{x}\)</span>, <span class="math inline">\(R\hat{x}'\)</span>, and <span class="math inline">\(t\)</span> are co-planar)</p>
+<img data-src="img/Lecture11_122.png" class="r-stretch"><p><span class="math inline">\(\hat{x} \cdot [t \times (R\hat{x}')] = 0\)</span></p>
+<p>(because <span class="math inline">\(\hat{x}\)</span>, <span class="math inline">\(R\hat{x}'\)</span>, and <span class="math inline">\(t\)</span> are co-planar)</p>
 </section>
 <section id="essential-matrix" class="slide level2">
 <h2>Essential matrix</h2>
@@ -1170,7 +1171,7 @@ optimized.</p>
 </div><div class="column center-align" style="width:45%;">
 <p><strong>Essential Matrix</strong><br>
 (Longuet-Higgins, 1981)</p>
-<p><span class="grey small-font">Note: [t], is matrix representation of cross product</span></p>
+<p><span class="grey small-font">Note: <span class="math inline">\([t]_x\)</span> is matrix representation of cross product</span></p>
 </div><div class="column" style="width:5%;">
 
 </div></div>
@@ -1194,6 +1195,9 @@ fully observable with a<br>
 single camera.</p>
 <p><span class="math inline">\(\rightarrow\)</span> To make it observable<br>
 we need stereo</p>
+</div>
+<div class="absolute semi-tiny-font" style="bottom: 50px; right: -50px; ">
+<p><span class="math inline">\([t]_{\times}=\begin{bmatrix}0&amp;-t_{2}&amp;t_{1}\\ t_{2}&amp;0&amp;-t_{0}\\ -t_{1}&amp;t_{0}&amp;0\end{bmatrix}\)</span></p>
 </div>
 </section>
 <section id="visual-odometry-with-a-single-camera-translation-is-recovered-only-up-to-a-scale" class="slide level2">
@@ -1237,7 +1241,7 @@ we need stereo</p>
 <div class="column red small-font" style="width:40%;">
 <p><br></p>
 <p>Q: Does scale remain constant throughout the trajectory of a single camera?</p>
-<p>A: No, there is scale drift, which is most apparent during in-place rotations (i.e.&nbsp;pure rotation, no translation), because depth estimation for 3D points is unconstrained, so it is easily misestimated.</p>
+<p>A: No, there is <strong>scale drift</strong>, which is most apparent during in-place rotations (i.e.&nbsp;pure rotation, no translation), because depth estimation for 3D points is unconstrained, so it is easily misestimated.</p>
 </div><div class="column" style="width:10%;">
 
 </div><div class="column" style="width:50%;">
@@ -1247,8 +1251,8 @@ we need stereo</p>
 <section id="d-to-2d-algorithm" class="slide level2">
 <h2>2D-to-2D Algorithm</h2>
 
-<img data-src="img/Lecture11_127.png" class="r-stretch"><p>How do we compute the relative scale between <span class="math inline">\(I_{k-2}, I_{k-1}\)</span>, and <span class="math inline">\(I_k\)</span> ?</p>
-</section>
+<!-- How do we compute the relative scale between $I_{k-2}, I_{k-1}$, and $I_k$ ? -->
+<img data-src="img/Lecture11_127.png" class="r-stretch"></section>
 <section id="vo-drift" class="slide level2">
 <h2>VO Drift</h2>
 <div class="columns">
@@ -1259,7 +1263,7 @@ we need stereo</p>
 </ul>
 </div><div class="column medium-font">
 <p><img data-src="img/Lecture11_128.png"></p>
-<p>The uncertainty of the camera pose at Cr is a combination of the uncertainty at Ck-1 (black solid ellipse) and the uncertainty of the transformation Tk.k-1 (gray dashed ellipse)</p>
+<p>The uncertainty of the camera pose at <span class="math inline">\(C_k\)</span> is a combination of the uncertainty at <span class="math inline">\(C_{k-1}\)</span> (black solid ellipse) and the uncertainty of the transformation <span class="math inline">\(T_{k,k-1}\)</span> (gray dashed ellipse)</p>
 </div></div>
 <p><span class="tiny-font absolute" style="bottom: 0px; ">Copyright of Davide Scaramuzza - davide.scaramuzza@ieee.org - https://sites.google.com/site/scarabotix/</span></p>
 </section>
@@ -1373,11 +1377,11 @@ Indicates the frame of the k-th camera.</p>
 </div>
 <div class="red semi-tiny-font absolute" style="bottom: 330px; right: 200px; ">
 <p>Expected pixel projection of<br>
-3D point <span class="math inline">\(^wp\)</span> onto camera k</p>
+3D point <span class="math inline">\(\color{black}^wp\)</span> onto camera k</p>
 </div>
 <div class="blue semi-tiny-font absolute" style="bottom: 270px; right: 400px; ">
 <p>Actual pixel measurement of<br>
-3D point <span class="math inline">\(^wp\)</span> from camera k</p>
+3D point <span class="math inline">\(\color{black}^wp\)</span> from camera k</p>
 </div>
 <div class="absolute medium-font" style="bottom: 0px; right: 0px; ">
 <p><span class="math inline">\(h_{\text{pinhole}}(X, Y, Z) = \begin{bmatrix} \frac{f m_x X}{Z} + c_x \\ \frac{f m_y Y}{Z} + c_y \end{bmatrix} + n, \quad n \sim \mathcal{N}(0, R) \quad \text{noise (in pixels)}\)</span></p>
@@ -1565,7 +1569,8 @@ accumulates <span class="math inline">\(\rightarrow\)</span> <strong>scale drift
 <img data-src="img/Lecture11_163.png" class="r-stretch"><ul>
 <li>Let’s look at these constraints more closely
 <ul>
-<li><p>Brightness constancy constraint (equation) <span class="math inline">\(I(x,y,t) = I(x+u,y+v,t+1)\)</span></p></li>
+<li><p>Brightness constancy constraint (equation)<br>
+<span class="math inline">\(I(x,y,t) = I(x+u,y+v,t+1)\)</span></p></li>
 <li><p>Small motion: (u and v are less than 1 pixel, or smooth)</p></li>
 </ul></li>
 </ul>
@@ -1629,7 +1634,7 @@ accumulates <span class="math inline">\(\rightarrow\)</span> <strong>scale drift
 <p>The component of the motion perpendicular to the gradient (i.e., parallel to the edge) cannot be measured</p>
 <div class="columns">
 <div class="column">
-<p>If <em>(u, v)</em> satisfies the equation, so does <em>(utu’, v+v’)</em> if</p>
+<p>If <em>(u, v)</em> satisfies the equation, so does <em>(u+u’, v+v’)</em> if</p>
 <p><span class="math inline">\(\nabla I \cdot [u' v']^T = 0\)</span></p>
 </div><div class="column">
 <p><img data-src="img/Lecture11_168.png"></p>
