@@ -99,13 +99,13 @@ font-size: 0.5em;
   z-index: 1;
 }
 
-
+/* 
 .reveal .slides {
   background-image: url("layout.png");
   background-size: cover;  
   background-position: center;
   background-repeat: no-repeat;
-}
+} */
 
 .yellow-box{
     background-color: #fdfd98;
