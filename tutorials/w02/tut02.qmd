@@ -1,0 +1,332 @@
+---
+title: "Introduction to ROS"
+format: 
+  revealjs:
+    slide-number: true
+    smaller: true
+    footer: '<a href="https://csc477.github.io/website_fall24" target="_blank" style="font-size:0.8em; bottom: -5px;">↩ Back to Course Website</a>'
+    css: ../style.css
+    chalkboard:
+      buttons: true
+      boardmarker-width: 2
+      chalk-width: 2
+      chalk-effect: 1.0
+html-math-method:
+  method: mathjax
+  url: "https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"
+---
+
+## {.center}
+
+Slides adapted from: <http://courses.csail.mit.edu/6.141/spring2014/pub/lectures/Lec05-ROS-Lecture.pptm>
+
+## A meta-operating system for robots
+
+![](img/kinetic-kame.png)
+
+
+## What is ROS?
+
+-   A “Meta” Operating System.
+    -   Open source
+    -   Runs in Linux (esp. Ubuntu)
+    -   OS X support
+    -   Ongoing Windows implementation
+
+-   Nodes
+
+-   Message passing
+    -   Publish
+    -   Subscribe
+    -   Services via remote invocation
+
+-   Supports numerous programming languages (C++, Python, Lisp, Java) 
+
+
+## What is ROS?
+
+::: {.columns}
+::: {.column .medium-font}
+-   Low level device abstraction
+    -   Joystick
+    -   GPS
+    -   Camera
+    -   Controllers
+    -   Laser Scanners
+    -   …
+
+-   Application building blocks
+    -   Coordinate system transforms
+    -   Visualization tools
+    -   Debugging tools
+    -   Robust navigation stack (SLAM with loop closure)
+    -   Arm path planning
+    -   Object recognition
+    -   ... 
+:::
+
+::: {.column}
+![](img/ros-diagram.png)
+:::
+::: 
+
+
+
+## What is ROS?
+
+- Software management (compiling, packaging)
+- Remote communication and control
+
+![](img/ros-stages.png)
+
+
+## What is ROS?
+![](img/Lec05-ROS-Lecture_13.jpg){width="200" .absolute top=50 right=100}
+
+- Founded by Willow Garage
+- Exponential adoption
+- Countless commercial, hobby, and academic robots use ROS (<http://wiki.ros.org/Robots>)
+
+:::{layout="[45, -5, 45]"}
+![](img/Lec05-ROS-Lecture_14.png)
+
+![](img/Lec05-ROS-Lecture_15.png)
+:::
+
+## ROS Philosophical goals
+
+- “Hardware agnosticism”
+- Peer to peer
+- Tools based software design
+- Multiple language support (C++/Java/Python)
+- Lightweight: runs only at the edge of your modules
+- Free
+- Open source
+- Suitable for large scale research and industry
+
+## ROS software development {.center}
+
+## Conceptual levels of design
+
+![](img/conceptual-level-design.png)
+
+:::{.medium-font .absolute right="100" top=100}
+[**(A) ROS Community:**]{.underline} ROS Distributions, Repositories
+:::
+
+:::{.medium-font .absolute right="100" top=250}
+[**(B) Computation Graph:**]{.underline} Peer-to-Peer Network of \
+ROS nodes (processes).
+:::
+
+:::{.medium-font .absolute right="100" bottom=50}
+[**(C) File-system level:**]{.underline} ROS Tools for managing source code, \
+build instructions, and message definitions.
+:::
+
+## Tools-based software design
+
+Tools for:
+
+- Building ROS nodes (catkin_make)
+- Running ROS nodes (rosrun, roslaunch)
+- Viewing network topology (rqt_graph)
+- Monitoring network traffic (rostopic)
+
+Many cooperating processes, instead of a single monolithic program.
+
+## Multiple language support
+
+::: {.columns}
+::: {.column width="30%"}
+- ROS is implemented natively in each language.
+- Quickly define messages in language-independent format.
+
+![](img/file-pointcloud.png)
+:::
+
+::: {.column width="70%"}
+![](img/multiple-language-support.png)
+:::
+::: 
+
+## Lightweight
+
+-   Encourages standalone libraries with no ROS dependencies: \
+    *Don’t* *put ROS dependencies in the core of your algorithm!*
+
+-   Use ROS only at the *edges* of your interconnected software modules: Downstream/Upstream interface
+-   ROS re-uses code from a variety of projects:
+    -   OpenCV : Computer Vision Library
+    -   Point Cloud Library (PCL) : 3D Data Processing
+    -   Movelt : Motion Planning
+
+![](img/ros-community.png){.absolute width="250" bottom=50 right="50"}
+
+## Peer to Peer Messaging
+
+-   No Central Server through which all messages are routed.
+-   “Master” service run on 1 machine for name registration + lookup
+-   Messaging Types:
+    -   Topics : *Asynchronous* data streaming
+    -   Parameter Server
+
+![](img/computation-graph.png){.absolute width="250" bottom=50 right="50"}
+
+## Peer to Peer Messaging 
+
+- [**Master:**]{.underline} Lookup information, think DNS \
+    *roscore* command $\rightarrow$ starts master, parameter server, logging
+
+- [**Publish:**]{.underline} Will not block until receipt, messages get queued.
+
+- [**Delivery Guarantees:**]{.underline} Specify a queue size for publishers: If publishing too quickly, will buffer a maximum of X messages before throwing away old ones
+
+- [**Transport Mechanism:**]{.underline} TCPROS, uses TCP/IP
+
+- [**Bandwidth:**]{.underline} Consider where your data’s going, and how
+
+![](img/computation-graph.png){.absolute width="250" bottom=50 right="50"}
+
+
+## Free & Open Source
+
+- BSD License : Can develop commercial applications
+- Drivers (Kinect, Joystick, Lasers, and others)
+- Perception, Planning, Control libraries
+- Interfaces to other libraries: OpenCV, PCL, etc.
+
+## ROS Debugging
+
+- Shutdown “Object” node $\rightarrow$ re-compile $\rightarrow$ restart : won’t disturb system
+
+![](img/logging.png){height="270" fig-align="center"}
+
+![](img/logger-playback.png){height="190"}
+
+:::{.absolute left="0" top=200}
+- Logging [(VIDEO)](http://youtu.be/pwlbArh_neU)
+:::
+
+:::{.absolute left="0" bottom="110"}
+- Playback [(VIDEO)](http://youtu.be/HacG_FWWPOw)
+:::
+
+
+## Useful ROS Debugging Tools
+
+- `rostopic:` Display debug information about ROS topics: publishers, subscribers, publishing rate, and message content. \
+    `rostopic echo [topic name]` $\rightarrow$ *prints messages to console*
+
+    `rostopic list` $\rightarrow$ *prints active topics*
+
+    … *(several more commands)*
+
+- `rqt_plot`: Plot data from one or more ROS topic fields using matplotlib.
+
+    `rqt_plot /turtle1/pose/x,/turtle1/pose/y` $\rightarrow$ graph data from 2 topics in 1 plot
+
+![](img/Lec05-ROS-Lecture_36.png){fig-align="center"}
+
+## {.center}
+
+Record data from published to topics \
+[rosbag record [topics] -o < output_file >]{.medium-font}
+
+<br>
+
+Play back recording \
+[rosbag play < input_file > --clock]{.medium-font}
+
+## Useful ROS Debugging Tools
+
+[rqt_graph]{.absolute top=150}
+
+![](img/Lec05-ROS-Lecture_37.png){fig-align="center"}
+
+## ROS Visualization
+
+::: {.columns}
+::: {.column}
+Visualize:
+
+-   Sensor data
+-   Robot joint states
+-   Coordinate frames
+-   Maps being built
+-   Debugging 3D markers
+
+[**VIDEO**](http://youtu.be/i--Sd4xH9ZE) 
+:::
+
+::: {.column}
+![](img/Lec05-ROS-Lecture_38.png)
+:::
+::: 
+
+## `rviz`
+
+
+## ROS Transformations
+
+::: {.columns}
+::: {.column width="60%"}
+- “TF” = Name of Transform package
+
+- TF Handles transforms between coordinate frames : space + time
+
+- tf_echo : print updated transforms in console
+
+:::
+
+::: {.column width="40%"}
+![](img/Lec05-ROS-Lecture_39.png)
+:::
+:::
+
+*Example:*
+
+`rosrun tf tf_echo [reference_frame] [target_frame]`
+
+## Packages
+
+::: {.columns}
+::: {.column}
+-   Perception
+    -   Point Cloud Library (PCL)
+    -   OpenCV
+    -   Kinect/OpenNI
+:::
+
+::: {.column}
+![](img/Lec05-ROS-Lecture_40.png){height="150"}
+
+![](img/Lec05-ROS-Lecture_41.jpg){height="150"}
+
+![](img/Lec05-ROS-Lecture_42.png){height="200"}
+:::
+::: 
+
+## ROS Simulator
+
+![](img/gazebo.png){.absolute right=50 top="50" height="150"}
+
+<br> 
+
+Gazebo
+
+- Can simulate different robots, sensors, and environments
+- Develop algorithms and test in the simulator
+- If model is good enough, same code will work on the real robot with similar performance.
+
+
+## ROS Resources
+
+![](img/Lec05-ROS-Lecture_47.png){.absolute right=50 top=70 width="450"}
+
+* [http://www.ros.org](http://www.ros.org/)
+
+* [http://wiki.ros.org](http://wiki.ros.org/)
+
+* ROS Tutorials: <http://wiki.ros.org/ROS/Tutorials>
+* Gazebo: <http://gazebosim.org/>

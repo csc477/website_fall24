@@ -6,15 +6,15 @@ tbl-colwidths: [5,10,30,5,5,5,5,5,5,5]
 This page contains an outline of the topics, content, and assignments for the semester. Note that this schedule will be updated as the semester progresses, with all changes documented here.
 
 ::: column-screen-inset-right
-| Week | Date | Topic | Prepare | Slides | Notebooks | Assignments | Project |
+| Week | Date | Topic | Tutorial | Slides | Notebooks | Assignments | Project |
 |:-------:|---------|---------|:-------:|:-------:|:-------:|:-------:|:-------:|
-| [1](#week-1) | Sep 14 | Introduction | 📖 | [🖥️](/lecs/w01/lec01.html){.no-style target="_blank" aria-label="Lec 1 slides"} |  |  |  |
-|  |  | Sensors and Actuators | 📖 |  |  |  |  |
-| [2](#week-2) | Sep 21 | Kinematics | 📖 | [🖥️](/lecs/w02/lec02.html){.no-style target="_blank" aria-label="Lec 2 slides"} |  |  |  |
-|  |  | Dynamics | 📖 |  |  |  |  |
-| [3](#week-3) | Sep 28 | PID Control | 📖 | [🖥️](/lecs/w03/lec03.html){.no-style target="_blank" aria-label="Lec 3 slides"} |  |  |  |
-|  |  | Artificial Potential Fields and Obstacle Avoidance | 📖 |  | 📋 |  |  |
-| [4](#week-4) | Oct 5 | Planning | 📖 | [🖥️](/lecs/w04/lec04.html){.no-style target="_blank" aria-label="Lec 4 slides"} | 📋 |  |  |
+| [1](#week-1) | Sep 14 | Introduction |  | [🖥️](/lecs/w01/lec01.html){.no-style target="_blank" aria-label="Lec 1 slides"} |  |  |  |
+|  |  | Sensors and Actuators |  |  |  |  |  |
+| [2](#week-2) | Sep 21 | Kinematics | [📖](/tutorials/w02/tut02.html){.no-style target="_blank" aria-label="Tut 2 slides"} | [🖥️](/lecs/w02/lec02.html){.no-style target="_blank" aria-label="Lec 2 slides"} |  |  |  |
+|  |  | Dynamics |  |  |  |  |  |
+| [3](#week-3) | Sep 28 | PID Control | [📖](/tutorials/w03/tut03.html){.no-style target="_blank" aria-label="Tut 3 slides"} | [🖥️](/lecs/w03/lec03.html){.no-style target="_blank" aria-label="Lec 3 slides"} |  |  |  |
+|  |  | Artificial Potential Fields and Obstacle Avoidance |  |  | 📋 |  |  |
+| [4](#week-4) | Oct 5 | Planning | [📖](/tutorials/w04/tut04.html){.no-style target="_blank" aria-label="Tut 4 slides"} | [🖥️](/lecs/w04/lec04.html){.no-style target="_blank" aria-label="Lec 4 slides"} | 📋 |  |  |
 |  | Oct 12 | Reading Week |  |  |  |  |  |
 | [5](#week-5) | Oct 19 | Linear Quadratic Regulator (LQR) |  | [🖥️](/lecs/w05/lec05.html){.no-style target="_blank" aria-label="Lec 5 slides"} |  |  |  |
 | [6](#week-6) | Oct 26 | Map Representations and Map Alignment |  | [🖥️](/lecs/w06/lec06.html){.no-style target="_blank" aria-label="Lec 6 slides"} |  |  | 📂 |
