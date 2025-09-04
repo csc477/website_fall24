@@ -110,3 +110,8 @@ font-size: 0.5em;
 .yellow-box{
     background-color: #fdfd98;
 }
+
+.grey-bordered-box{
+    border: 1px solid black;
+    background-color: lightgray;
+}
