@@ -1,0 +1,260 @@
+---
+title: "CSC 477 Tutorial Probability Refresher"
+subtitle: |
+  Radian Gondokaryono \
+  October 5, 2022 
+format: 
+  revealjs:
+    slide-number: true
+    smaller: true
+    footer: '<a href="https://csc477.github.io/website_fall24" target="_blank" style="font-size:0.8em; bottom: -5px;">↩ Back to Course Website</a>'
+    css: ../style.css
+    chalkboard:
+      buttons: true
+      boardmarker-width: 2
+      chalk-width: 2
+      chalk-effect: 1.0
+html-math-method:
+  method: mathjax
+  url: "https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"
+---
+
+## {.center}
+
+Slides adapted from: CSC 2515 Introduction to Machine Learning. Credit: Amir Massoud Farahmand, et. Al [CSC 2515 Fall 2021: Introduction to Machine Learning \| IntroML-Fall2021 (amfarahmand.github.io)](https://amfarahmand.github.io/IntroML-Fall2021/) and [CSC477 (toronto.edu)](https://www.cs.toronto.edu/~florian/courses/csc477_fall22/) Week 7
+
+## Outline
+
+- Probability Overview 
+- Bayes Rule 
+- Expectation and Variance 
+- Gaussian Distributions
+- Covariance
+
+## Motivation
+
+Uncertainty arises through: 
+
+- Noisy measurements 
+- Variability between samples 
+- Finite size of data sets 
+
+Probability provides a consistent framework for the quantification and manipulation of uncertainty.
+
+## Sample Space
+
+**Sample space** Ω is the set of all possible outcomes of an experiment. 
+
+**Observations** ω ∈ Ω are points in the space also called sample outcomes, realizations, or elements. 
+
+**Events** E ⊂ Ω are subsets of the sample space. 
+
+In this experiment we flip a coin twice:
+
+$\qquad$ Sample space All outcomes Ω = {HH, HT, TH, T T} 
+
+$\qquad$ Observation ω = HT valid sample since ω ∈ Ω 
+
+$\qquad$ Event Both flips same E = {HH, T T} valid event since E ⊂ Ω
+
+## Probability
+
+The probability of an event E, P(E), satisfies three axioms: 
+
+1: P(E) ≥ 0 for every E 
+
+2: P(Ω) = 1 
+
+3: If E1, E2, . . . are disjoint then
+
+:::{layout="[60, 40]"}
+$$P\left(\bigcup_{i=1}^{\infty} E_{i}\right)=\sum_{i=1}^{\infty} P\left(E_{i}\right)$$
+
+![](img/probability.png)
+:::
+
+## Joint and Conditional Probabilities 
+
+Joint Probability of A and B is denoted P(A, B).
+
+Conditional Probability of A given B is denoted P(A\|B).
+
+![](img/joint-conditional.png)
+
+$p(A, B) = p(A|B)p(B) = p(B|A)p(A)$
+
+## Conditional Example
+
+Probability of passing the midterm is 60% and probability of passing both the final and the midterm is 45%. What is the probability of passing the final given the student passed the midterm?
+
+$$\begin{align}
+P(F|M) & = P(M,F)/P(M) \\
+& = 0.45/0.60 \\
+& = 0.75
+\end{align}$$
+
+## Independence
+
+[P(A|B) = P(A)]{.red .absolute right=400 top=100}
+
+<br>
+
+Events A and B are independent if P(A, B) = P(A)P(B). 
+
+* Independent: A: first toss is HEAD; B: second toss is HEAD;
+
+$\qquad\qquad$ P(A, B) = 0.5 ∗ 0.5 = P(A)P(B)
+
+- Not Independent: A: first toss is HEAD; B: first toss is HEAD;
+
+$\qquad\qquad$ P(A, B) = 0.5 != P(A)P(B)
+
+## [Marginalization and Law of Total Probability]{.medium-font}
+
+::: {.columns}
+::: {.column width="40%"}
+Law of Total Probability 
+:::
+
+:::{.column width="60%"}
+$$P(X) = \sum_{Y}P(X,Y) = \sum_{Y}P(X|Y)P(Y)$$
+
+![](img/Marginalization.png){height="350"}
+:::
+:::
+
+[Law of Total Probability | Partitions | Formulas (probabilitycourse.com)](https://www.probabilitycourse.com/chapter1/1_4_2_total_probability.php)
+
+## Bayes’ Rule
+
+$$\begin{align}
+P(A|B) & = \frac{P(B|A)P(A)}{P(B)} \\
+P(\theta|x) & = \frac{P(x|\theta)P(\theta)}{P(x)} \\
+\text{Posterior} & = \frac{\text{Likelihood} \times \text{Prior}}{\text{Evidence}} \\
+\text{Posterior} & \propto \text{Likelihood} \times \text{Prior}
+\end{align}$$
+
+
+## Probability Distribution Statistics
+
+[Mean]{.blue} : First Moment, $\mu$
+
+$$\begin{align}
+& \mathbb{E}[X]=\sum_{i=1}^{\infty}x_{i}p(x_{i}) \qquad\quad \text{(univariate discrete r.v.)} \\
+& \mathbb{E}[X]=\int_{-\infty}^{\infty}xp(x)dx \qquad\quad \text{(univariate continuous r.v.)}\end{align}$$
+
+::: {.columns}
+::: {.column width="70%"}
+[Variance]{.blue}: Second(central) Moment, $\sigma^2$
+
+$$\begin{aligned}
+\text{Var}(X) &= E[(X - E[X])^2] \\
+&= E[X^2 - 2XE[X] + E[X]^2] \\
+&= E[X^2] - 2E[X]E[X] + E[X]^2 \\
+&= E[X^2] - E[X]^2
+\end{aligned}$$
+
+:::
+
+::: {.column width="30%"}
+![](img/px-mean.png)
+:::
+::: 
+
+
+## Univariate Gaussian Distribution
+
+Also known as the [Normal Distribution]{.blue}, $\mathcal{N}(\mu, \sigma^2)$
+
+$$\mathcal{N}(x|\mu,\sigma^{2})=\frac{1}{\sqrt{2\pi\sigma^{2}}}\exp\left(-\frac{(x-\mu)^{2}}{2\sigma^{2}}\right)$$
+
+![](img/univariate-gaussian.png){fig-align="center"}
+
+## Multivariate Gaussian Distribution
+
+Multidimensional generalization of the Gaussian. 
+
+$x$ is a D-dimensional vector 
+
+$\mu$ is a D-dimensional mean vector
+
+$\sigma$ is a D × D covariance matrix with determinant $|\Sigma|$
+
+$$\begin{equation}N(\mathbf{x}|\mu, \Sigma) = \frac{1}{(2\pi)^{D/2} |\Sigma|^{1/2}} \exp\left(-\frac{1}{2}(\mathbf{x}-\mu)^T\Sigma^{-1}(\mathbf{x}-\mu)\right)
+\end{equation}$$
+
+::: {.columns}
+::: {.column}
+![](img/multivariate-normal-distn.png)
+:::
+
+::: {.column .medium-font}
+$-\frac{1}{2}\left(\begin{bmatrix} 2 \\ 3 \end{bmatrix} - \begin{bmatrix} 1 \\ 2 \end{bmatrix}\right)^T \begin{bmatrix} 5 & 2 \\ 2 & 4 \end{bmatrix} \left(\begin{bmatrix} 2 \\ 3 \end{bmatrix} - \begin{bmatrix} 1 \\ 2 \end{bmatrix}\right)$
+
+$\qquad -\frac{1}{2}\begin{bmatrix} 1 \\ 1 \end{bmatrix}^T \qquad \color{red}\begin{bmatrix} 5 & 2 \\ 2 & 4 \end{bmatrix} \qquad \color{black}\begin{bmatrix} 1 \\ 1 \end{bmatrix}$
+
+<br>
+
+Shortcut notation: $||x||_{\Sigma}^{2}=x^{T}\Sigma^{-1}x$
+
+:::
+:::
+
+
+## Multivariate Gaussian Distribution
+
+$$\mathcal{N}(\mathbf{x}|\mu, \Sigma) = \frac{1}{(2\pi)^{D/2}|\Sigma|^{1/2}}\exp\left(-\frac{1}{2}(\mathbf{x}-\mu)^T\Sigma^{-1}(\mathbf{x}-\mu)\right)$$
+
+:::{layout="[-40, 60]"}
+![](img/6-covariances.png)
+:::
+
+[From “Computer Vision: Models, Learning, \
+and Inference” Simon Prince]{.absolute bottom=40 .medium-font}
+
+## Covariance
+
+- Measures linear dependence between random variables X, Y. Does **not** measure independence.
+
+$$\text{Cov}[X, Y] = E[XY] - E[X]E[Y]$$
+
+- Variance of X
+
+$$\begin{align*}
+& \text{Var}[X] = \text{Cov}[X] = \text{Cov}[X, X] = E[X^2] - E[X]^2 \\
+& \text{Cov}[AX + b] = A\text{Cov}[X]A^T \\
+& \text{Cov}[X + Y] = \text{Cov}[X] + \text{Cov}[Y] - 2\text{Cov}[X, Y]
+\end{align*}$$
+
+## Covariance Matrix
+
+Var\[X\] = $\sigma_{x}^{2}=\frac{1}{n-1}\sum_{i=1}^{n}(x_{i}-\overline{x})^{2}$
+
+<br>
+
+Cov\[X,Y\] = $\sigma(x,y)=\frac{1}{n-1}\sum_{i=1}^{n}(x_{i}-\overline{x})(y_{i}-\overline{y})$
+
+<br>
+
+$\begin{bmatrix}
+Var[X] & Cov[X,Y] \\
+Cov[Y,X] & Var[Y]
+\end{bmatrix}
+= \Sigma =
+\begin{pmatrix}
+\sigma(x,x) & \sigma(x,y) \\
+\sigma(y,x) & \sigma(y,y)
+\end{pmatrix}$
+
+[[Understanding the Covariance Matrix \| DataScience+ (datascienceplus.com)](https://datascienceplus.com/understanding-the-covariance-matrix/)]{.absolute bottom=50 right=0 .small-font}
+
+## Covariance Matrix
+
+- Measures linear dependence between random variables X, Y. Does **not** measure independence.
+
+$$\text{Cov}[X, Y] = E[XY] - E[X]E[Y]$$
+
+
+- Entry (i,j) of the covariance matrix measures whether changes in variable $X_i$ co-occur with changes in variable $Y_j$
+
+- It does not measure whether one causes the other.
