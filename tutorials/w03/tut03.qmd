@@ -1,0 +1,294 @@
+---
+title: "Linear Algebra and Least Squares Refresher"
+subtitle: |
+  Arnold Kalmbach, Yewon Lee \
+  CSC477 Tutorial #2 \
+  Sept 28, 2022
+format: 
+  revealjs:
+    slide-number: true
+    smaller: true
+    footer: '<a href="https://csc477.github.io/website_fall24" target="_blank" style="font-size:0.8em; bottom: -5px;">↩ Back to Course Website</a>'
+    css: ../style.css
+    chalkboard:
+      buttons: true
+      boardmarker-width: 2
+      chalk-width: 2
+      chalk-effect: 1.0
+html-math-method:
+  method: mathjax
+  url: "https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"
+---
+
+## Outline
+
+- Notation reminder, and a couple useful facts 
+- Intro to linear least squares (with an example) 
+- Singular Value Decomposition
+    - Relationship to eigendecomposition
+
+## Notation Reminder - Inverse
+
+$$AX = I \iff X = A^{-1}$$
+
+- If **$A^{-1}$** exists, **A** is nonsingular. 
+- All the following are equivalent
+    - **A** is nonsingular 
+    - det(**A**) != 0 
+    - rank(**A**) = n 
+    - **Ax = 0** has a unique solution **x = 0**
+
+## Notation Reminder - Orthogonal Matrix
+
+$$Q^T Q = Q Q^T = I$$
+
+- Equivalently, if all the rows & columns are orthonormal ie
+
+$$\begin{align}
+& Q = [q_1, q_2, \ldots, q_n] \\
+& q_i^T q_j = \begin{cases} 1 & i = j \\ 0 & i \neq j \end{cases}
+\end{align}$$
+
+
+## [Notation Reminder - Vector Norms $||v||$]{.medium-font}
+
+- P-Norms
+
+$$\|v\|_{p} = \left(\sum_{i=1}^{n}|v_{i}|^{p}\right)^{1/p}$$
+
+- 1-Norm = Sum of elements, 2-Norm = Euclidean Distance, Infinity-Norm = Largest Element
+
+## Linear Least Squares by Example {.center}
+
+## How to Estimate the Location of the Wall?
+
+![](img/location-wall.png){fig-align="center"}
+
+**Idea**: Fit a line to the sample points.
+
+This is an **over-determined system**
+
+## Least Squares: Minimize Sum of Squared Error
+
+![](img/least-squares.png){fig-align="center"}
+
+## Least Squares: Minimize Sum of Squared Error
+
+![](img/least-squares-2.png){fig-align="center"}
+
+$$\hat{x} = \underset{x}{\arg \min} \left( \sum_{i=1}^{n} (b_i - a_i x)^2 \right)^{1/2}$$
+
+## Least Squares: Minimize Sum of Squared Error
+
+![](img/least-squares-2.png){fig-align="center"}
+
+$$\hat{x} = \arg \min_{x} \|b - Ax\|_{2}^{2}$$
+
+## Least Squares Criterion
+
+[f(x)]{.red .medium-font .absolute right=470 top=90}
+
+<br>
+
+Very general formulation: $\hat{x} = \underset{x}{\arg \min} \|b - h_x(A)\|_{2}^{2}$
+
+Most common options (not covered much in this course):
+
+1.  Take gradient of f(x) wrt. x
+2.  Approximate *h* with a linear function h = A x
+
+Can use Linear or nonlinear least squares to set up all kinds of modelling problems as optimization problems.
+
+## Least Squares: Solution
+
+$$\begin{align}
+& \nabla f(\hat{x}) = 2A^{T} (A\hat{x} - b) = 0 \\
+& (A^{T}A)\hat{x} = A^{T}b \\
+& \colorbox{yellow}{$\hat{x} = (A^T A)^{-1} A^T b = A^\dagger b$}
+\end{align}$$
+
+- If $b = Ax^{\star} + v, \quad v \sim \mathcal{N}(0, \sigma I)$ this produces the ***optimal*** estimator (BLUE)
+
+To calculate with numpy:
+
+- `numpy.linalg.pinv(A)`
+- `x_hat = numpy.linalg.lstsq(A, b)`
+
+## Issues Computing the Solution
+
+$$\hat{x} = (A^T A)^{-1} A^T b = A^\dagger b$$
+
+Computing $(A^T A)^{-1}$ by Gaussian Elimination is numerically unstable and slow!
+
+<br>
+
+We can do better if we decompose A
+
+-  $A = LL^T$ (Cholesky Factorization, **skip**)
+-  $A = \begin{bmatrix} Q_1 & Q_2 \end{bmatrix} \begin{bmatrix} R \\ 0 \end{bmatrix}$ (QR Factorization, **skip**) 
+-  $A = U\Sigma V^T$ (**Singular Value Decomposition**)
+
+## Singular Value Decomposition (SVD)
+
+![](img/svd.png){fig-align="center"}
+
+## Singular Value Decomposition (SVD)
+
+$$\LARGE{A = U\Sigma V^T}$$
+
+![](img/3-arrows.png){width="500" height="100" .absolute top="140" left=260}
+
+<br>
+
+:::{layout="[-20,30, 20, 10, -20]" .medium-font}
+Orthogonal
+
+Diagonal \
+(Squared eigenvalues)
+
+Orthogonal
+:::
+
+$\Sigma^{\dagger}$ = Reciprocal of each diagonal entry, transpose
+
+Very useful fact: 
+$$A^{T}A=V\Sigma^{\dagger}U^{T}U\Sigma V^{T}=V(\Sigma^{\dagger}\Sigma)V^{T}$$
+
+
+## SVD Example
+
+:::{.absolute right=0 top=0}
+$$\begin{array}{cccc}
+\color{red}{\scriptsize{\text{n×d}}} & & \color{red}{\scriptsize{\text{n×n}}} & \color{red}{\scriptsize{\text{n×d}}} & \color{red}{\scriptsize{\text{d×d}}} \\
+\Large{A} & = & \Large{U} & \Large{\Sigma} & \Large{V^T}
+\end{array}$$
+:::
+
+<br>
+
+:::{.grey-bordered-box}
+$\quad \Sigma$ has diagonal elements
+
+$\qquad \sigma_{1} \ge \sigma_{2} \ge \dots \ge \sigma_{k} > \sigma_{k+1} = \sigma_{k+2} = \dots = 0$
+
+$\quad$ Where $\sigma_i$ are the square root of the eigenvalues of $A^TA$ and $k=\text{rank}(A)$
+:::
+
+$$A = \begin{bmatrix} 1 & 0 \end{bmatrix}$$
+
+$$A^T A = \begin{bmatrix} 1 \\ 0 \end{bmatrix} \begin{bmatrix} 1 & 0 \end{bmatrix} = \begin{bmatrix} 1 & 0 \\ 0 & 0 \end{bmatrix}$$
+
+$$\det(A^T A - \lambda I) = 0 \Rightarrow \lambda_1 = 1, \operatorname{rank}(A) = 1$$
+
+$$\Sigma = \begin{bmatrix} 1 & 0 \end{bmatrix}$$
+
+
+## SVD Example
+
+:::{.absolute right=0 top=0}
+$$\begin{array}{cccc}
+\color{red}{\scriptsize{\text{n×d}}} & & \color{red}{\scriptsize{\text{n×n}}} & \color{red}{\scriptsize{\text{n×d}}} & \color{red}{\scriptsize{\text{d×d}}} \\
+\Large{A} & = & \Large{U} & \Large{\Sigma} & \Large{V^T}
+\end{array}$$
+:::
+
+<br>
+
+:::{.grey-bordered-box}
+
+$$V = \begin{bmatrix} \underbrace{v_1 \; v_2 \; \ldots \; v_k} & \underbrace{v_{k+1} \; \ldots \; v_d} \end{bmatrix}$$
+
+:::{layout="[-43, 12, -5, 35, -15 ]" .medium-font}
+Normalized 
+eigenvectors of 
+$A^T A$
+
+Obtained from $A^T Av_j = 0$
+such that orthogonality of V is
+satisfied
+:::
+
+:::
+
+::: {.columns}
+::: {.column width="33%"}
+$$(A^T A - \lambda_1 I)v_1 = 0, \lambda_1 = 1$$
+
+$$\begin{bmatrix} 0 & 0 \\ 0 & -1 \end{bmatrix} v_1 = 0$$
+
+$$v_1 = \begin{bmatrix} 1 \\ 0 \end{bmatrix}$$
+:::
+
+::: {.column width="33%"}
+$$\begin{align}
+A^T A v_2 = 0 \\
+\begin{bmatrix} 1 & 0 \\ 0 & 0 \end{bmatrix} v_2 = 0 \\
+v_1 \cdot v_2 = 0 \\
+v_2 = \begin{bmatrix} 0 \\ 1 \end{bmatrix} \end{align}$$
+
+:::
+
+::: {.column width="33%" .center-align}
+$$\Rightarrow V=\begin{bmatrix}1&0\\ 0&1\end{bmatrix}$$
+:::
+::: 
+
+## SVD Example
+
+:::{.absolute right=0 top=0}
+$$\begin{array}{cccc}
+\color{red}{\scriptsize{\text{n×d}}} & & \color{red}{\scriptsize{\text{n×n}}} & \color{red}{\scriptsize{\text{n×d}}} & \color{red}{\scriptsize{\text{d×d}}} \\
+\Large{A} & = & \Large{U} & \Large{\Sigma} & \Large{V^T}
+\end{array}$$
+:::
+
+<br>
+
+:::{.grey-bordered-box}
+
+$$V = \begin{bmatrix} \underbrace{u_1 \; u_2 \; \ldots \; u_k} & \underbrace{u_{k+1} \; \ldots \; u_n} \end{bmatrix}$$
+
+:::{layout="[-43, 12, -5, 35, -15 ]" .medium-font}
+Normalized 
+eigenvectors of 
+$AA^T$
+
+Obtained from \
+$AA^Tu_j = 0$
+:::
+
+:::
+
+
+:::{.medium-font}
+$$AA^{T}=\begin{bmatrix}1 & 0\end{bmatrix}\begin{bmatrix}1 \\0\end{bmatrix}=1$$
+
+$$\det(AA^{T} - \lambda I) = 0 \Rightarrow \lambda_{1} = 1$$
+
+$$AA^{T}u_{1} = \lambda_{1}u_{1} \iff u_{1} = u_{1}$$
+
+$$u_{1} = 1$$
+
+$$U = 1$$
+:::
+
+
+## [SVD and Solving Least Squares]{.medium-font}
+
+<br>
+
+:::{.absolute right=0 top=0}
+$$\Large{A = U \Sigma V^T}$$
+:::
+
+If we can compute $A^{\dagger}=(A^{T}A)^{-1}A^{T}$ stably, we can solve LS problems.
+
+Recall: $A^{T}A=V(\Sigma^{\dagger}\Sigma)V^{T}$
+
+So $A^{\dagger}=V\Sigma^{\dagger}U^{T}$
+
+<br>
+
+To calculate with numpy 
+
+- `U,S,V = numpy.linalg.svd(A)`
