@@ -25,12 +25,8 @@ This page contains an outline of the topics, content, and assignments for the se
 |  |  | Bayes' Filter and Kalman Filter |  |  |  |  |  |
 | [9](#week-9) | Nov 16 | Extended Kalman Filter (EKF) | [📖](https://github.com/florianshkurti/csc477_fall22/blob/master/website/tutorials/Kalman_Filter_Notes.pdf){.no-style target="_blank" aria-label="Tut 9 Notes"} | [🖥️](/lecs/w09/lec09.html){.no-style target="_blank" aria-label="Lec 9 slides"} | [📋](https://github.com/florianshkurti/comp417/tree/master/filtering_examples/python){.no-style target="_blank"} |  |  |
 | [10](#week-10) | Nov 23 | Particle Filter |  | [🖥️](/lecs/w10/lec10.html){.no-style target="_blank" aria-label="Lec 10 slides"} |  | [✍️](https://github.com/florianshkurti/csc477_fall22/blob/master/estimation_assignment/latex/CSC477_Assignment_3.pdf){.no-style target="_blank"} |  |
-|  |  | Imitation with a human in the loop |  |  |  |  |  |
-|  |  | Teleoperation |  |  |  |  |  |
 | [11](#week-11) | Nov 30 | Camera Optics and Multi-view Geometry |  | [🖥️](/lecs/w11/lec11.html){.no-style target="_blank" aria-label="Lec 11 slides"} |  |  |  |
-|  |  | Causal confusion in imitation learning |  |  |  |  |  |
 | [12](#week-12) | Dec 7 | Visual odometry and Visual SLAM |  | [🖥️](/lecs/w11/lec11.html){.no-style target="_blank" aria-label="Lec 11 slides"} |  | [✍️](https://github.com/florianshkurti/csc477_fall22/blob/master/estimation_and_vision_assignment/latex/CSC477_Assignment_4.pdf){.no-style target="_blank"} |  |
-|  |  | Generalization and safety guarantees for imitation |  |  |  |  |  |
 | [13](#week-13) | Dec 8 | Study break, beginning of exams |  |  |  |  | [📂](https://www.cs.toronto.edu/~florian/courses/csc477_fall22/CSC2630_Project_Guidelines.pdf){.no-style target="_blank"}  |
 :::
 
@@ -145,7 +141,7 @@ Expectation and Covariance. Geometric interpretation of the covariance matrix. N
 [**Slide**](/lecs/w07/lec07.html)
 
 **Readings** \
-- [Udacity Lesson 6](https://www.udacity.com/school/artificial-intelligence) \ 
+- [Udacity Lesson 6](https://www.udacity.com/school/artificial-intelligence) \
 - Probabilistic Robotics Ch. 11
 
 
